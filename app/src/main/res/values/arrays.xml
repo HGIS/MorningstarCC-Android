@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="drawer_items">
+
+        <item>Series</item>
+
+        <item>Events</item>
+
+        <item>Devotions</item>
+
+    </string-array>
+
+</resources>

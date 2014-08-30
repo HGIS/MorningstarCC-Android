@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="series_url">http://www.growingthrugrace.com/MCCStudySeriesRSS.aspx</string>
+    <string name="events_url">http://www.growingthrugrace.com/MCCEventsRSS.aspx</string>
+
+</resources>
