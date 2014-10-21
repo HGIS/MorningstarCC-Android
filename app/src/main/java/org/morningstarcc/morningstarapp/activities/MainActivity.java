@@ -1,6 +1,7 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,7 @@ import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.fragments.DevotionsFragment;
 import org.morningstarcc.morningstarapp.fragments.EventsFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
+import org.morningstarcc.morningstarapp.libs.DataManager;
 
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";
@@ -53,6 +55,9 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        Log.i(TAG, "Updater launching...");
+        new Updater(this).update(getString(R.string.events_url));
     }
 
     @Override
@@ -93,7 +98,6 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setTitle(mTitle = title);
     }
 
-
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         Fragment fragment;
@@ -112,11 +116,6 @@ public class MainActivity extends ActionBarActivity {
                 Log.e(TAG, "Cannot create fragment for drawer item position: " + position);
                 return;
         }
-
-        // TODO: get and pass things to each fragment
-        /*Bundle args = new Bundle();
-        args.putInt(SeriesFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);*/
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -160,5 +159,15 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private class Updater extends DataManager {
 
+        public Updater(Context c) {
+            super(c);
+        }
+
+        @Override
+        public void onDataReturned() {
+            Log.i(TAG, "It ran properly");
+        }
+    }
 }
