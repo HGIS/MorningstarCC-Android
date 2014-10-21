@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.util.Log;
 
 import org.morningstarcc.morningstarapp.datastructures.Album;
-import org.morningstarcc.morningstarapp.datastructures.RssEntry;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        Log.i(TAG, "Updater launching...");
+        Log.d(TAG, "Updater launching...");
         new Updater(this).update(getString(R.string.events_url));
     }
 
@@ -120,6 +120,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
                 .commit();
 
         // Highlight the selected item, update the title, and close the drawer
@@ -167,7 +168,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onDataReturned() {
-            Log.i(TAG, "It ran properly");
+            Log.d(TAG, "Returning from asynchronous call");
         }
     }
 }
