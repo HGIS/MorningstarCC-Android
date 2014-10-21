@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Morningstar App.iml" filepath="$PROJECT_DIR$/Morningstar App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MorningstarCC-Android.iml" filepath="$PROJECT_DIR$/MorningstarCC-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
