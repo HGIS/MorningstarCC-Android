@@ -60,11 +60,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        Log.d(TAG, "Updater launching...");
-        Updater bgUpdater = new Updater(this);
-
-        bgUpdater.update(getString(R.string.events_url));
-        //bgUpdater.update(getString(R.string.devotions_url));
+        selectItem(0);
     }
 
     @Override
@@ -164,18 +160,6 @@ public class MainActivity extends ActionBarActivity {
             super.onDrawerOpened(drawerView);
             getSupportActionBar().setTitle(mDrawerTitle);
             invalidateOptionsMenu();
-        }
-    }
-
-    private class Updater extends DataManager {
-
-        public Updater(Context c) {
-            super(c);
-        }
-
-        @Override
-        public void onDataReturned(boolean success) {
-            Log.d(TAG, success ? "Updated" : "Failed to update");
         }
     }
 }

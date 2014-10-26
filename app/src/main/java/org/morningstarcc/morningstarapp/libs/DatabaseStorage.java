@@ -53,6 +53,10 @@ public class DatabaseStorage extends SQLiteOpenHelper {
     }
 
     public void set(String to, List<ContentValues> data) {
+        List<String> columns = getColumnNames(data);
+
+        Log.d("DatabaseStorage", to + " " + columns.toString());
+
         addTable(to, getColumnNames(data));
         putValues(to, data);
     }

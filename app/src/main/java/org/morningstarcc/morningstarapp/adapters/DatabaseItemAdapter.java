@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 /**
  * Created by Kyle on 10/10/2014.
@@ -33,6 +34,10 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
         setupView(convertView, position);
 
         return convertView;
+    }
+
+    protected void setText(View parent, int resId, String text) {
+        ((TextView) parent.findViewById(resId)).setText(text);
     }
 
     protected abstract void setupView(View root, int position);

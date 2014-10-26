@@ -1,20 +1,22 @@
 package org.morningstarcc.morningstarapp.adapters;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
+import android.os.Bundle;
+import android.view.View;
 
-import org.morningstarcc.morningstarapp.datastructures.Album;
-
-import java.util.ArrayList;
+import org.morningstarcc.morningstarapp.R;
 
 /**
  * Created by Kyle on 8/2/2014.
  */
-public class SeriesAdapter extends ArrayAdapter<Album> {
+public class SeriesAdapter extends DatabaseItemAdapter {
 
-    //TODO: nope, not this
-    public SeriesAdapter(Context mContext, ArrayList<Album> albums) {
-        super(mContext, android.R.layout.simple_list_item_1, albums);
+    public SeriesAdapter(Context mContext, Bundle[] data) {
+        super(mContext, R.layout.series_list_row, data);
     }
 
+    @Override
+    protected void setupView(View root, int position) {
+        setText(root, R.id.title, data[position].getString("title"));
+    }
 }

@@ -26,11 +26,13 @@ public abstract class ListFragment extends Fragment {
     private ListAdapter adapter;
     private Class<? extends Activity> nextActivity;
     private String table;
+    private int arrayResId;
 
-    protected ListFragment(Class<? extends Activity> nextActivity, String table) {
+    protected ListFragment(Class<? extends Activity> nextActivity, String table, int arrayResId) {
         super();
         this.nextActivity = nextActivity;
         this.table = table;
+        this.arrayResId = arrayResId;
     }
 
     @Override
@@ -44,7 +46,7 @@ public abstract class ListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_generic_list, container, false);
         ListView list = (ListView) rootView.findViewById(R.id.list);
 
-        adapter = new EventAdapter(mContext, new DatabaseItem(mContext).get(table));
+        adapter = getAdapter(new DatabaseItem(mContext).get(table, arrayResId));
         list.setAdapter(adapter);
         list.setOnItemClickListener(new ItemClickListener());
 

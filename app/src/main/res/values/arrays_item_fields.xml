@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="series_fields">
+        <!--<item>SeriesId</item>-->
+        <item>title</item>
+        <item>Book</item>
+        <item>Imagelink</item>
+    </string-array>
+
     <string-array name="event_fields">
         <!--<item>eventid</item>-->
         <item>eventdate</item>

@@ -2,6 +2,7 @@ package org.morningstarcc.morningstarapp.fragments;
 
 import android.os.Bundle;
 
+import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.DevotionActivity;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.adapters.DevotionAdapter;
@@ -12,7 +13,7 @@ import org.morningstarcc.morningstarapp.adapters.DevotionAdapter;
 public class DevotionFragment extends ListFragment {
 
     public DevotionFragment() {
-        super(DevotionActivity.class, "MCCDailyDevoRSS");
+        super(DevotionActivity.class, "MCCDailyDevoRSS", R.array.devotion_fields);
     }
 
     @Override

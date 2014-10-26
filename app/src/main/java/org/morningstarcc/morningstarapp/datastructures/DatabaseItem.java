@@ -23,9 +23,9 @@ public class DatabaseItem {
         this.mContext = mContext;
     }
 
-    public Bundle[] get(String fromTable) {
+    public Bundle[] get(String fromTable, int item_fields_res_id) {
         DatabaseStorage storage = new DatabaseStorage(mContext);
-        Cursor eventData = storage.get(fromTable, mContext.getResources().getStringArray(R.array.event_fields));
+        Cursor eventData = storage.get(fromTable, mContext.getResources().getStringArray(item_fields_res_id));
         Bundle[] events = getItems(eventData);
 
         storage.close();

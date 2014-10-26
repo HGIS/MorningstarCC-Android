@@ -3,7 +3,6 @@ package org.morningstarcc.morningstarapp.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
@@ -24,8 +23,8 @@ public class EventAdapter extends DatabaseItemAdapter {
     protected void setupView(View root, int position) {
         Date date = DatabaseItem.getDate(data[position].getString("eventdate"), data[position].getString("eventstarttime"));
 
-        ((TextView) root.findViewById(R.id.month)).setText( new SimpleDateFormat("MMM").format(date) );
-        ((TextView) root.findViewById(R.id.day)).setText( new SimpleDateFormat("d").format(date) );
-        ((TextView) root.findViewById(R.id.title)).setText(data[position].getString("title"));
+        setText(root, R.id.month, new SimpleDateFormat("MMM").format(date));
+        setText(root, R.id.day, new SimpleDateFormat("d").format(date));
+        setText(root, R.id.title, data[position].getString("title"));
     }
 }

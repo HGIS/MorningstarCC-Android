@@ -10,4 +10,5 @@
 
     <string name="database_name">Morningstar.db</string>
 
+    <string name="default_content_description">Image</string>
 </resources>
