@@ -174,8 +174,8 @@ public class MainActivity extends ActionBarActivity {
         }
 
         @Override
-        public void onDataReturned() {
-            Log.d(TAG, "Returning from asynchronous call");
+        public void onDataReturned(boolean success) {
+            Log.d(TAG, success ? "Updated" : "Failed to update");
         }
     }
 }

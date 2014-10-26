@@ -15,7 +15,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-// Implementation of AsyncTask used to download XML feed adapted from stackoverflow.com.
+/**
+ * A class that retrieves data from a specified remote location and loads it through an RSS parser,
+ *  placing the result inside the database based on the given location string.
+ */
 public abstract class DownloadUrlContentTask extends AsyncTask<String, Void, List<ContentValues>> {
     private static final String TAG = "DownloadUrlContentTask";
 
@@ -62,6 +65,12 @@ public abstract class DownloadUrlContentTask extends AsyncTask<String, Void, Lis
         return curDataDate.after(lastUpdated);
     }
 
+    /**
+     * Convenience method to check if internet access is okay
+     *
+     * @param context   required to get internet tools
+     * @return          true iff internet access is good
+     */
     public static boolean hasInternetAccess(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

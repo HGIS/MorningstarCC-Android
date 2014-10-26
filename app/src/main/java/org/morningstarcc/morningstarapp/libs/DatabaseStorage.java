@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
 
@@ -22,11 +23,9 @@ import java.util.Map;
 /**
  * Created by Kyle on 10/12/2014.
  *
- * TODO: fix dis
+ * Helper class for reading and writing to the SQLite Database.
  */
 public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
-
-    private static final String TAG = "DatabaseStorage";
 
     private static final int DATABASE_VERSION = 1;
 
@@ -43,12 +42,8 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
     public Calendar getLastUpdated() {
         Calendar cal = Calendar.getInstance();
 
-        try {
+        if (cal != null)
             cal.setTime(getDateLastUpdated());
-        }
-        catch (NullPointerException e) {
-            cal.setTime(new Date(0));
-        }
 
         return cal;
     }
@@ -60,17 +55,7 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
 
     @Override
     public void set(String to, List<ContentValues> data) {
-        ArrayList<String> columnNames = new ArrayList<String>();
-
-        for (ContentValues map : data) {
-            for (Map.Entry<String, ?> column : map.valueSet()) {
-                String key = column.getKey();
-                if (!columnNames.contains(key))
-                    columnNames.add(key);
-            }
-        }
-
-        addTable(to, columnNames);
+        addTable(to, getColumnNames(data));
         putValues(to, data);
     }
 
@@ -79,13 +64,35 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO: drop all tables
+        // drop all tables (source: http://stackoverflow.com/questions/525512/drop-all-tables-command)
+        db.execSQL("select 'drop table ' || name || ';' from sqlite_master where type = 'table';");
     }
 
+    /**
+     * Method to call once the caller has finished grabbing all the data from the query
+     */
     public void close() {
         this.db.close();
     }
 
+
+    // gives all the unique key values from ContentValues in a list form
+    private List<String> getColumnNames(List<ContentValues> data) {
+        List<String> columnNames = new ArrayList<String>(data.size());
+
+        for (ContentValues values : data) {
+            for (Map.Entry<String, ?> column : values.valueSet()) {
+                String key = column.getKey();
+
+                if (!columnNames.contains(key))
+                    columnNames.add(column.getKey());
+            }
+        }
+
+        return columnNames;
+    }
+
+    // returns the date this database was last updated at
     private Date getDateLastUpdated() {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd HH:mm:ss yyyy");
@@ -99,32 +106,36 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
         }
     }
 
-    private void addTable(String name, ArrayList<String> columns) {
-        StringBuilder sql = new StringBuilder("CREATE TABLE ");
-
-        sql.append(name);
-
-        sql.append(" (");
-        for (String column : columns) {
-            sql.append(column);
-            sql.append(" TEXT, ");
-        }
-
-        sql.deleteCharAt(sql.length() - 2);
-        sql.append(");");
-
+    // adds a table with the given name and fields (assumed to all be as TEXT) to the database
+    private void addTable(String name, List<String> columns) {
         db.execSQL("DROP TABLE IF EXISTS " + name);
-        db.execSQL(sql.toString());
+        db.execSQL("CREATE TABLE " + name + "(" + getTableItems(columns) + ");");
 
         postUpdated();
     }
 
+    // returns the fields in a single SQL string, assuming items as text
+    private String getTableItems(List<String> items) {
+        StringBuilder asString = new StringBuilder();
+
+        for (String item : items) {
+            asString.append(item);
+            asString.append(" TEXT, ");
+        }
+
+        asString.deleteCharAt(asString.length() - 2);
+
+        return asString.toString();
+    }
+
+    // puts all the given values into a table of the given name
     private void putValues(String into, List<ContentValues> values) {
         for (ContentValues item : values) {
             db.insert(into, null, item);
         }
     }
 
+    // update the last updated date of the database
     private void postUpdated() {
         Calendar calendar = new GregorianCalendar();
         SimpleDateFormat format = new SimpleDateFormat("dd HH:mm:ss yyyy");
