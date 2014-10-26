@@ -24,8 +24,9 @@ import java.util.Map;
  * Created by Kyle on 10/12/2014.
  *
  * Helper class for reading and writing to the SQLite Database.
+ * Includes get and set method for specific tables for convenience.
  */
-public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
+public class DatabaseStorage extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
@@ -38,7 +39,6 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
         this.db = getWritableDatabase();
     }
 
-    @Override
     public Calendar getLastUpdated() {
         Calendar cal = Calendar.getInstance();
 
@@ -48,12 +48,10 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
         return cal;
     }
 
-    @Override
     public Cursor get(String from, String... cols) {
         return db.query(from, cols, null, null, null, null, null, null);
     }
 
-    @Override
     public void set(String to, List<ContentValues> data) {
         addTable(to, getColumnNames(data));
         putValues(to, data);

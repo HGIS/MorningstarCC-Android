@@ -23,7 +23,7 @@ public abstract class DataManager {
     @SuppressWarnings("unchecked")
     public void update(String from) {
         DownloadUrlContentTask remote;
-        LocalStorage local = new DatabaseStorage(this.mContext);
+        DatabaseStorage local = new DatabaseStorage(this.mContext);
 
         Log.i("DataManager", from.substring(from.lastIndexOf("/"), from.lastIndexOf(".")));
         remote = new RemoteStorage(local, from.split("[./]")[5]);
@@ -41,10 +41,10 @@ public abstract class DataManager {
 
     // a class to execute remote requests in the background
     private class RemoteStorage extends DownloadUrlContentTask {
-        private LocalStorage local;
+        private DatabaseStorage local;
         private String dest;
 
-        public RemoteStorage(LocalStorage local, String dest) {
+        public RemoteStorage(DatabaseStorage local, String dest) {
             this.local = local;
             this.dest = dest;
         }
