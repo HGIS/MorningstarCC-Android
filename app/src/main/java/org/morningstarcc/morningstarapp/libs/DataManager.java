@@ -25,14 +25,12 @@ public abstract class DataManager {
         DownloadUrlContentTask remote;
         DatabaseStorage local = new DatabaseStorage(this.mContext);
 
-        Log.i("DataManager", from.substring(from.lastIndexOf("/"), from.lastIndexOf(".")));
-        remote = new RemoteStorage(local, from.split("[./]")[5]);
+        remote = new RemoteStorage(local, from.substring(from.lastIndexOf("/") + 1, from.lastIndexOf(".")));
 
         if (DownloadUrlContentTask.hasInternetAccess(this.mContext) && remote.upToDate(local.getLastUpdated())) {
             remote.execute(from);
         }
         else {
-            // simply return since we cannot update
             onDataReturned(false);
         }
     }
