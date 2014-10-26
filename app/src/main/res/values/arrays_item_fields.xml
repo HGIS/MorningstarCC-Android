@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="event_fields">
+        <!--<item>eventid</item>-->
+        <item>eventdate</item>
+        <item>eventstarttime</item>
+        <item>eventenddate</item>
+        <item>eventendtime</item>
+        <item>title</item>
+        <item>description</item>
+        <item>hasregistration</item>
+        <item>registrationlink</item>
+        <item>weblink</item>`
+        <item>imagepath</item>
+        <!--<item>pubDate</item>-->
+    </string-array>
+
+    <string-array name="devotion_fields">
+        <item>title</item>
+        <item>author</item>
+        <item>body</item>
+        <item>webViewContent</item>
+        <item>webViewLink</item>
+        <item>sharePageLink</item>
+        <!--<item>pubDate</item>-->
+    </string-array>
+
+</resources>

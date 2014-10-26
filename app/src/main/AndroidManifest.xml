@@ -22,7 +22,8 @@
 
         <activity
             android:name="org.morningstarcc.morningstarapp.activities.EventActivity"
-            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity" >
+            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity"
+            android:theme="@style/EventTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />

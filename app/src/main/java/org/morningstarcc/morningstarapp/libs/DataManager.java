@@ -1,16 +1,9 @@
 package org.morningstarcc.morningstarapp.libs;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.database.AbstractCursor;
-import android.database.Cursor;
-import android.util.Log;
 
-import org.morningstarcc.morningstarapp.datastructures.Album;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 /**
  * Created by Kyle on 9/6/2014.
@@ -53,7 +46,7 @@ public abstract class DataManager {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
+        protected void onPostExecute(List<ContentValues> result) {
             local.set(dest, result);
             onDataReturned();
         }

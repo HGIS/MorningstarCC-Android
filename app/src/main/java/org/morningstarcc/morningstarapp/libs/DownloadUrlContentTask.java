@@ -1,8 +1,7 @@
 package org.morningstarcc.morningstarapp.libs;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.database.AbstractCursor;
-import android.database.MatrixCursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -12,22 +11,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.List;
 
 // Implementation of AsyncTask used to download XML feed adapted from stackoverflow.com.
-public abstract class DownloadUrlContentTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>> > {
+public abstract class DownloadUrlContentTask extends AsyncTask<String, Void, List<ContentValues>> {
     private static final String TAG = "DownloadUrlContentTask";
 
     // TODO: get actual date of latest data
     private static Calendar curDataDate = new GregorianCalendar();
 
     @Override
-    protected ArrayList< HashMap<String, String> > doInBackground(String... urls) {
+    protected List<ContentValues> doInBackground(String... urls) {
         try {
             return RssParser.parse(getRemoteInputStream(urls[0]));
         }
@@ -38,7 +34,7 @@ public abstract class DownloadUrlContentTask extends AsyncTask<String, Void, Arr
     }
 
     @Override
-    protected abstract void onPostExecute(ArrayList<HashMap<String, String>> t);
+    protected abstract void onPostExecute(List<ContentValues> t);
 
     /**
      * Given a string representation of a URL, sets up a connection and gets an input stream.

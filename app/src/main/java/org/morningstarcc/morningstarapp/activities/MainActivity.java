@@ -3,11 +3,11 @@ package org.morningstarcc.morningstarapp.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,11 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.fragments.DevotionsFragment;
-import org.morningstarcc.morningstarapp.fragments.EventsFragment;
+import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
+import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 import org.morningstarcc.morningstarapp.libs.DataManager;
 
+/**
+ * TODO list:
+ *  - Get differently sized images (almost all of them)
+ */
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";
 
@@ -57,7 +61,10 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         Log.d(TAG, "Updater launching...");
-        new Updater(this).update(getString(R.string.events_url));
+        Updater bgUpdater = new Updater(this);
+
+        bgUpdater.update(getString(R.string.events_url));
+        //bgUpdater.update(getString(R.string.devotions_url));
     }
 
     @Override
@@ -107,10 +114,10 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new SeriesFragment();
                 break;
             case 1:
-                fragment = new EventsFragment();
+                fragment = new EventFragment();
                 break;
             case 2:
-                fragment = new DevotionsFragment();
+                fragment = new DevotionFragment();
                 break;
             default:
                 Log.e(TAG, "Cannot create fragment for drawer item position: " + position);

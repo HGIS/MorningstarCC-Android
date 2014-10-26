@@ -14,10 +14,9 @@ import java.util.Date;
 /**
  * Created by Kyle on 10/10/2014.
  */
-public class EventAdapter extends DatabaseItemAdapter {
-
-    public EventAdapter(Context mContext, Bundle[] data) {
-        super(mContext, R.layout.event_list_row, data);
+public class DevotionAdapter extends DatabaseItemAdapter {
+    public DevotionAdapter(Context mContext, Bundle[] data) {
+        super(mContext, R.layout.devotion_list_row, data);
     }
 
     @Override

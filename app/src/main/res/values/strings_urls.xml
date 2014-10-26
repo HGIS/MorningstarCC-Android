@@ -3,5 +3,6 @@
 
     <string name="series_url">http://www.growingthrugrace.com/MCCStudySeriesRSS.aspx</string>
     <string name="events_url">http://www.growingthrugrace.com/MCCEventsRSS.aspx</string>
+    <string name="devotions_url">http://www.growingthrugrace.com/MCCDailyDevoRSS.aspx</string>
 
 </resources>

@@ -1,0 +1,22 @@
+package org.morningstarcc.morningstarapp.fragments;
+
+import android.os.Bundle;
+
+import org.morningstarcc.morningstarapp.activities.DevotionActivity;
+import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
+import org.morningstarcc.morningstarapp.adapters.DevotionAdapter;
+
+/**
+ * Created by Kyle on 7/19/2014.
+ */
+public class DevotionFragment extends ListFragment {
+
+    public DevotionFragment() {
+        super(DevotionActivity.class, "MCCDailyDevoRSS");
+    }
+
+    @Override
+    protected DatabaseItemAdapter getAdapter(Bundle[] data) {
+        return new DevotionAdapter(mContext, data);
+    }
+}

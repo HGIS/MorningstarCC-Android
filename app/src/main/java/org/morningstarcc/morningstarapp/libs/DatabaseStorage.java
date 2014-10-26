@@ -6,24 +6,23 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Parcel;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Kyle on 10/12/2014.
+ *
+ * TODO: fix dis
  */
 public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
 
@@ -37,6 +36,7 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
     public DatabaseStorage(Context mContext) {
         super(mContext, mContext.getResources().getString(R.string.database_name), null, DATABASE_VERSION);
         this.mContext = mContext;
+        this.db = getWritableDatabase();
     }
 
     @Override
@@ -55,32 +55,23 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
 
     @Override
     public Cursor get(String from, String... cols) {
-        db = getReadableDatabase();
-        Cursor query = db.query(from, cols, null, null, null, null, null, null);
-
-        return query;
-    }
-
-    public void onPostGet() {
-        db.close();
+        return db.query(from, cols, null, null, null, null, null, null);
     }
 
     @Override
-    public void set(String to, ArrayList<HashMap<String, String>> data) {
-        SQLiteDatabase db = getWritableDatabase();
+    public void set(String to, List<ContentValues> data) {
         ArrayList<String> columnNames = new ArrayList<String>();
 
-        for (HashMap<String, ?> map : data) {
-            for (String column : map.keySet()) {
-                if (!columnNames.contains(column))
-                    columnNames.add(column);
+        for (ContentValues map : data) {
+            for (Map.Entry<String, ?> column : map.valueSet()) {
+                String key = column.getKey();
+                if (!columnNames.contains(key))
+                    columnNames.add(key);
             }
         }
 
-        addTable(db, to, columnNames);
-        putValues(db, to, data);
-
-        db.close();
+        addTable(to, columnNames);
+        putValues(to, data);
     }
 
     @Override
@@ -89,6 +80,10 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO: drop all tables
+    }
+
+    public void close() {
+        this.db.close();
     }
 
     private Date getDateLastUpdated() {
@@ -104,7 +99,7 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
         }
     }
 
-    private void addTable(SQLiteDatabase db, String name, ArrayList<String> columns) {
+    private void addTable(String name, ArrayList<String> columns) {
         StringBuilder sql = new StringBuilder("CREATE TABLE ");
 
         sql.append(name);
@@ -124,20 +119,10 @@ public class DatabaseStorage extends SQLiteOpenHelper implements LocalStorage {
         postUpdated();
     }
 
-    private void putValues(SQLiteDatabase db, String into, ArrayList<HashMap<String, String>> values) {
-        for (HashMap<String, String> item : values) {
-            putValue(db, into, item);
+    private void putValues(String into, List<ContentValues> values) {
+        for (ContentValues item : values) {
+            db.insert(into, null, item);
         }
-    }
-
-    private void putValue(SQLiteDatabase db, String into, HashMap<String, String> value) {
-        // convert HashMap into ContentValues trick from http://njzk2.wordpress.com/2013/05/31/map-to-contentvalues-abusing-parcelable/
-        Parcel parcel = Parcel.obtain();
-        parcel.writeMap(value);
-        parcel.setDataPosition(0);
-        ContentValues values = ContentValues.CREATOR.createFromParcel(parcel);
-
-        db.insert(into, null, values);
     }
 
     private void postUpdated() {
