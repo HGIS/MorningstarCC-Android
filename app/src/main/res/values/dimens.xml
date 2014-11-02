@@ -3,6 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="series_image_padding">5dp</dimen>
+    <dimen name="card_view_height">2dp</dimen>
+    <dimen name="card_view_corner_radius">3dp</dimen>
 
+    <dimen name="border_padding">7dp</dimen>
+    <dimen name="border_stroke">1dp</dimen>
+
+    <dimen name="min_clickable_height">40dp</dimen>
 </resources>
