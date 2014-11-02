@@ -16,7 +16,7 @@
         <item>title</item>
         <item>Scripture</item>
         <item>Description</item>
-        <!--<item>AudioLink</item>-->
+        <item>AudioLink</item>
         <item>VideoLink</item>
     </string-array>
 
