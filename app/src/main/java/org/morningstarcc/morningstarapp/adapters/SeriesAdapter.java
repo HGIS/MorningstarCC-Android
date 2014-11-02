@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
 /**
  * Created by Kyle on 8/2/2014.
@@ -17,6 +18,6 @@ public class SeriesAdapter extends DatabaseItemAdapter {
 
     @Override
     protected void setupView(View root, int position) {
-        setText(root, R.id.title, data[position].getString("title"));
+        ((RemoteImageView) root.findViewById(R.id.image)).setImageLink(data[position].getString("Imagelink"));
     }
 }
