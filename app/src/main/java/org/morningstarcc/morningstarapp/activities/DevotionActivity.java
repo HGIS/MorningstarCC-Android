@@ -14,6 +14,8 @@ public class DevotionActivity extends DetailsActivity {
         super.onCreate(savedInstanceState);
 
         setTitle(intent.getStringExtra("title"));
-        TODO: setContentView(R.layout.activity_devotion);
+        setContentView(R.layout.activity_devotion);
+
+        setText(R.id.content, intent.getStringExtra("\"content:encoded\""));
     }
 }

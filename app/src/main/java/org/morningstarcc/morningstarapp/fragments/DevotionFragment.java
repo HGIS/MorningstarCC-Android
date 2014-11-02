@@ -16,8 +16,15 @@ public class DevotionFragment extends ListFragment {
         super(DevotionActivity.class, "MCCDailyDevoRSS", R.array.devotion_fields);
     }
 
+    private static boolean hasPrinted = false;
     @Override
     protected DatabaseItemAdapter getAdapter(Bundle[] data) {
+        if (!hasPrinted) {
+            android.util.Log.e("Devotions", java.util.Arrays.deepToString(data));
+            hasPrinted = true;
+        }
+
+
         return new DevotionAdapter(mContext, data);
     }
 }

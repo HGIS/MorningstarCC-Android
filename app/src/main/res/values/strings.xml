@@ -12,5 +12,6 @@
 
     <string name="default_content_description">Image</string>
 
-    <string name="default_date_separator">-</string>
+    <string name="event_expand">\tLearn More</string>
+    <string name="event_register">Register Now</string>
 </resources>

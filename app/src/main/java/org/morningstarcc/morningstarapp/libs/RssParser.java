@@ -3,6 +3,11 @@ package org.morningstarcc.morningstarapp.libs;
 import android.content.ContentValues;
 import android.util.Log;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -12,6 +17,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by Kyle on 8/10/2014.
@@ -40,10 +49,60 @@ public class RssParser {
      * @return      read entries
      */
     public static List<ContentValues> parse(InputStream src) {
+
+        // TODO: DOM interface so i can get the thingies
+        /*DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(src);
+            return traverse(document.getDocumentElement());
+        }
+        catch (ParserConfigurationException e) {
+            Log.e("RssParser", Log.getStackTraceString(e));
+        }
+        catch (SAXException e) {
+            Log.e("RssParser", Log.getStackTraceString(e));
+        }
+        catch (IOException e) {
+            Log.e("RssParser", Log.getStackTraceString(e));
+        }
+
+        return new ArrayList<ContentValues>();
+    }
+
+    private static List<ContentValues> traverse(Node node) {
+        List<ContentValues> items = new ArrayList<ContentValues>();
+
+        if (node.getNodeName().equals("item")) {
+            items.add(readItem(node.getChildNodes()));
+        }
+        else {
+            NodeList list = node.getChildNodes();
+            for (int i = 0; i < list.getLength(); i++) {
+                items.addAll( traverse(list.item(i)) );
+            }
+        }
+
+        return items;
+    }
+
+    private static ContentValues readItem(NodeList fields) {
+        ContentValues item = new ContentValues();
+
+        for (int i = 0; i < fields.getLength(); i++) {
+            Node field = fields.item(i);
+
+            item.put(field.getNodeName(), field.getNodeValue());
+        }
+
+        return item;
+    }*/
         List<ContentValues> items = new ArrayList<ContentValues>();
 
         try {
-            getPullParser();
+            if (xpp == null) { getPullParser(); }
+
             xpp.setInput(src, "UTF-8");
 
             for (int eventType = xpp.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xpp.next()) {
@@ -68,6 +127,7 @@ public class RssParser {
 
         factory.setNamespaceAware(true);
         xpp = factory.newPullParser();
+        xpp.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
     }
 
     // Parses the contents of an entry. If it encounters a start tag, it hands it off
@@ -91,8 +151,8 @@ public class RssParser {
 
     // reads the text in between opening and closing of a tag and returns it
     private static String readField() throws IOException, XmlPullParserException {
-        String fieldName = xpp.getName(),
-               value = readText();
+        String fieldName = xpp.getName();
+        String value = readText();
 
         xpp.require(XmlPullParser.END_TAG, null, fieldName);
         return value;
