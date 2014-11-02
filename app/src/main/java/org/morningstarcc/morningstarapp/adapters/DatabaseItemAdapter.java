@@ -20,7 +20,8 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
 
     public DatabaseItemAdapter(Context mContext, int row_layout, Bundle[] data) {
         super(mContext, row_layout, data);
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = data;
         this.row_layout = row_layout;
     }
