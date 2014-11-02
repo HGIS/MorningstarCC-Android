@@ -1,6 +1,5 @@
 package org.morningstarcc.morningstarapp.libs;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,31 +12,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * A class that retrieves data from a specified remote location and loads it through an RSS parser,
  *  placing the result inside the database based on the given location string.
  */
-public abstract class DownloadUrlContentTask extends AsyncTask<String, Void, List<ContentValues>> {
+public abstract class DownloadUrlContentTask<T> extends AsyncTask<String, Void, T> {
     private static final String TAG = "DownloadUrlContentTask";
 
     // TODO: get actual date of latest data
     private static Calendar curDataDate = new GregorianCalendar();
 
     @Override
-    protected List<ContentValues> doInBackground(String... urls) {
-        try {
-            return RssParser.parse(getRemoteInputStream(urls[0]));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    protected abstract T doInBackground(String... urls);
 
     @Override
-    protected abstract void onPostExecute(List<ContentValues> t);
+    protected abstract void onPostExecute(T t);
 
     /**
      * Given a string representation of a URL, sets up a connection and gets an input stream.

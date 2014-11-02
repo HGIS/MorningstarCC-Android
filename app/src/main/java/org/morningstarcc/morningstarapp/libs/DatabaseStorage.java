@@ -41,9 +41,10 @@ public class DatabaseStorage extends SQLiteOpenHelper {
 
     public Calendar getLastUpdated() {
         Calendar cal = Calendar.getInstance();
+        Date lastUpdated = getDateLastUpdated();
 
         if (cal != null)
-            cal.setTime(getDateLastUpdated());
+            cal.setTime(lastUpdated != null ? lastUpdated : new Date());
 
         return cal;
     }
@@ -53,8 +54,13 @@ public class DatabaseStorage extends SQLiteOpenHelper {
     }
 
     public void set(String to, List<ContentValues> data) {
-        addTable(to, getColumnNames(data));
-        putValues(to, data);
+        if (data.size() != 0) {
+            addTable(to, getColumnNames(data));
+            putValues(to, data);
+        }
+        else {
+            Log.e("DatabaseStorage", "No elements found for table " + to);
+        }
     }
 
     @Override

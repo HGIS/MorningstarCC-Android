@@ -2,6 +2,8 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.os.Bundle;
 
+import org.morningstarcc.morningstarapp.R;
+
 /**
  * Created by Kyle on 10/21/2014.
  */
@@ -12,6 +14,6 @@ public class DevotionActivity extends DetailsActivity {
         super.onCreate(savedInstanceState);
 
         setTitle(intent.getStringExtra("title"));
-        // TODO: setContentView(R.layout.activity_devotion);
+        TODO: setContentView(R.layout.activity_devotion);
     }
 }

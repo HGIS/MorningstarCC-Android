@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,6 +15,8 @@ import java.util.List;
  */
 public abstract class DataManager {
 
+    private static final String TAG = "DataManager";
+
     private Context mContext;
 
     public DataManager(Context mContext) {
@@ -22,10 +25,12 @@ public abstract class DataManager {
 
     @SuppressWarnings("unchecked")
     public void update(String from) {
-        DownloadUrlContentTask remote;
+        RemoteStorage remote;
         DatabaseStorage local = new DatabaseStorage(this.mContext);
+        String tableName = from.substring(from.lastIndexOf("/") + 1, from.lastIndexOf(".")) +
+                (from.contains("=") ? from.substring(from.indexOf("=") + 1) : "");
 
-        remote = new RemoteStorage(local, from.substring(from.lastIndexOf("/") + 1, from.lastIndexOf(".")));
+        remote = new RemoteStorage(local, tableName);
 
         if (DownloadUrlContentTask.hasInternetAccess(this.mContext) && remote.upToDate(local.getLastUpdated())) {
             remote.execute(from);
@@ -38,13 +43,24 @@ public abstract class DataManager {
     public abstract void onDataReturned(boolean success);
 
     // a class to execute remote requests in the background
-    private class RemoteStorage extends DownloadUrlContentTask {
+    private class RemoteStorage extends DownloadUrlContentTask<List<ContentValues>> {
         private DatabaseStorage local;
         private String dest;
 
         public RemoteStorage(DatabaseStorage local, String dest) {
             this.local = local;
             this.dest = dest;
+        }
+
+        @Override
+        protected List<ContentValues> doInBackground(String... urls) {
+            try {
+                return RssParser.parse(getRemoteInputStream(urls[0]));
+            }
+            catch (IOException e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+                return null;
+            }
         }
 
         @Override

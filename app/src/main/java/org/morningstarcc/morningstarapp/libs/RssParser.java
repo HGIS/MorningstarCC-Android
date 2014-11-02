@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by Kyle on 8/10/2014.
@@ -80,7 +81,7 @@ public class RssParser {
                 continue;
             }
 
-            item.put(xpp.getName(), readField());
+            item.put(xpp.getName(), removeCDATA(readField()));
         }
 
         xpp.require(XmlPullParser.END_TAG, null, "item");
@@ -107,5 +108,10 @@ public class RssParser {
         }
 
         return result;
+    }
+
+    private static final String CDATA = "![CDATA[";
+    private static String removeCDATA(String in) {
+        return in.contains(CDATA) ? in.substring(CDATA.length(), in.length() - 2) : in;
     }
 }

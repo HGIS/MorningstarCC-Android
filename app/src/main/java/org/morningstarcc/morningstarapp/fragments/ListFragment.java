@@ -14,7 +14,6 @@ import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
-import org.morningstarcc.morningstarapp.adapters.EventAdapter;
 import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
 
 /**
@@ -25,7 +24,7 @@ public abstract class ListFragment extends Fragment {
     protected Context mContext;
     private ListAdapter adapter;
     private Class<? extends Activity> nextActivity;
-    private String table;
+    protected String table;
     private int arrayResId;
 
     protected ListFragment(Class<? extends Activity> nextActivity, String table, int arrayResId) {
@@ -43,7 +42,7 @@ public abstract class ListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_generic_list, container, false);
+        View rootView = inflater.inflate(R.layout.generic_list, container, false);
         ListView list = (ListView) rootView.findViewById(R.id.list);
 
         adapter = getAdapter(new DatabaseItem(mContext).get(table, arrayResId));

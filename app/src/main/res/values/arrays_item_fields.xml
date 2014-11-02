@@ -2,10 +2,22 @@
 <resources>
 
     <string-array name="series_fields">
-        <!--<item>SeriesId</item>-->
+        <item>SeriesId</item>
         <item>title</item>
         <item>Book</item>
         <item>Imagelink</item>
+    </string-array>
+
+    <string-array name="study_fields">
+        <item>StudyId</item>
+        <item>SeriesId</item>
+        <item>Speaker</item>
+        <item>StudyDate</item>
+        <item>title</item>
+        <item>Scripture</item>
+        <item>Description</item>
+        <!--<item>AudioLink</item>-->
+        <item>VideoLink</item>
     </string-array>
 
     <string-array name="event_fields">
@@ -25,12 +37,10 @@
 
     <string-array name="devotion_fields">
         <item>title</item>
-        <item>author</item>
-        <item>body</item>
-        <item>webViewContent</item>
-        <item>webViewLink</item>
-        <item>sharePageLink</item>
-        <!--<item>pubDate</item>-->
+        <item>\"dc:creator\"</item>
+        <item>\"content:encoded\"</item>
+        <item>link</item>
+        <item>pubDate</item>
     </string-array>
 
 </resources>
