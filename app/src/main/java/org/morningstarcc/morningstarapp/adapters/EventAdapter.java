@@ -3,6 +3,7 @@ package org.morningstarcc.morningstarapp.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewManager;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.RemoteImageView;
@@ -29,10 +30,12 @@ public class EventAdapter extends DatabaseItemAdapter {
 
         setText(root, R.id.date, getDateInterval(startDate, endDate));
         setText(root, R.id.time, getTimeInterval(startDate, endDate));
-        setText(root, R.id.location, ""); // not provided
+//        setText(root, R.id.location, "");  not provided
 
-        if (data[position].getString("hasregistration").equalsIgnoreCase("false")) {
-            root.findViewById(R.id.register).setVisibility(View.INVISIBLE);
+        View registerView = root.findViewById(R.id.register);
+        if (registerView != null) {
+            if ( data[position].getString("hasregistration").equalsIgnoreCase("false") )
+                ((ViewManager) registerView.getParent()).removeView(registerView);
         }
     }
 }

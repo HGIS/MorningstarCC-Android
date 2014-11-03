@@ -16,6 +16,6 @@ public class DevotionActivity extends DetailsActivity {
         setTitle(intent.getStringExtra("title"));
         setContentView(R.layout.activity_devotion);
 
-        setText(R.id.content, intent.getStringExtra("\"content:encoded\""));
+        setText(R.id.content, intent.getStringExtra("content:encoded"));
     }
 }

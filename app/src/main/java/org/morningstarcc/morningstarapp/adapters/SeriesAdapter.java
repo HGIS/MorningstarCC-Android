@@ -18,6 +18,7 @@ public class SeriesAdapter extends DatabaseItemAdapter {
 
     @Override
     protected void setupView(View root, int position) {
+        // TODO: somehow this sometimes fails (E/BitmapFactory﹕ Unable to decode stream: java.io.FileNotFoundException: /: open failed: EISDIR (Is a directory))
         ((RemoteImageView) root.findViewById(R.id.image)).setImageLink(data[position].getString("Imagelink"));
     }
 }

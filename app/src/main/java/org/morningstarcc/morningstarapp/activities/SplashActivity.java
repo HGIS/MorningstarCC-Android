@@ -38,7 +38,7 @@ public class SplashActivity extends Activity {
         hasUpdatedStudies = false;
 
         mUpdater.update(getString(R.string.series_url));
-        new CountingUpdater(false).update(getString(R.string.devotions_url), getString(R.string.events_url)); // TODO: also meh
+        new CountingUpdater(true).update(getString(R.string.devotions_url), getString(R.string.events_url)); // TODO: also meh
     }
 
     public void onFinishedUpdating() {

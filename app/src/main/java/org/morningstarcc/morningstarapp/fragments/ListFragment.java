@@ -22,7 +22,7 @@ import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
 public abstract class ListFragment extends Fragment {
 
     protected Context mContext;
-    private ListAdapter adapter;
+    protected ListAdapter adapter;
     private Class<? extends Activity> nextActivity;
     protected String table;
     private int arrayResId;

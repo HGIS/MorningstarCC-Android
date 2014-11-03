@@ -127,7 +127,8 @@ public class DatabaseStorage extends SQLiteOpenHelper {
             asString.append(" TEXT, ");
         }
 
-        asString.deleteCharAt(asString.length() - 2);
+        if (asString.length() >= 2)
+            asString.deleteCharAt(asString.length() - 2);
 
         return asString.toString();
     }

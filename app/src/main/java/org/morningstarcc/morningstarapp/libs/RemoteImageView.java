@@ -4,13 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * An adaptation for ImageViews that simplifies getting images from a website.
@@ -25,6 +22,9 @@ import java.io.IOException;
 public class RemoteImageView extends ImageView {
     private static final String REMOTE = "http";
     private static final String TAG = "RemoteImageView";
+
+    // TODO: some sort of caching
+    private Palette mPalette;
 
     public RemoteImageView(Context context) {
         super(context);
@@ -53,25 +53,8 @@ public class RemoteImageView extends ImageView {
         }
     }
 
-    // Adpated from http://stackoverflow.com/questions/649154/save-bitmap-to-location
-    private File saveBitmapToFile(Bitmap bmp, String filename) {
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(filename);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return new File(filename);
+    public Palette getPalette() {
+        return this.mPalette;
     }
 
     // Adapted from http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
@@ -82,9 +65,13 @@ public class RemoteImageView extends ImageView {
             this.bmImage = bmImage;
         }
 
+        @Override
         protected Bitmap doInBackground(String... urls) {
             try {
-                return BitmapFactory.decodeStream( getRemoteInputStream(urls[0]) );
+                Bitmap result = BitmapFactory.decodeStream( getRemoteInputStream(urls[0]) );
+                mPalette = Palette.generate(result);
+
+                return result;
             }
             catch (Exception e) {
                 Log.e(TAG, Log.getStackTraceString(e));
@@ -92,7 +79,6 @@ public class RemoteImageView extends ImageView {
             }
         }
 
-        // TODO: create file and update database
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
