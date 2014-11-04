@@ -22,49 +22,21 @@
 
         <TextView
             android:id="@+id/date"
+            android:textSize="@dimen/text_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"/>
+            android:layout_gravity="start"
+            android:paddingLeft="@dimen/small_indent"/>
 
 
         <TextView
             android:id="@+id/time"
+            android:textSize="@dimen/text_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"/>
-
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- miscellaneous actions bar -->
-        <LinearLayout
-            android:background="@drawable/border"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_clickable_height">
-
-            <TextView
-                android:id="@+id/more"
-                android:text="@string/event_expand"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"/>
-
-            <TextView
-                android:id="@+id/register"
-                android:text="@string/event_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"/>
-
-        </LinearLayout>
+            android:layout_gravity="start"
+            android:paddingLeft="@dimen/small_indent"
+            android:paddingBottom="@dimen/small_indent"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

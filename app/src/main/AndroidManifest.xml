@@ -33,17 +33,8 @@
         </activity>
 
         <activity
-            android:name="org.morningstarcc.morningstarapp.activities.StudyActivity"
-            android:parentActivityName="org.morningstarcc.morningstarapp.activities.SeriesActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.morningstarcc.morningstarapp.activities.SeriesActivity" />
-        </activity>
-
-        <activity
             android:name="org.morningstarcc.morningstarapp.activities.EventActivity"
-            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity"
-            android:theme="@style/EventTheme">
+            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />

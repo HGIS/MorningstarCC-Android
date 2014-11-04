@@ -1,28 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <org.morningstarcc.morningstarapp.libs.RemoteImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:textSize="@dimen/text_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/indent"
+        android:paddingRight="@dimen/indent"
+        android:paddingTop="@dimen/indent"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:textSize="@dimen/text_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/indent"
+        android:paddingRight="@dimen/indent"
+        android:paddingBottom="@dimen/indent"/>
+
     <TextView
         android:id="@+id/description"
+        android:textSize="@dimen/text_medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/indent"
+        android:paddingRight="@dimen/indent"
+        android:paddingTop="@dimen/indent"
+        android:paddingBottom="@dimen/indent" />
 
-    <TextView
-        android:id="@+id/start_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/indent"
+        android:paddingRight="@dimen/indent"
+        android:onClick="onRegister">
 
-    <TextView
-        android:id="@+id/end_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/register"
+            android:text="@string/event_register"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
 
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 </LinearLayout>

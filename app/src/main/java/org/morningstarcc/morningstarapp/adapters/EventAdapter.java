@@ -30,12 +30,5 @@ public class EventAdapter extends DatabaseItemAdapter {
 
         setText(root, R.id.date, getDateInterval(startDate, endDate));
         setText(root, R.id.time, getTimeInterval(startDate, endDate));
-//        setText(root, R.id.location, "");  not provided
-
-        View registerView = root.findViewById(R.id.register);
-        if (registerView != null) {
-            if ( data[position].getString("hasregistration").equalsIgnoreCase("false") )
-                ((ViewManager) registerView.getParent()).removeView(registerView);
-        }
     }
 }

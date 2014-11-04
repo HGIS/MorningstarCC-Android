@@ -63,6 +63,17 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         }
     }
 
+    public void update(String table, String identifyingColumn, String identifyingValue, String updateColumn, String updateValue) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues current = new ContentValues();
+        current.put(updateColumn, updateValue);
+
+        db.update(table, current, "WHERE ? = ?", new String[]{identifyingColumn, identifyingValue});
+
+        db.close();
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {}
 

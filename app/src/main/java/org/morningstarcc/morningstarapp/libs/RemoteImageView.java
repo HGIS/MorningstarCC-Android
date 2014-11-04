@@ -50,7 +50,7 @@ public class RemoteImageView extends ImageView {
             new DownloadImageTask(this).execute(link);
         }
         else {
-            this.setImageURI(Uri.parse(link) );
+            this.setImageURI( Uri.parse(link) );
         }
     }
 
