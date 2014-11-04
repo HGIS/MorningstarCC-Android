@@ -18,7 +18,7 @@ public class DateUtils {
 
     // output formats
     private static final SimpleDateFormat MONTH = new SimpleDateFormat("MMM");
-    private static final SimpleDateFormat DAY = new SimpleDateFormat("d");
+    private static final SimpleDateFormat DAY = new SimpleDateFormat("dd");
     private static final SimpleDateFormat MONTH_DAY = new SimpleDateFormat("MMMM d");
     private static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm");
     private static final SimpleDateFormat MARKER = new SimpleDateFormat("a");

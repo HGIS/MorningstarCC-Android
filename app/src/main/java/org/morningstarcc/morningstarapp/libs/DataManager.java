@@ -23,7 +23,6 @@ public abstract class DataManager {
         this.mContext = mContext;
     }
 
-    @SuppressWarnings("unchecked")
     public void update(String from) {
         RemoteStorage remote;
         DatabaseStorage local = new DatabaseStorage(this.mContext);

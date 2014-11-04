@@ -3,6 +3,7 @@ package org.morningstarcc.morningstarapp.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.RemoteImageView;
@@ -16,6 +17,17 @@ public class StudyAdapter extends DatabaseItemAdapter {
 
     public StudyAdapter(Context mContext, Bundle[] data) {
         super(mContext, R.layout.study_list_row, data);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = mInflater.inflate(this.row_layout, parent, false);
+        }
+
+        setupView(convertView, position);
+
+        return convertView;
     }
 
     @Override

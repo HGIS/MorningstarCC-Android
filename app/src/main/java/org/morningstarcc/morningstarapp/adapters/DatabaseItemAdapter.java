@@ -20,10 +20,10 @@ import java.io.IOException;
  */
 public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
 
-    private LayoutInflater mInflater;
+    protected LayoutInflater mInflater;
     protected Bundle[] data;
 
-    private int row_layout;
+    protected int row_layout;
 
     public DatabaseItemAdapter(Context mContext, int row_layout, Bundle[] data) {
         super(mContext, row_layout, data);

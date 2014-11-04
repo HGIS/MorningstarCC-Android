@@ -45,6 +45,7 @@ public class RemoteImageView extends ImageView {
      * @param link  url to the image bitmap. (Accepts http:// and local filename Strings)
      */
     public void setImageLink(String link) {
+        // TODO: set loading symbol icon in image's stead
         if (link.contains(REMOTE)) {
             new DownloadImageTask(this).execute(link);
         }

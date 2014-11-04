@@ -12,6 +12,9 @@
 
     <string name="default_content_description">Image</string>
 
-    <string name="event_expand">\tLearn More</string>
+    <string name="event_expand">Learn More</string>
     <string name="event_register">Register Now</string>
+
+    <string name="play">Play</string>
+    <string name="listen">Listen</string>
 </resources>

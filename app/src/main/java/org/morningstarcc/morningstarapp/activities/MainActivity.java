@@ -24,7 +24,24 @@ import org.morningstarcc.morningstarapp.libs.DataManager;
 
 /**
  * TODO list:
- *  - Get differently sized images (almost all of them)
+ *
+ * Version 1
+ *  - Check if persistence already there
+ *  - Store updates that keep wifi requests to minimum
+ *  - default views to error/loading state
+ *  - Update only when required
+ *  - small bug. main seems to get launched twice
+ *  - Small redesign for events list
+ *  - Remove Study Activity
+ *  - Allow for Vimeo
+ *  - Event Activity
+ *
+ * Version 2
+ *  - Style everything better
+ *  - animations!
+ *  - palettes
+ *  - update nav drawer
+ *  - Get differently sized images (almost all of them) -- maybe
  */
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";

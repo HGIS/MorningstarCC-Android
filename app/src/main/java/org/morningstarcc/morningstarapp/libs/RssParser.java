@@ -47,6 +47,7 @@ public class RssParser {
      * @param src   Rss Feed stream
      * @return      read entries
      */
+    // TODO: apparently SAX parser is faster version of the same thing
     public static List<ContentValues> parse(InputStream src) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -69,6 +70,7 @@ public class RssParser {
         return new ArrayList<ContentValues>();
     }
 
+    // TODO: break failure down, so I can at least get some items -- i think this requires SAX, since it builds everything initially
     private static List<ContentValues> readItems(NodeList nodeList) {
         List<ContentValues> items = new ArrayList<ContentValues>(nodeList.getLength());
 
