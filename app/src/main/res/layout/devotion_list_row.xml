@@ -35,7 +35,7 @@
         android:paddingTop="@dimen/small_indent"
         android:paddingBottom="@dimen/small_indent"
         android:paddingLeft="@dimen/small_indent"
-        android:background="@drawable/rounded_blue_bg"
+        android:background="@drawable/devotion_bg"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -49,7 +49,7 @@
             android:paddingLeft="@dimen/small_indent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"/>
+            android:textColor="@color/theme_accent"/>
 
 
         <TextView
@@ -57,8 +57,8 @@
             android:textSize="@dimen/text_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/indent"
-            android:textColor="@color/white"/>
+            android:paddingLeft="@dimen/small_indent"
+            android:textColor="@color/theme_accent"/>
 
     </LinearLayout>
 

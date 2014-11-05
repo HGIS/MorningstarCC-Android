@@ -33,7 +33,7 @@ public class EventActivity extends DetailsActivity {
 
         setTitle(intent.getStringExtra("title"));
 
-        ((RemoteImageView) findViewById(R.id.image)).setImageLink(intent.getStringExtra("imagepath"));
+        ((RemoteImageView) findViewById(R.id.image)).setImageLink(intent.getStringExtra("imagepath"), null);
 
         setText(R.id.date, getDateInterval(startDate, endDate));
         setText(R.id.time, getTimeInterval(startDate, endDate));

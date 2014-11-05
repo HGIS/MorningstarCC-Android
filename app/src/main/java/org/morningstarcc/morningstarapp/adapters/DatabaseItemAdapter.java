@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
 import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
 import java.io.File;
@@ -50,32 +51,8 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
 
     // TODO: create file and update db
     protected void setImageLink(View parent, int resId, String link) {
-        ((RemoteImageView) parent.findViewById(resId)).setImageLink(link);
+        ((RemoteImageView) parent.findViewById(resId)).setImageLink(link, null);
     }
 
     protected abstract void setupView(View root, int position);
-
-
-    // TODO: check space before we just store the image
-    // example: http://www.growingthrugrace.com/images/studyalbumcovers/leviticus_450x450.jpg
-    // Adpated from http://stackoverflow.com/questions/649154/save-bitmap-to-location
-    private File saveBitmapToFile(Bitmap bmp, String filename) {
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(filename);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return new File(filename);
-    }
 }

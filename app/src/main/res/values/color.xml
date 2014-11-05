@@ -7,4 +7,7 @@
     <color name="white">#FAFAFA</color>
     <color name="grey">#BDBDBD</color>
 
+    <color name="theme_main">#009688</color>
+    <color name="theme_accent">#EFEBE9</color>
+
 </resources>

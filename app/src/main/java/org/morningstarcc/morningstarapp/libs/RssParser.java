@@ -88,9 +88,14 @@ public class RssParser {
         for (int i = 0; i < nodes.getLength(); i++) {
             Node cur = nodes.item(i);
 
-            item.put('\"' + cur.getNodeName() + '\"', cur.getTextContent());
+            item.put('\"' + cur.getNodeName() + '\"', stripCdata(cur.getTextContent()));
         }
 
         return item;
+    }
+
+    private static String stripCdata(String from) {
+        Log.e("--RssParser--", "REMOVE THIS METHOD!");
+        return from.replace("![CDATA[", "").replace("]]", "");
     }
 }

@@ -63,13 +63,13 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         }
     }
 
-    public void update(String table, String identifyingColumn, String identifyingValue, String updateColumn, String updateValue) {
+    public void update(UpdateParcel parcel) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues current = new ContentValues();
-        current.put(updateColumn, updateValue);
+        current.put(parcel.updateColumn, parcel.updateValue);
 
-        db.update(table, current, "WHERE ? = ?", new String[]{identifyingColumn, identifyingValue});
+        db.update(parcel.table, current, "WHERE ? = ?", new String[]{parcel.identifyingColumn, parcel.identifyingValue});
 
         db.close();
     }
@@ -162,5 +162,19 @@ public class DatabaseStorage extends SQLiteOpenHelper {
                 .putString("Last Updated", format.format(calendar.getTime()))
                 .commit()
                 ;
+    }
+
+    public class UpdateParcel {
+        String table;
+        String identifyingColumn, identifyingValue;
+        String updateColumn, updateValue;
+
+        public UpdateParcel(String table, String identifyingColumn, String identifyingValue, String updateColumn, String updateValue) {
+            this.table = table;
+            this.identifyingColumn = identifyingColumn;
+            this.identifyingValue = identifyingValue;
+            this.updateColumn = updateColumn;
+            this.updateValue = updateValue;
+        }
     }
 }

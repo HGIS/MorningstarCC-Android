@@ -2,7 +2,9 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -22,26 +24,28 @@ import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 import org.morningstarcc.morningstarapp.libs.DataManager;
 
+import java.util.List;
+
 /**
  * TODO list:
  *
- * Version 1
+ * Version Alpha/Beta 0
  *  - Check if persistence already there
  *  - Store updates that keep wifi requests to minimum
  *  - default views to error/loading state
  *  - Update only when required
- *  - small bug. main seems to get launched twice
- *  - Small redesign for events list
- *  - Remove Study Activity
+ *  - small bug. main seems to get launched twice LOLOL
  *  - Allow for Vimeo
- *  - Event Activity
+ *  - click on different sub-list items
+ *  - see Pastor Rod's scrum updates
  *
- * Version 2
+ * Version Beta 1
  *  - Style everything better
  *  - animations!
  *  - palettes
  *  - update nav drawer
  *  - Get differently sized images (almost all of them) -- maybe
+ *  - Month dividers (and spinner) for events
  */
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";
@@ -102,13 +106,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item) || item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
     }
@@ -132,6 +129,12 @@ public class MainActivity extends ActionBarActivity {
             case 2:
                 fragment = new DevotionFragment();
                 break;
+            case 3:
+                launchBulletin();
+                return;
+            case 4:
+                launchLiveStream();
+                return;
             default:
                 Log.e(TAG, "Cannot create fragment for drawer item position: " + position);
                 return;
@@ -147,6 +150,14 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setItemChecked(position, true);
         setTitle(mDrawerTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    private void launchBulletin() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.bulletin_url))));
+    }
+
+    private void launchLiveStream() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.live_stream_url))));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

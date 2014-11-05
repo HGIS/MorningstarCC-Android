@@ -4,10 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * An adaptation for ImageViews that simplifies getting images from a website.
@@ -21,21 +26,24 @@ import android.widget.ImageView;
  */
 public class RemoteImageView extends ImageView {
     private static final String REMOTE = "http";
-    private static final String TAG = "RemoteImageView";
 
     // TODO: some sort of caching
     private Palette mPalette;
+    private Context mContext;
 
     public RemoteImageView(Context context) {
         super(context);
+        this.mContext = context;
     }
 
     public RemoteImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.mContext = context;
     }
 
     public RemoteImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mContext = context;
     }
 
     /**
@@ -45,9 +53,12 @@ public class RemoteImageView extends ImageView {
      * @param link  url to the image bitmap. (Accepts http:// and local filename Strings)
      */
     public void setImageLink(String link) {
-        // TODO: set loading symbol icon in image's stead
+        setImageLink(link, null);
+    }
+
+    public void setImageLink(String link, @Nullable DatabaseStorage.UpdateParcel updateParcel) {
         if (link.contains(REMOTE)) {
-            new DownloadImageTask(this).execute(link);
+            new DownloadImageTask(this, updateParcel).execute(link);
         }
         else {
             this.setImageURI( Uri.parse(link) );
@@ -61,9 +72,11 @@ public class RemoteImageView extends ImageView {
     // Adapted from http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
     private class DownloadImageTask extends DownloadUrlContentTask<Bitmap> {
         ImageView bmImage;
+        DatabaseStorage.UpdateParcel updateParcel;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadImageTask(ImageView bmImage, DatabaseStorage.UpdateParcel updateParcel) {
             this.bmImage = bmImage;
+            this.updateParcel = updateParcel;
         }
 
         @Override
@@ -72,16 +85,42 @@ public class RemoteImageView extends ImageView {
                 Bitmap result = BitmapFactory.decodeStream( getRemoteInputStream(urls[0]) );
                 //mPalette = Palette.generate(result);
 
+                // TODO: check space before we just store the image
+                if (updateParcel != null) { saveBitmapToFile(result, updateParcel.updateValue); }
+
                 return result;
             }
             catch (Exception e) {
-                Log.e(TAG, Log.getStackTraceString(e));
+                Log.e(RemoteImageView.class.getName(), Log.getStackTraceString(e));
                 return null;
             }
         }
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+            if (updateParcel != null) { new DatabaseStorage(mContext).update(updateParcel); }
+        }
+
+        // Adapted from http://stackoverflow.com/questions/649154/save-bitmap-to-location
+        private void saveBitmapToFile(Bitmap bmp, String filename) {
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(filename);
+                bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            }
+            catch (Exception e) {
+                Log.e(RemoteImageView.class.getName(), Log.getStackTraceString(e));
+            }
+            finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                    }
+                }
+                catch (IOException e) {
+                    Log.e(RemoteImageView.class.getName(), Log.getStackTraceString(e));
+                }
+            }
         }
     }
 }

@@ -4,10 +4,10 @@
     <string-array name="drawer_items">
 
         <item>Series</item>
-
         <item>Events</item>
-
         <item>Devotions</item>
+        <item>Bulletin</item>
+        <item>Live Stream</item>
 
     </string-array>
 

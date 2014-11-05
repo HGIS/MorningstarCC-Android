@@ -5,5 +5,7 @@
     <string name="events_url">http://www.growingthrugrace.com/MCCEventsRSS.aspx</string>
     <string name="devotions_url">http://www.growingthrugrace.com/MCCDailyDevoRSS.aspx</string>
     <string name="studies_url">http://www.growingthrugrace.com/MCCStudiesinseriesRSS.aspx?SeriesId=%d</string>
+    <string name="bulletin_url">http://www.morningstarcc.org/Uploads/BulletinMobile.pdf</string>
+    <string name="live_stream_url">http://new.livestream.com/accounts/381375/events/3355193/player?autoPlay=true&amp;mute=false</string>
 
 </resources>
