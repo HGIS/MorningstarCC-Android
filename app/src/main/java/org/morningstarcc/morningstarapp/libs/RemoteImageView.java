@@ -70,7 +70,7 @@ public class RemoteImageView extends ImageView {
         protected Bitmap doInBackground(String... urls) {
             try {
                 Bitmap result = BitmapFactory.decodeStream( getRemoteInputStream(urls[0]) );
-                mPalette = Palette.generate(result);
+                //mPalette = Palette.generate(result);
 
                 return result;
             }
