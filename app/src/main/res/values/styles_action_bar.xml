@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MCCActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="ColoredActionBar"
+        parent="MCCActionBar">
+        <item name="android:background">@color/theme_main</item>
+        <item name="android:textColor">@color/theme_accent</item> <!-- this no workie -->
+        <item name="android:textStyle">bold</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/theme_main</item>
+    </style>
+</resources>

@@ -49,7 +49,7 @@
             android:paddingLeft="@dimen/small_indent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme_accent"/>
+            android:textColor="@android:color/white"/>
 
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/small_indent"
-            android:textColor="@color/theme_accent"/>
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 

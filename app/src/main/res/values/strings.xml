@@ -3,7 +3,7 @@
 
     <string name="app_name">Morningstar App</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_add_to_calendar">Add To Calendar</string>
 
     <string name="drawer_open">Navigation Drawer Open</string>
     <string name="drawer_close">Navigation Drawer Closed</string>

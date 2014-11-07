@@ -39,18 +39,14 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         this.db = getWritableDatabase();
     }
 
-    public Calendar getLastUpdated() {
-        Calendar cal = Calendar.getInstance();
-        Date lastUpdated = getDateLastUpdated();
-
-        if (cal != null)
-            cal.setTime(lastUpdated != null ? lastUpdated : new Date());
-
-        return cal;
-    }
-
     public Cursor get(String from, String... cols) {
-        return db.query(from, cols, null, null, null, null, null, null);
+        try {
+            return db.query(from, cols, null, null, null, null, null, null);
+        }
+        catch (Exception e) {
+            Log.w(DatabaseStorage.class.getName(), Log.getStackTraceString(e));
+            return null;
+        }
     }
 
     public void set(String to, List<ContentValues> data) {
@@ -105,20 +101,6 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         }
 
         return columnNames;
-    }
-
-    // returns the date this database was last updated at
-    private Date getDateLastUpdated() {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd HH:mm:ss yyyy");
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.mContext);
-
-            return format.parse(preferences.getString("Last Updated", ""));
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     // adds a table with the given name and fields (assumed to all be as TEXT) to the database

@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.adapters.NavigationDrawerAdapter;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
@@ -72,11 +73,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerList.setAdapter(new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                mDrawerTitles
-        ));
+        mDrawerList.setAdapter(new NavigationDrawerAdapter(this, mDrawerTitles));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -107,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item) || item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -129,10 +126,10 @@ public class MainActivity extends ActionBarActivity {
             case 2:
                 fragment = new DevotionFragment();
                 break;
-            case 3:
+            case 4:
                 launchBulletin();
                 return;
-            case 4:
+            case 5:
                 launchLiveStream();
                 return;
             default:

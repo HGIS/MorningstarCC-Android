@@ -51,10 +51,6 @@ public abstract class DownloadUrlContentTask<T> extends AsyncTask<String, Void, 
         }
     }
 
-    public boolean upToDate(Calendar lastUpdated) {
-        return curDataDate.after(lastUpdated);
-    }
-
     /**
      * Convenience method to check if internet access is okay
      *

@@ -24,19 +24,11 @@ public abstract class DataManager {
     }
 
     public void update(String from) {
-        RemoteStorage remote;
         DatabaseStorage local = new DatabaseStorage(this.mContext);
         String tableName = from.substring(from.lastIndexOf("/") + 1, from.lastIndexOf(".")) +
                 (from.contains("=") ? from.substring(from.indexOf("=") + 1) : "");
 
-        remote = new RemoteStorage(local, tableName);
-
-        if (DownloadUrlContentTask.hasInternetAccess(this.mContext) && remote.upToDate(local.getLastUpdated())) {
-            remote.execute(from);
-        }
-        else {
-            onDataReturned(false);
-        }
+        new RemoteStorage(local, tableName).execute(from);
     }
 
     public abstract void onDataReturned(boolean success);

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
+import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
 import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
 import java.io.File;
@@ -26,12 +27,15 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
 
     protected int row_layout;
 
+    private Context mContext;
+
     public DatabaseItemAdapter(Context mContext, int row_layout, Bundle[] data) {
         super(mContext, row_layout, data);
 
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = data;
         this.row_layout = row_layout;
+        this.mContext = mContext;
     }
 
     @Override
@@ -51,7 +55,14 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
 
     // TODO: create file and update db
     protected void setImageLink(View parent, int resId, String link) {
-        ((RemoteImageView) parent.findViewById(resId)).setImageLink(link, null);
+        RemoteImageView imageView = (RemoteImageView) parent.findViewById(resId);
+
+        if (DownloadUrlContentTask.hasInternetAccess(mContext)) {
+            imageView.setImageLink(link);
+        }
+        else {
+            imageView.setMaxHeight(0);
+        }
     }
 
     protected abstract void setupView(View root, int position);

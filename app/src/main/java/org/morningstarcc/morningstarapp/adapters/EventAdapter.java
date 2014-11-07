@@ -26,7 +26,7 @@ public class EventAdapter extends DatabaseItemAdapter {
         Date startDate = getDate(data[position].getString("eventdate"), data[position].getString("eventstarttime"));
         Date endDate = getDate(data[position].getString("eventenddate"), data[position].getString("eventendtime"));
 
-        ((RemoteImageView) root.findViewById(R.id.image)).setImageLink(data[position].getString("imagepath"));
+        setImageLink(root, R.id.image, data[position].getString("imagepath"));
 
         setText(root, R.id.date, getDateInterval(startDate, endDate));
         setText(root, R.id.time, getTimeInterval(startDate, endDate));

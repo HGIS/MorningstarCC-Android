@@ -6,7 +6,7 @@
         android:width="1dp"
         android:color="@null" />
 
-    <solid android:color="@color/theme_main" />
+    <solid android:color="@color/theme_contrast" />
 
     <padding
         android:left="1dp"

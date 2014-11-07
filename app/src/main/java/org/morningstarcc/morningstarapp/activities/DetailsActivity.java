@@ -7,6 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
+import org.morningstarcc.morningstarapp.libs.RemoteImageView;
+
 /**
  * Created by Kyle on 10/25/2014.
  */
@@ -38,6 +41,17 @@ public class DetailsActivity extends ActionBarActivity {
         ActionBar titleBar = getSupportActionBar();
         if (titleBar != null) {
             titleBar.setTitle(title);
+        }
+    }
+
+    protected void setImageLink(int resId, String link) {
+        RemoteImageView imageView = (RemoteImageView) findViewById(resId);
+
+        if (DownloadUrlContentTask.hasInternetAccess(this)) {
+            imageView.setImageLink(link);
+        }
+        else {
+            imageView.setMaxHeight(0);
         }
     }
 }

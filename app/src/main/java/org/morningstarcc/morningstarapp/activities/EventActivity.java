@@ -3,11 +3,17 @@ package org.morningstarcc.morningstarapp.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
@@ -19,6 +25,8 @@ import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
  */
 public class EventActivity extends DetailsActivity {
 
+    private Date startDate, endDate;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +35,32 @@ public class EventActivity extends DetailsActivity {
         setup();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_events_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_add_to_calendar:
+                addEventToCalendar(startDate, endDate);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void setup() {
-        Date startDate = getDate(intent.getStringExtra("eventdate"), intent.getStringExtra("eventstarttime"));
-        Date endDate = getDate(intent.getStringExtra("eventenddate"), intent.getStringExtra("eventendtime"));
+        startDate = getDate(intent.getStringExtra("eventdate"), intent.getStringExtra("eventstarttime"));
+        endDate = getDate(intent.getStringExtra("eventenddate"), intent.getStringExtra("eventendtime"));
 
         setTitle(intent.getStringExtra("title"));
 
-        ((RemoteImageView) findViewById(R.id.image)).setImageLink(intent.getStringExtra("imagepath"), null);
+        setImageLink(R.id.image, intent.getStringExtra("imagepath"));
 
         setText(R.id.date, getDateInterval(startDate, endDate));
         setText(R.id.time, getTimeInterval(startDate, endDate));
@@ -43,9 +70,35 @@ public class EventActivity extends DetailsActivity {
         if (intent.getStringExtra("hasregistration").equalsIgnoreCase("false")) {
             findViewById(R.id.register).setVisibility(View.INVISIBLE);
         }
+
+        disableScrollIfTooSmall(findViewById(R.id.scroll_container));
     }
 
     public void onRegister(View view) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("registrationlink"))));
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("registrationlink"))));
+        }
+        catch (Exception e) {
+            android.util.Log.e("EventActivity", Log.getStackTraceString(e));
+        }
+    }
+
+    private void disableScrollIfTooSmall(View view) {
+        if (view.getHeight() <= getWindow().getDecorView().getHeight()) {
+            view.setScrollContainer(false);
+        }
+    }
+
+    private void addEventToCalendar(Date startDate, Date endDate) {
+        Intent calendarIntent = new Intent(Intent.ACTION_EDIT);
+
+        calendarIntent.setType("vnd.android.cursor.item/event");
+        calendarIntent.putExtra("beginTime", startDate.getTime());
+        calendarIntent.putExtra("allDay", false);
+        calendarIntent.putExtra("endTime", endDate.getTime());
+        calendarIntent.putExtra("title", intent.getStringExtra("title"));
+        calendarIntent.putExtra("description", intent.getStringExtra("description"));
+
+        startActivity(Intent.createChooser(calendarIntent, "Add this event to:"));
     }
 }
