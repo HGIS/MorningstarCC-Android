@@ -10,44 +10,46 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-        <activity android:name=".activities.SplashActivity"
+        <activity
+            android:name=".activities.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name" />
-
         <activity
-            android:name="org.morningstarcc.morningstarapp.activities.SeriesActivity"
-            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity">
+            android:name=".activities.SeriesActivity"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.EventActivity"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.DevotionActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/DevotionTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />
         </activity>
 
-        <activity
-            android:name="org.morningstarcc.morningstarapp.activities.EventActivity"
-            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />
-        </activity>
-
-        <activity
-            android:name="org.morningstarcc.morningstarapp.activities.DevotionActivity"
-            android:parentActivityName="org.morningstarcc.morningstarapp.activities.MainActivity"
-            android:theme="@style/DevotionTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />
-        </activity>
-
+        <service
+            android:name=".libs.DatabaseUpdateService"
+            android:exported="false" >
+        </service>
     </application>
+
 </manifest>

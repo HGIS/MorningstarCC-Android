@@ -43,6 +43,8 @@ public class DateUtils {
         }
     }
 
+    public static String getFullString(Date date) { return FULL.format(date); }
+
     public static String getMonthString(Date month) {
         return MONTH.format(month);
     }

@@ -31,11 +31,14 @@ import java.util.List;
  * TODO list:
  *
  * Version Alpha/Beta 0
- *  - Check if persistence already there
- *  - Store updates that keep wifi requests to minimum
+ *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
+ *      + add seen flag to database for devotions (probably use blue and red)
+ *      + change link column to use local file for image
+ *          - make sure to delete all files associated with the table when you drop it
+ *      + remove feature that lets you add event to calendar when you have already done so
+ *      + do some stuff with downloading audio
  *  - default views to error/loading state
  *  - Update only when required
- *  - small bug. main seems to get launched twice LOLOL
  *  - Allow for Vimeo
  *  - click on different sub-list items
  *  - see Pastor Rod's scrum updates
@@ -47,6 +50,7 @@ import java.util.List;
  *  - update nav drawer
  *  - Get differently sized images (almost all of them) -- maybe
  *  - Month dividers (and spinner) for events
+ *  - push notifications?
  */
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";

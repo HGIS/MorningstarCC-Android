@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -22,7 +23,7 @@ import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
 public abstract class ListFragment extends Fragment {
 
     protected Context mContext;
-    protected ListAdapter adapter;
+    protected ArrayAdapter adapter;
     private Class<? extends Activity> nextActivity;
     protected String table;
     private int arrayResId;

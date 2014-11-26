@@ -1,14 +1,20 @@
 package org.morningstarcc.morningstarapp.libs;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
+
+import org.morningstarcc.morningstarapp.BuildConfig;
+import org.morningstarcc.morningstarapp.datastructures.UpdateParcel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,6 +36,10 @@ public class RemoteImageView extends ImageView {
     // TODO: some sort of caching
     private Palette mPalette;
     private Context mContext;
+
+    // fields to handle writing file to database
+    private DatabaseStorage storage = null;
+    private String table, idColumn, idValue, updateColumn;
 
     public RemoteImageView(Context context) {
         super(context);
@@ -53,15 +63,42 @@ public class RemoteImageView extends ImageView {
      * @param link  url to the image bitmap. (Accepts http:// and local filename Strings)
      */
     public void setImageLink(String link) {
-        setImageLink(link, null);
+        setImageLink(link, null, null, null, null, null);
     }
 
-    public void setImageLink(String link, @Nullable DatabaseStorage.UpdateParcel updateParcel) {
+    public void setImageLink(String link, DatabaseStorage storage, String table, String idColumn, String idValue, String updateColumn) {
         if (link.contains(REMOTE)) {
-            new DownloadImageTask(this, updateParcel).execute(link);
+            this.storage = storage;
+            this.table = table;
+            this.idColumn = idColumn;
+            this.idValue = idValue;
+            this.updateColumn = updateColumn;
+
+            new DownloadImageTask(link).execute(link);
         }
         else {
-            this.setImageURI( Uri.parse(link) );
+            setImageFilePath(link); // still do this aynchronoujsly
+        }
+    }
+
+    private void setImageFilePath(String path) {
+        //this.setImageURI( Uri.parse(path) );
+        this.setImageBitmap(BitmapFactory.decodeFile(new File(path).getAbsolutePath()));
+        if (this.storage != null) { this.storage.update(table, idColumn, idValue, updateColumn, path);
+
+
+            Cursor tmp = this.storage.get(table, new String[]{null});
+            int i = 0;
+
+            tmp.moveToFirst();
+            while (!tmp.isAfterLast()) {
+                try {
+                    Log.e("Test", i++ + ": " + updateColumn + " = " + tmp.getString(tmp.getColumnIndex(updateColumn)));
+                }
+                catch (Exception e) { Log.e("Test", i++ + ": "); }
+
+                tmp.moveToNext();
+            }
         }
     }
 
@@ -71,12 +108,11 @@ public class RemoteImageView extends ImageView {
 
     // Adapted from http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
     private class DownloadImageTask extends DownloadUrlContentTask<Bitmap> {
-        ImageView bmImage;
-        DatabaseStorage.UpdateParcel updateParcel;
+        String filename;
 
-        public DownloadImageTask(ImageView bmImage, DatabaseStorage.UpdateParcel updateParcel) {
-            this.bmImage = bmImage;
-            this.updateParcel = updateParcel;
+        public DownloadImageTask(String filename) {
+            this.filename = getLocalFilename(filename);
+            Log.e("Test", "Local filename: " + this.filename);
         }
 
         @Override
@@ -86,7 +122,7 @@ public class RemoteImageView extends ImageView {
                 //mPalette = Palette.generate(result);
 
                 // TODO: check space before we just store the image
-                if (updateParcel != null) { saveBitmapToFile(result, updateParcel.updateValue); }
+                //saveBitmapToFile(result);
 
                 return result;
             }
@@ -97,12 +133,12 @@ public class RemoteImageView extends ImageView {
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-            if (updateParcel != null) { new DatabaseStorage(mContext).update(updateParcel); }
+            setImageBitmap(result);
+            //if (updateParcel != null) { new DatabaseStorage(mContext).update(updateParcel); }
         }
 
         // Adapted from http://stackoverflow.com/questions/649154/save-bitmap-to-location
-        private void saveBitmapToFile(Bitmap bmp, String filename) {
+        private void saveBitmapToFile(Bitmap bmp) {
             FileOutputStream out = null;
             try {
                 out = new FileOutputStream(filename);
@@ -121,6 +157,10 @@ public class RemoteImageView extends ImageView {
                     Log.e(RemoteImageView.class.getName(), Log.getStackTraceString(e));
                 }
             }
+        }
+
+        private String getLocalFilename(String remoteFilename) {
+            return remoteFilename.substring(remoteFilename.lastIndexOf('/') + 1);
         }
     }
 }

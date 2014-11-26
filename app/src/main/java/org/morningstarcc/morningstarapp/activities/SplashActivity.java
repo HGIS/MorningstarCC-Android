@@ -11,8 +11,6 @@ import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
 
 /**
  * Created by Kyle on 10/26/2014.
- *
- * TODO: this does not launch anything when airplane mode is on
  */
 public class SplashActivity extends Activity {
 
@@ -28,7 +26,7 @@ public class SplashActivity extends Activity {
         super.onStart();
 
         Log.d("SplashActivity", "Updater launching...");
-        updateFeeds();
+        updateFeeds(); // TODO: change this to a service
 
         startActivity(new Intent(this, MainActivity.class));
         finish();

@@ -7,9 +7,11 @@
     <color name="white">#FAFAFA</color>
     <color name="grey">#BDBDBD</color>
 
-    <color name="theme_main">#80CBC4</color>
+    <color name="theme_main">#4DB6AC</color>
     <color name="theme_tint">#009688</color>
     <color name="theme_accent">#FFF8E1</color>
     <color name="theme_contrast">#FF5252</color>
+
+    <color name="read">#FF5252</color>
 
 </resources>

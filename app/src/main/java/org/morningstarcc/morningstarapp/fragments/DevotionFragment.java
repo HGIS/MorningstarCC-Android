@@ -1,6 +1,7 @@
 package org.morningstarcc.morningstarapp.fragments;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.DevotionActivity;
@@ -19,5 +20,11 @@ public class DevotionFragment extends ListFragment {
     @Override
     protected DatabaseItemAdapter getAdapter(Bundle[] data) {
         return new DevotionAdapter(mContext, data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.adapter.notifyDataSetChanged();
     }
 }

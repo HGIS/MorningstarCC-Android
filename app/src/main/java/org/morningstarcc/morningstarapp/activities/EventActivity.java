@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.ShareActionProvider;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.RemoteImageView;
@@ -26,6 +27,7 @@ import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
 public class EventActivity extends DetailsActivity {
 
     private Date startDate, endDate;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,24 @@ public class EventActivity extends DetailsActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_events_actions, menu);
+        getMenuInflater().inflate(R.menu.activity_events_actions, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        if (mShareActionProvider != null)
+                mShareActionProvider.setShareIntent();
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
     }
 
     @Override

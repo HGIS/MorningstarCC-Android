@@ -4,16 +4,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.datastructures.UpdateParcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,6 +42,14 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         this.db = getWritableDatabase();
     }
 
+    /**
+     * Gets the rows of the specified columns (or all columns if null) in Cursor format.
+     * Allows for indirect database reading
+     *
+     * @param from table to get data from
+     * @param cols the columns to get data from
+     * @return  row contents in Cursor format
+     */
     public Cursor get(String from, String... cols) {
         try {
             return db.query(from, cols, null, null, null, null, null, null);
@@ -49,6 +60,12 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Puts data into the database
+     *
+     * @param to    table to place data into
+     * @param data  a list of the row values, with column mappings inside the ContentValues
+     */
     public void set(String to, List<ContentValues> data) {
         if (data.size() != 0) {
             addTable(to, getColumnNames(data));
@@ -59,13 +76,53 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         }
     }
 
-    public void update(UpdateParcel parcel) {
+    /**
+     * Updates a single element of the table.
+     *
+     * @param table the table to update
+     * @param idColumn  the identifying column
+     * @param idValue   the identifying value of the given column.
+     *                  If it is not unique behavior is undefined (but seriously, it just updates all rows with that column value).
+     *                  If it does not exist, nothing happens.
+     * @param updateColumn  the column to update
+     * @param updateValue   the value to place in the column
+     */
+    public void update(String table, String idColumn, String idValue, String updateColumn, String updateValue) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues current = new ContentValues();
-        current.put(parcel.updateColumn, parcel.updateValue);
+        current.put(updateColumn, updateValue);
 
-        db.update(parcel.table, current, "WHERE ? = ?", new String[]{parcel.identifyingColumn, parcel.identifyingValue});
+        try {
+            Log.d("Test", "Updating " + db.update(table, current, idColumn + " = ?", new String[]{idValue}) + " columns");
+        }
+        catch (Exception e) {
+            Log.w("DatabaseStorage", Log.getStackTraceString(e));
+        }
+
+        db.close();
+    }
+
+    public void addColumn(String table, String columnName, String type) {
+        this.addColumn(table, columnName, type, "");
+    }
+
+    /**
+     * Appends the given column to the specified table.
+     * Allows for special column conditions to be set such as DEFAULT and PRIMARY KEY
+     *
+     * @param table the table to update
+     * @param columnName the column to append to the table
+     * @param type  the datatype of the new column
+     * @param conditions    the special conditions of the column. Use addColumn(String, String, String) if none.
+     */
+    public void addColumn(String table, String columnName, String type, String conditions) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        // add column if it does not exist
+        if (db.query(table, null, null, null, null, null, null, null).getColumnIndex(columnName) < 0) {
+            db.execSQL(String.format("ALTER TABLE %s ADD COLUMN %s %s %s;", table, columnName, type, conditions));
+        }
 
         db.close();
     }
@@ -135,28 +192,12 @@ public class DatabaseStorage extends SQLiteOpenHelper {
 
     // update the last updated date of the database
     private void postUpdated() {
-        Calendar calendar = new GregorianCalendar();
-        SimpleDateFormat format = new SimpleDateFormat("dd HH:mm:ss yyyy");
-
         PreferenceManager
                 .getDefaultSharedPreferences(this.mContext)
                 .edit()
-                .putString("Last Updated", format.format(calendar.getTime()))
+                .putString("Last Updated",
+                        DateUtils.getFullString(new GregorianCalendar().getTime()))
                 .commit()
                 ;
-    }
-
-    public class UpdateParcel {
-        String table;
-        String identifyingColumn, identifyingValue;
-        String updateColumn, updateValue;
-
-        public UpdateParcel(String table, String identifyingColumn, String identifyingValue, String updateColumn, String updateValue) {
-            this.table = table;
-            this.identifyingColumn = identifyingColumn;
-            this.identifyingValue = identifyingValue;
-            this.updateColumn = updateColumn;
-            this.updateValue = updateValue;
-        }
     }
 }
