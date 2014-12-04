@@ -5,19 +5,14 @@ import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -64,6 +59,9 @@ public class RssParser {
             Log.e("RssParser", Log.getStackTraceString(e));
         }
         catch (IOException e) {
+            Log.e("RssParser", Log.getStackTraceString(e));
+        }
+        catch (IllegalArgumentException e) {
             Log.e("RssParser", Log.getStackTraceString(e));
         }
 

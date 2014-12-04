@@ -1,7 +1,6 @@
 package org.morningstarcc.morningstarapp.fragments;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.DevotionActivity;

@@ -5,16 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.ShareActionProvider;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
@@ -45,19 +41,17 @@ public class EventActivity extends DetailsActivity {
         MenuItem item = menu.findItem(R.id.menu_item_share);
 
         // Fetch and store ShareActionProvider
-        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
-        if (mShareActionProvider != null)
-                mShareActionProvider.setShareIntent();
+//        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 
         return super.onCreateOptionsMenu(menu);
     }
 
     // Call to update the share intent
-    private void setShareIntent(Intent shareIntent) {
+    /*private void setShareIntent(Intent shareIntent) {
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

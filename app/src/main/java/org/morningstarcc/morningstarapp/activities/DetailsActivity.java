@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
-import org.morningstarcc.morningstarapp.libs.RemoteImageView;
+import com.squareup.picasso.Picasso;
+
+import org.morningstarcc.morningstarapp.R;
 
 /**
  * Created by Kyle on 10/25/2014.
@@ -45,13 +47,10 @@ public class DetailsActivity extends ActionBarActivity {
     }
 
     protected void setImageLink(int resId, String link) {
-        RemoteImageView imageView = (RemoteImageView) findViewById(resId);
-
-        if (DownloadUrlContentTask.hasInternetAccess(this)) {
-            imageView.setImageLink(link);
-        }
-        else {
-            imageView.setMaxHeight(0);
-        }
+        Picasso
+                .with(this)
+                .load(link)
+                .placeholder(R.drawable.ic_launcher)
+                .into((ImageView) findViewById(resId));
     }
 }

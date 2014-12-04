@@ -3,14 +3,14 @@ package org.morningstarcc.morningstarapp.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewManager;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
 import java.util.Date;
 
-import static org.morningstarcc.morningstarapp.libs.DateUtils.*;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
 
 /**
  * Created by Kyle on 10/10/2014.

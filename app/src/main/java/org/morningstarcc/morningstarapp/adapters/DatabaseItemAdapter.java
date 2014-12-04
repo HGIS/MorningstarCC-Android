@@ -1,21 +1,17 @@
 package org.morningstarcc.morningstarapp.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
-import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
-import org.morningstarcc.morningstarapp.libs.RemoteImageView;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import org.morningstarcc.morningstarapp.R;
 
 /**
  * Created by Kyle on 10/10/2014.
@@ -55,14 +51,11 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
 
     // TODO: create file and update db
     protected void setImageLink(View parent, int resId, String link) {
-        RemoteImageView imageView = (RemoteImageView) parent.findViewById(resId);
-
-        if (DownloadUrlContentTask.hasInternetAccess(mContext)) {
-            imageView.setImageLink(link);
-        }
-        else {
-            imageView.setMaxHeight(0);
-        }
+        Picasso
+                .with(mContext)
+                .load(link)
+                .placeholder(R.drawable.ic_launcher)
+                .into((ImageView) parent.findViewById(resId));
     }
 
     protected abstract void setupView(View root, int position);

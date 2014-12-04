@@ -1,7 +1,6 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
@@ -23,9 +21,6 @@ import org.morningstarcc.morningstarapp.adapters.NavigationDrawerAdapter;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
-import org.morningstarcc.morningstarapp.libs.DataManager;
-
-import java.util.List;
 
 /**
  * TODO list:

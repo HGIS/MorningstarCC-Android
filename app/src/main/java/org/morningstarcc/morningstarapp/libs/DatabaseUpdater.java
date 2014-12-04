@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.DataManager;
-import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
 
 /**
  * Updates the database with all the feeds it grabs.

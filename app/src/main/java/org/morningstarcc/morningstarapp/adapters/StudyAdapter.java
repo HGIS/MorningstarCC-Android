@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.RemoteImageView;
 
 /**
  * Created by Kyle on 10/30/2014.
@@ -35,7 +34,7 @@ public class StudyAdapter extends DatabaseItemAdapter {
         // TODO: put video id in bundle / database
         setText(root, R.id.title, data[position].getString("title"));
 
-        ((RemoteImageView) root.findViewById(R.id.image)).setImageLink( String.format(IMAGE_THUMBNAIL, getVideoId(data[position].getString("VideoLink"))) );
+        setImageLink(root, R.id.image, String.format(IMAGE_THUMBNAIL, getVideoId(data[position].getString("VideoLink"))));
 
         setText(root, R.id.title, data[position].getString("title"));
         setText(root, R.id.book, data[position].getString("Scripture"));
