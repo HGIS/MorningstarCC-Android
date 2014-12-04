@@ -17,4 +17,6 @@
 
     <string name="play">Play</string>
     <string name="listen">Listen</string>
+
+    <string name="share">Share</string>
 </resources>
