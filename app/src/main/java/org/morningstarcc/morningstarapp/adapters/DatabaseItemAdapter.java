@@ -1,5 +1,6 @@
 package org.morningstarcc.morningstarapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,7 +50,6 @@ public abstract class DatabaseItemAdapter extends ArrayAdapter<Bundle> {
         ((TextView) parent.findViewById(resId)).setText(text);
     }
 
-    // TODO: create file and update db
     protected void setImageLink(View parent, int resId, String link) {
         Picasso
                 .with(mContext)
