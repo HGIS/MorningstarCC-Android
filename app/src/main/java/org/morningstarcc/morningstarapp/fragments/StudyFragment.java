@@ -17,7 +17,6 @@ import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
  * Created by Kyle on 10/30/2014.
  */
 public class StudyFragment extends ListFragment {
-    private static String VIDEO_LINK = "vnd.youtube://";
 
     public StudyFragment() {
         super(null, "MCCStudiesInSeriesRSS", R.array.study_fields);
@@ -30,18 +29,18 @@ public class StudyFragment extends ListFragment {
 
     @Override
     protected DatabaseItemAdapter getAdapter(Bundle[] data) {
-        return new StudyAdapter(mContext, data);
+        return new StudyAdapter(getActivity(), data);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState);
 
-        ((ListView) root.findViewById(R.id.list)).setOnItemClickListener(new StudyItemClickListener());
+//        ((ListView) root.findViewById(R.id.list)).setOnItemClickListener(new StudyItemClickListener());
 
         return root;
     }
-
+/*
     private class StudyItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -50,7 +49,7 @@ public class StudyFragment extends ListFragment {
 
             startActivity(Intent.createChooser(tostart, "Complete action using"));
         }
-    }
+    }*/
 
     private String getVideoId(String videoLink) {
         return videoLink.substring(videoLink.lastIndexOf("/") + 1);

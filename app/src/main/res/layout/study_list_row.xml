@@ -52,6 +52,7 @@
             android:paddingTop="@dimen/indent">
 
             <RelativeLayout
+                android:id="@+id/play"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
@@ -98,6 +99,7 @@
                 android:paddingTop="@dimen/small_indent" />
 
             <RelativeLayout
+                android:id="@+id/listen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">

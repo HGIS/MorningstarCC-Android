@@ -1,6 +1,9 @@
 package org.morningstarcc.morningstarapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +15,14 @@ import org.morningstarcc.morningstarapp.R;
  */
 public class StudyAdapter extends DatabaseItemAdapter {
 
+    private Activity mActivity;
+
+    private static String VIDEO_LINK = "vnd.youtube://";
     private static final String IMAGE_THUMBNAIL = "http://img.youtube.com/vi/%s/1.jpg";
 
-    public StudyAdapter(Context mContext, Bundle[] data) {
-        super(mContext, R.layout.study_list_row, data);
+    public StudyAdapter(Activity activity, Bundle[] data) {
+        super(activity, R.layout.study_list_row, data);
+        mActivity = activity;
     }
 
     @Override
@@ -30,7 +37,9 @@ public class StudyAdapter extends DatabaseItemAdapter {
     }
 
     @Override
-    protected void setupView(View root, int position) {
+    protected void setupView(View root, final int position) {
+        final int pos = position;
+
         // TODO: put video id in bundle / database
         setText(root, R.id.title, data[position].getString("title"));
 
@@ -40,6 +49,26 @@ public class StudyAdapter extends DatabaseItemAdapter {
         setText(root, R.id.book, data[position].getString("Scripture"));
         setText(root, R.id.speaker, data[position].getString("Speaker"));
         setText(root, R.id.date, data[position].getString("StudyDate"));
+
+        root.findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String videoId = getVideoId(getItem(pos).getString("VideoLink"));
+                Intent tostart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
+
+                mActivity.startActivity(Intent.createChooser(tostart, "Complete action using"));
+            }
+        });
+
+        root.findViewById(R.id.listen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getItem(pos).getString("AudioLink")));
+                intent.setType("audio/*");
+
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     private String getVideoId(String videoLink) {
