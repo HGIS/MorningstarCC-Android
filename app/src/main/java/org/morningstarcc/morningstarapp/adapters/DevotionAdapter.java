@@ -3,8 +3,11 @@ package org.morningstarcc.morningstarapp.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
@@ -38,10 +41,14 @@ public class DevotionAdapter extends DatabaseItemAdapter {
         setText(root, R.id.title, data[position].getString("title"));
         setText(root, R.id.author, data[position].getString("dc:creator"));
 
-        root.findViewById(R.id.bg).setBackgroundResource(getItemBackground(data[position].getString("title")));
+        ((TextView) root.findViewById(R.id.title)).setTypeface(
+                isRead(data[position].getString("title"))
+                        ? Typeface.DEFAULT
+                        : Typeface.DEFAULT_BOLD
+        );
     }
 
-    private int getItemBackground(String curTitle) {
+    private boolean isRead(String curTitle) {
         Cursor lookup = new DatabaseStorage(mContext).get(mResources.getString(R.string.devotion_table));
         int valIdx = lookup.getColumnIndex("READ"), checkIdx = lookup.getColumnIndex("title");
 
@@ -50,10 +57,9 @@ public class DevotionAdapter extends DatabaseItemAdapter {
             while (!lookup.isAfterLast() && !lookup.getString(checkIdx).equals(curTitle))
                 lookup.moveToNext();
 
-            if (!lookup.isAfterLast() && lookup.getInt(valIdx) > 0)
-                return R.drawable.devotion_read_bg;
+            return !lookup.isAfterLast() && lookup.getInt(valIdx) > 0;
         }
 
-        return R.drawable.devotion_unread_bg;
+        return false;
     }
 }
