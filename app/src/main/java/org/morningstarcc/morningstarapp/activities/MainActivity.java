@@ -8,18 +8,23 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SpinnerAdapter;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.NavigationDrawerAdapter;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
+import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 
 /**
@@ -113,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
 
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
-        Fragment fragment;
+        final Fragment fragment;
 
         switch (position) {
             case 0:
@@ -121,6 +126,32 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case 1:
                 fragment = new EventFragment();
+                SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_dropdown_item);
+
+                OnNavigationListener mOnNavigationListener = new OnNavigationListener() {
+                    // Get the same strings provided for the drop-down's ArrayAdapter
+                    String[] strings = getResources().getStringArray(R.array.event_types);
+
+                    @Override
+                    public boolean onNavigationItemSelected(int position, long itemId) {
+                        Fragment fragment = position == 0
+                                ? new EventFragment()
+                                : new ExpandableEventFragment();
+
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.content_frame, fragment, strings[position])
+                                .addToBackStack(null)
+                                .commit();
+
+                        return true;
+                    }
+                };
+
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
                 break;
             case 2:
                 fragment = new DevotionFragment();
