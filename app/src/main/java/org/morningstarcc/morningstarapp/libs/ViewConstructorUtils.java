@@ -67,26 +67,26 @@ public class ViewConstructorUtils {
      */
 
     public static void setImageLink(Activity activity, int resId, String link) {
-        setImageLink(activity, resId, link, R.drawable.ic_launcher);
+        setImageLink(activity, resId, link, R.drawable.ic_launcher, R.drawable.ic_launcher);
     }
 
-    public static void setImageLink(Activity activity, int resId, String link, int errorResId) {
-        setImageLink(activity, link, errorResId, (ImageView) activity.findViewById(resId));
+    public static void setImageLink(Activity activity, int resId, String link, int defaultResId, int errorResId) {
+        setImageLink(activity, link, defaultResId, errorResId, (ImageView) activity.findViewById(resId));
     }
 
     public static void setImageLink(Context context, View parent, int resId, String link) {
-        setImageLink(context, parent, resId, link, R.drawable.ic_launcher);
+        setImageLink(context, parent, resId, link, R.drawable.ic_launcher, R.drawable.ic_launcher);
     }
 
-    public static void setImageLink(Context context, View parent, int resId, String link, int errorResId) {
-        setImageLink(context, link, errorResId, (ImageView) parent.findViewById(resId));
+    public static void setImageLink(Context context, View parent, int resId, String link, int defaultResId, int errorResId) {
+        setImageLink(context, link, defaultResId, errorResId, (ImageView) parent.findViewById(resId));
     }
 
-    private static void setImageLink(Context context, String link, int errorResId, ImageView into) {
+    private static void setImageLink(Context context, String link, int defaultResId, int errorResId, ImageView into) {
         Picasso
                 .with(context)
                 .load(link)
-                .placeholder(R.drawable.ic_launcher)
+                .placeholder(defaultResId)
                 .error(errorResId)
                 .into(into);
     }
