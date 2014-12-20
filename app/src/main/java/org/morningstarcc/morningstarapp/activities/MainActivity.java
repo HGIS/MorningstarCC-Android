@@ -119,12 +119,15 @@ public class MainActivity extends ActionBarActivity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         final Fragment fragment;
+        String title;
 
         switch (position) {
             case 0:
+                title = mDrawerTitles[position];
                 fragment = new SeriesFragment();
                 break;
             case 1:
+                title = "";
                 fragment = new EventFragment();
                 SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_dropdown_item);
 
@@ -154,6 +157,7 @@ public class MainActivity extends ActionBarActivity {
 
                 break;
             case 2:
+                title = mDrawerTitles[position];
                 fragment = new DevotionFragment();
                 break;
             case 4:
@@ -175,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mDrawerTitles[position]);
+        setTitle(title);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 

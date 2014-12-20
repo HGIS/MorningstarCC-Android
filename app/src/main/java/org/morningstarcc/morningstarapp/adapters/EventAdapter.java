@@ -17,7 +17,7 @@ import static org.morningstarcc.morningstarapp.libs.DateUtils.*;
  */
 public class EventAdapter extends DatabaseItemAdapter {
 
-    private static final String DEFAULT_IMAGE_PATH = "http://www.morningstarcc.org";
+    public static final String DEFAULT_IMAGE_PATH = "http://www.morningstarcc.org";
 
     public EventAdapter(Context mContext, Bundle[] events) {
         super(mContext, R.layout.event_list_row, trim(events));
@@ -30,7 +30,6 @@ public class EventAdapter extends DatabaseItemAdapter {
         Date startDate = getDate(event.getString("eventdate"), event.getString("eventstarttime"));
         Date endDate = getDate(event.getString("eventenddate"), event.getString("eventendtime"));
 
-        android.util.Log.e("EVENTS", event.getString("imagepath"));
         setImageLink(mContext, root, R.id.image, event.getString("imagepath"));
         setText(root, R.id.date, getDateInterval(startDate, endDate));
         setText(root, R.id.time, getTimeInterval(startDate, endDate));

@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.adapters.EventAdapter;
 
 import java.util.Date;
 
@@ -58,7 +60,11 @@ public class EventActivity extends DetailsActivity {
 
         setTitle(intent.getStringExtra("title"));
 
-        setImageLink(this, R.id.image, intent.getStringExtra("imagepath"));
+        String imagePath = intent.getStringExtra("imagepath");
+        if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH))
+            setImageLink(this, R.id.image, imagePath);
+        else
+            findViewById(R.id.image).getLayoutParams().height = 0;
 
         setText(this, R.id.date, getDateInterval(startDate, endDate));
         setText(this, R.id.time, getTimeInterval(startDate, endDate));
@@ -77,7 +83,7 @@ public class EventActivity extends DetailsActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("registrationlink"))));
         }
         catch (Exception e) {
-            android.util.Log.e("EventActivity", Log.getStackTraceString(e));
+            Log.e("EventActivity", Log.getStackTraceString(e));
         }
     }
 
