@@ -24,6 +24,8 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
     private List<String> titles;
     private List<List<Bundle>> events;
 
+    private LayoutInflater mInflater;
+
     public ExpandableEventAdapter(Context context, List<String> titles, List<List<Bundle>> events) {
         super();
         if (titles.size() != events.size()) {
@@ -40,9 +42,8 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
         Date eventDate = getDate(titles.get(groupPosition));
 
         if (convertView == null) {
-            convertView = ((LayoutInflater) mContext
-                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                            .inflate(R.layout.expandable_event_header_row, parent, false);
+            getLayoutInflaterIfNeeded();
+            convertView = mInflater.inflate(R.layout.expandable_event_header_row, parent, false);
         }
 
         setText(convertView, R.id.title, getDateInterval(eventDate, eventDate));
@@ -55,9 +56,8 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
         Bundle event = events.get(groupPosition).get(childPosition);
 
         if (convertView == null) {
-            convertView = ((LayoutInflater) mContext
-                                .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                                .inflate(R.layout.expandable_event_list_row, parent, false);
+            getLayoutInflaterIfNeeded();
+            convertView = mInflater.inflate(R.layout.expandable_event_list_row, parent, false);
         }
 
         setText(convertView, R.id.title, event.getString("title"));
@@ -104,5 +104,10 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return 0;
+    }
+
+    private void getLayoutInflaterIfNeeded() {
+        if (mInflater == null)
+            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 }

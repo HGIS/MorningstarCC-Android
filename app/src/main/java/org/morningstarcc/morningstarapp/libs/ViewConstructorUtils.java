@@ -2,6 +2,7 @@ package org.morningstarcc.morningstarapp.libs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -45,5 +46,9 @@ public class ViewConstructorUtils {
                 .load(link)
                 .placeholder(R.drawable.ic_launcher)
                 .into((ImageView) parent.findViewById(resId));
+    }
+
+    public static void setTypeface(View parent, int resId, Typeface typeface) {
+        ((TextView) parent.findViewById(resId)).setTypeface(typeface);
     }
 }

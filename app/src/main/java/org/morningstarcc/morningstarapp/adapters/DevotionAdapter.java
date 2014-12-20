@@ -17,6 +17,7 @@ import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDayString;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getMonthString;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
+import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setTypeface;
 
 /**
  * Created by Kyle on 10/10/2014.
@@ -41,11 +42,12 @@ public class DevotionAdapter extends DatabaseItemAdapter {
         setText(root, R.id.title, data[position].getString("title"));
         setText(root, R.id.author, data[position].getString("dc:creator"));
 
-        ((TextView) root.findViewById(R.id.title)).setTypeface(
-                isRead(data[position].getString("title"))
-                        ? Typeface.DEFAULT
-                        : Typeface.DEFAULT_BOLD
-        );
+        Typeface textStyle = isRead(data[position].getString("title"))
+                ? Typeface.DEFAULT
+                : Typeface.DEFAULT_BOLD;
+
+        setTypeface(root, R.id.title, textStyle);
+        setTypeface(root, R.id.author, textStyle);
     }
 
     private boolean isRead(String curTitle) {
