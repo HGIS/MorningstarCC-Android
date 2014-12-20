@@ -32,13 +32,11 @@ import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
  *
  * Version Alpha/Beta 0
  *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
- *      + add seen flag to database for devotions (probably use blue and red)
- *      + change link column to use local file for image
- *          - make sure to delete all files associated with the table when you drop it
+ *      + update picasso to use file backing cache
  *      + remove feature that lets you add event to calendar when you have already done so
  *      + do some stuff with downloading audio
  *  - default views to error/loading state
- *  - Update only when required
+ *  - Consolidate update and old
  *  - Allow for Vimeo
  *  - click on different sub-list items
  *  - see Pastor Rod's scrum updates
@@ -63,6 +61,7 @@ public class MainActivity extends ActionBarActivity {
     private String[] mDrawerTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private int mPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +78,13 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerList.setAdapter(new NavigationDrawerAdapter(this, mDrawerTitles));
 
+        // Events drop-down
+        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_dropdown_item);
+        OnNavigationListener mOnNavigationListener = new EventChangeListener();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
         selectItem(0);
     }
@@ -121,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
         final Fragment fragment;
         String title;
 
-        switch (position) {
+        switch (mPosition = position) {
             case 0:
                 title = mDrawerTitles[position];
                 fragment = new SeriesFragment();
@@ -129,32 +133,7 @@ public class MainActivity extends ActionBarActivity {
             case 1:
                 title = "";
                 fragment = new EventFragment();
-                SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_dropdown_item);
-
-                OnNavigationListener mOnNavigationListener = new OnNavigationListener() {
-                    // Get the same strings provided for the drop-down's ArrayAdapter
-                    String[] strings = getResources().getStringArray(R.array.event_types);
-
-                    @Override
-                    public boolean onNavigationItemSelected(int position, long itemId) {
-                        Fragment fragment = position == 0
-                                ? new EventFragment()
-                                : new ExpandableEventFragment();
-
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.content_frame, fragment, strings[position])
-                                .addToBackStack(null)
-                                .commit();
-
-                        return true;
-                    }
-                };
-
-                ActionBar actionBar = getSupportActionBar();
-                actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
+                getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 break;
             case 2:
                 title = mDrawerTitles[position];
@@ -210,6 +189,8 @@ public class MainActivity extends ActionBarActivity {
         /** Called when a drawer has settled in a completely closed state. */
         public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
+            if (mPosition == 1)
+                getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
             getSupportActionBar().setTitle(mTitle);
             invalidateOptionsMenu();
         }
@@ -218,7 +199,28 @@ public class MainActivity extends ActionBarActivity {
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
             getSupportActionBar().setTitle(mDrawerTitle);
+            getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             invalidateOptionsMenu();
+        }
+    }
+
+    private class EventChangeListener implements OnNavigationListener {
+        // Get the same strings provided for the drop-down's ArrayAdapter
+        String[] strings = getResources().getStringArray(R.array.event_types);
+
+        @Override
+        public boolean onNavigationItemSelected(int position, long itemId) {
+            Fragment fragment = position == 0
+                    ? new EventFragment()
+                    : new ExpandableEventFragment();
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment, strings[position])
+                    .addToBackStack(null)
+                    .commit();
+
+            return true;
         }
     }
 }
