@@ -6,6 +6,8 @@ import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
 
+import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
+
 /**
  * Created by Kyle on 8/2/2014.
  */
@@ -17,6 +19,6 @@ public class SeriesAdapter extends DatabaseItemAdapter {
 
     @Override
     protected void setupView(View root, int position) {
-        setImageLink(root, R.id.image, data[position].getString("Imagelink"));
+        setImageLink(mContext, root, R.id.image, data[position].getString("Imagelink"));
     }
 }

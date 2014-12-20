@@ -15,6 +15,8 @@ import java.util.Date;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
+import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
+import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
  * Created by Kyle on 10/21/2014.
@@ -56,12 +58,12 @@ public class EventActivity extends DetailsActivity {
 
         setTitle(intent.getStringExtra("title"));
 
-        setImageLink(R.id.image, intent.getStringExtra("imagepath"));
+        setImageLink(this, R.id.image, intent.getStringExtra("imagepath"));
 
-        setText(R.id.date, getDateInterval(startDate, endDate));
-        setText(R.id.time, getTimeInterval(startDate, endDate));
+        setText(this, R.id.date, getDateInterval(startDate, endDate));
+        setText(this, R.id.time, getTimeInterval(startDate, endDate));
 
-        setText(R.id.description, intent.getStringExtra("description"));
+        setText(this, R.id.description, intent.getStringExtra("description"));
 
         if (intent.getStringExtra("hasregistration").equalsIgnoreCase("false")) {
             findViewById(R.id.register).setVisibility(View.INVISIBLE);

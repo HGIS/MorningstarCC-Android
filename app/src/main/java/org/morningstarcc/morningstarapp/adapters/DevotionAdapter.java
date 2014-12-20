@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
@@ -17,6 +16,7 @@ import java.util.Date;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDayString;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getMonthString;
+import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
  * Created by Kyle on 10/10/2014.

@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
 
 /**
@@ -52,7 +51,7 @@ public abstract class ListFragment extends Fragment {
         return rootView;
     }
 
-    protected abstract DatabaseItemAdapter getAdapter(Bundle[] data);
+    protected abstract ArrayAdapter getAdapter(Bundle[] data);
 
     private class ItemClickListener implements ListView.OnItemClickListener {
         @Override
