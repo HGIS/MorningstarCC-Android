@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.adapters.EventAdapter;
+import org.morningstarcc.morningstarapp.adapters.EventDropdownAdapter;
 import org.morningstarcc.morningstarapp.adapters.NavigationDrawerAdapter;
 import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
@@ -95,7 +97,8 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setAdapter(new NavigationDrawerAdapter(this, mDrawerTitles));
 
         // Events drop-down
-        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.event_types, android.R.layout.simple_spinner_dropdown_item);
+        SpinnerAdapter mSpinnerAdapter = EventDropdownAdapter.createFromResource(this, R.array.event_types, R.layout.event_spinner, android.R.layout.simple_spinner_dropdown_item);
+            //ArrayAdapter.createFromResource(this, R.array.event_types, R.layout.event_spinner);
         OnNavigationListener mOnNavigationListener = new EventChangeListener();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
