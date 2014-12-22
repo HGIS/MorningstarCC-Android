@@ -5,14 +5,16 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import org.morningstarcc.morningstarapp.R;
+
+import static android.text.Html.fromHtml;
 
 /**
  * A utility class to clean up code for setting commonly handled fields from views found by their id's.
@@ -33,7 +35,7 @@ public class ViewConstructorUtils {
     }
 
     private static void setText(String text, TextView into) {
-        into.setText(text);
+        into.setText(fromHtml(text));
     }
 
     /**
@@ -59,7 +61,7 @@ public class ViewConstructorUtils {
     public static void setTitle(ActionBarActivity actionBarActivity, String title) {
         ActionBar titleBar = actionBarActivity.getSupportActionBar();
         if (titleBar != null)
-            titleBar.setTitle(title);
+            titleBar.setTitle(fromHtml(title));
     }
 
     /**

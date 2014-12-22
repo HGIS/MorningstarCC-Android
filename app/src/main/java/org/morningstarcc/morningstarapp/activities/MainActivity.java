@@ -38,8 +38,8 @@ import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
  *      + update picasso to use file backing cache
  *      + remove feature that lets you add event to calendar when you have already done so
  *      + do some stuff with downloading audio
+ *      + Consolidate update and old
  *  - default views to error/loading state
- *  - Consolidate update and old
  *  - Allow for Vimeo
  *  - click on different sub-list items
  *  - see Pastor Rod's scrum updates

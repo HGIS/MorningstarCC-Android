@@ -22,6 +22,7 @@ public class DateUtils {
     private static final SimpleDateFormat MONTH_DAY = new SimpleDateFormat("MMMM d");
     private static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm");
     private static final SimpleDateFormat MARKER = new SimpleDateFormat("a");
+    private static final SimpleDateFormat WEEKDAY_MONTH_DATE = new SimpleDateFormat("EEE MMM d");
 
     public static Date getDate(String dateString) {
         try {
@@ -51,6 +52,10 @@ public class DateUtils {
 
     public static String getDayString(Date day) {
         return DAY.format(day);
+    }
+
+    public static String getFullDayString(Date day) {
+        return WEEKDAY_MONTH_DATE.format(day);
     }
 
     public static String getDateInterval(Date startDate, Date endDate) {

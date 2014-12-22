@@ -36,7 +36,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        setDropDownViewResource(isEnabled(position) ? android.R.layout.simple_list_item_1 : R.layout.list_item_break);
+        setDropDownViewResource(isEnabled(position) ? android.R.layout.simple_list_item_1 : R.layout.horizontal_list_item_break);
         return super.getDropDownView(position, convertView, parent);
     }
 }

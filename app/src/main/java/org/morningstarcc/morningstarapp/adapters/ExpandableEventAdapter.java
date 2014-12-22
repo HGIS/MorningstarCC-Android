@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDayString;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
@@ -46,7 +47,7 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
             convertView = mInflater.inflate(R.layout.expandable_event_header_row, parent, false);
         }
 
-        setText(convertView, R.id.title, getDateInterval(eventDate, eventDate));
+        setText(convertView, R.id.title, getFullDayString(eventDate));
 
         return convertView;
     }
