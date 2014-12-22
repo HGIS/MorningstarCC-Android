@@ -34,6 +34,7 @@ import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
  * TODO list:
  *
  * Version Alpha/Beta 0
+ *  - Connect Tab
  *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
  *      + update picasso to use file backing cache
  *      + remove feature that lets you add event to calendar when you have already done so
@@ -94,8 +95,8 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setAdapter(new NavigationDrawerAdapter(this, mDrawerTitles));
 
         // Events drop-down
-        SpinnerAdapter mSpinnerAdapter = EventDropdownAdapter.createFromResource(this, R.array.event_types, R.layout.event_spinner, android.R.layout.simple_spinner_dropdown_item);
-            //ArrayAdapter.createFromResource(this, R.array.event_types, R.layout.event_spinner);
+        SpinnerAdapter mSpinnerAdapter = EventDropdownAdapter
+                .createFromResource(this, R.array.event_types, R.layout.event_spinner, android.R.layout.simple_spinner_dropdown_item);
         OnNavigationListener mOnNavigationListener = new EventChangeListener();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

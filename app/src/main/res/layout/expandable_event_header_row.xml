@@ -8,4 +8,5 @@
     android:textStyle="bold"
     android:paddingLeft="@dimen/large_indent"
     android:paddingTop="@dimen/small_indent"
-    android:paddingBottom="@dimen/small_indent"/>
+    android:paddingBottom="@dimen/small_indent"
+    android:background="@color/light_grey"/>

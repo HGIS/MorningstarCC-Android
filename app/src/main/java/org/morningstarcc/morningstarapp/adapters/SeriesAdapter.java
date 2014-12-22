@@ -22,8 +22,17 @@ public class SeriesAdapter extends DatabaseItemAdapter {
     @Override
     protected void setupView(View root, int position) {
         setImageLink(mContext, root, R.id.image, data[position].getString("Imagelink"));
-        /*setText(root, R.id.title, data[position].getString("title"));
-        setText(root, R.id.title, getNumStudies(position) + " studies");*/
+        setText(root, R.id.title, data[position].getString("title"));
+        setText(root, R.id.count, getStudyCount(position));
+    }
+
+    private String getStudyCount(int position) {
+        int numStudies = getNumStudies(position);
+
+        if (numStudies >= 0)
+            return numStudies + " studies";
+
+        return "";
     }
 
     private int getNumStudies(int position) {
