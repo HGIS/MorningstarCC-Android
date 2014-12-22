@@ -29,7 +29,10 @@ import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 
 /**
- * TODO list:
+ * TODO list: bug:
+ *          i do: open nav drawer, click events, click featured, click all, open nav drawer, click connect, open nav drawer, click events
+ *          expected: all is selected, ALL events shown
+ *          result: all is selected, FEATURED events shown
  *
  * Version Alpha/Beta 0
  *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
@@ -72,6 +75,9 @@ public class MainActivity extends ActionBarActivity {
                              BULLETIN = 5,
                              LIVE_STREAM = 6;
 
+    // a variable to hold state of events drop-down
+    private int mEventPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList = (ListView) findViewById(R.id.nav_drawer);
         mTitle = mDrawerTitle = getTitle();
         mDrawerToggle = new ActionBarNavDrawerToggle(this, mDrawerLayout);
+        mEventPosition = 0;
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -145,7 +152,7 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case EVENTS:
                 title = "";
-                fragment = new EventFragment();
+                fragment = pickEventFragment(mEventPosition);
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 break;
             case DEVOTIONS:
@@ -176,6 +183,12 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setItemChecked(position, true);
         setTitle(title);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    private Fragment pickEventFragment(int position) {
+        if (position == 0)
+            return new EventFragment();
+        return new ExpandableEventFragment();
     }
 
     private void launchBulletin() {
@@ -226,9 +239,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public boolean onNavigationItemSelected(int position, long itemId) {
-            Fragment fragment = position == 0
-                    ? new EventFragment()
-                    : new ExpandableEventFragment();
+            Fragment fragment = pickEventFragment(mEventPosition = position);
 
             getSupportFragmentManager()
                     .beginTransaction()
