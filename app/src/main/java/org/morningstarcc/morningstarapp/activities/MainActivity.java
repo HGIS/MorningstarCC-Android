@@ -22,6 +22,7 @@ import android.widget.SpinnerAdapter;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.NavigationDrawerAdapter;
+import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
@@ -51,7 +52,6 @@ import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
  *  - push notifications?
  */
 public class MainActivity extends ActionBarActivity {
-    private static final String TAG = "MainActivity";
 
     private CharSequence mTitle;
 
@@ -62,6 +62,15 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private int mPosition;
+
+    // the indices for the drawer items
+    private static final int CONNECT = 0,
+                             SERIES = 1,
+                             EVENTS = 2,
+                             DEVOTIONS = 3,
+                             DIVIDER = 4,
+                             BULLETIN = 5,
+                             LIVE_STREAM = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,31 +134,38 @@ public class MainActivity extends ActionBarActivity {
         final Fragment fragment;
         String title;
 
-        switch (mPosition = position) {
-            case 0:
+        switch (position) {
+            case CONNECT:
+                title = mDrawerTitles[position];
+                fragment = new ConnectFragment();
+                break;
+            case SERIES:
                 title = mDrawerTitles[position];
                 fragment = new SeriesFragment();
                 break;
-            case 1:
+            case EVENTS:
                 title = "";
                 fragment = new EventFragment();
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 break;
-            case 2:
+            case DEVOTIONS:
                 title = mDrawerTitles[position];
                 fragment = new DevotionFragment();
                 break;
-            case 4:
+            case DIVIDER:
+                return;
+            case BULLETIN:
                 launchBulletin();
                 return;
-            case 5:
+            case LIVE_STREAM:
                 launchLiveStream();
                 return;
             default:
-                Log.e(TAG, "Cannot create fragment for drawer item position: " + position);
+                Log.e("MainActivity", "Cannot create fragment for drawer item position: " + position);
                 return;
         }
 
+        mPosition = position;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_frame, fragment)
@@ -189,7 +205,7 @@ public class MainActivity extends ActionBarActivity {
         /** Called when a drawer has settled in a completely closed state. */
         public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
-            if (mPosition == 1)
+            if (mPosition == EVENTS)
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
             getSupportActionBar().setTitle(mTitle);
             invalidateOptionsMenu();

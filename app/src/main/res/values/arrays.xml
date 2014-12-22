@@ -3,12 +3,27 @@
 
     <string-array name="drawer_items">
 
+        <item>Connect</item>
         <item>Series</item>
         <item>Events</item>
         <item>Devotions</item>
         <item>break</item>
         <item>Bulletin</item>
         <item>Live Stream</item>
+
+    </string-array>
+
+    <string-array name="event_types">
+
+        <item>Featured</item>
+        <item>All</item>
+
+    </string-array>
+
+    <string-array name="connect_titles">
+
+        <item>About Us</item>
+        <item>Facebook</item>
 
     </string-array>
 

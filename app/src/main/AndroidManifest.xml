@@ -24,6 +24,13 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name" />
         <activity
+            android:name=".activities.ConnectActivity"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.morningstarcc.morningstarapp.activities.MainActivity" />
+        </activity>
+        <activity
             android:name=".activities.SeriesActivity"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data
