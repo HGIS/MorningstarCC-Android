@@ -31,10 +31,7 @@ import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 
 /**
- * TODO list: bug:
- *          i do: open nav drawer, click events, click featured, click all, open nav drawer, click connect, open nav drawer, click events
- *          expected: all is selected, ALL events shown
- *          result: all is selected, FEATURED events shown
+ * TODO list:
  *
  * Version Alpha/Beta 0
  *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
