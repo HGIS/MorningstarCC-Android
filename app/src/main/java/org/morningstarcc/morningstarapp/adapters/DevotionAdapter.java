@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.DatabaseStorage;

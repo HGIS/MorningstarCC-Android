@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -156,8 +154,6 @@ public class DatabaseStorage extends SQLiteOpenHelper {
     private void addTable(String name, List<String> columns) {
         db.execSQL("DROP TABLE IF EXISTS " + name);
         db.execSQL("CREATE TABLE " + name + "(" + getTableItems(columns) + ");");
-
-        postUpdated();
     }
 
     // returns the fields in a single SQL string, assuming items as text
@@ -180,16 +176,5 @@ public class DatabaseStorage extends SQLiteOpenHelper {
         for (ContentValues item : values) {
             db.insert(into, null, item);
         }
-    }
-
-    // update the last updated date of the database
-    private void postUpdated() {
-        PreferenceManager
-                .getDefaultSharedPreferences(this.mContext)
-                .edit()
-                .putString("Last Updated",
-                        DateUtils.getFullString(new GregorianCalendar().getTime()))
-                .commit()
-                ;
     }
 }

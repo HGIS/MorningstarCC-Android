@@ -11,9 +11,6 @@ import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
 import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
 
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
-
 /**
  * Created by Kyle on 10/30/2014.
  */

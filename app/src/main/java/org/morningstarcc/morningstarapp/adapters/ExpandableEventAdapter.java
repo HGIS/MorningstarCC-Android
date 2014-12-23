@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
-import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDayString;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 

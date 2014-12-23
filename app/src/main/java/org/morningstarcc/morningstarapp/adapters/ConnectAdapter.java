@@ -10,7 +10,6 @@ import android.widget.ImageView;
 
 import org.morningstarcc.morningstarapp.R;
 
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**

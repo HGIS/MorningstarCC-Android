@@ -1,7 +1,7 @@
 package org.morningstarcc.morningstarapp.activities;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;

@@ -1,29 +1,25 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar.OnNavigationListener;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.adapters.EventAdapter;
 import org.morningstarcc.morningstarapp.adapters.EventDropdownAdapter;
 import org.morningstarcc.morningstarapp.adapters.NavigationDrawerAdapter;
 import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
@@ -80,8 +76,6 @@ public class MainActivity extends ActionBarActivity {
     // a variable to hold state of events drop-down
     private int mEventPosition;
 
-    private boolean initialized = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,10 +101,15 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
-        selectItem(0);
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, new ConnectFragment())
+                .commit();
 
-        initialized = true;
+        mPosition = 0;
+        mDrawerList.setItemChecked(mPosition, true);
+        setTitle(mDrawerTitles[mPosition]);
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
@@ -181,15 +180,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mPosition = position;
-        FragmentTransaction transaction = getSupportFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_frame, fragment);
-
-        if (initialized)
-            transaction = transaction.addToBackStack(null);
-
-        transaction.commit();
-
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
