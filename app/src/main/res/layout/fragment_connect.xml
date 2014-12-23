@@ -144,38 +144,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/twitter"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/border_padding"
-            android:paddingBottom="@dimen/small_indent">
-
-            <ImageView
-                android:src="@drawable/ic_action_headphones"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_gravity="center"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:paddingTop="@dimen/small_indent">
-
-                <TextView
-                    android:text="Twitter"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_medium"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/youtube"
             android:orientation="horizontal"
             android:layout_width="match_parent"
