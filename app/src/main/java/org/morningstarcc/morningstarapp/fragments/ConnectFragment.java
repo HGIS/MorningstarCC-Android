@@ -29,21 +29,14 @@ public class ConnectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_connect, container, false);
-        View.OnClickListener myToastFailure = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "action unimplemented", Toast.LENGTH_SHORT).show();
-            }
-        };
 
-        root.findViewById(R.id.about_us).setOnClickListener(myToastFailure);
+//        root.findViewById(R.id.about_us).setOnClickListener(myToastFailure);
         root.findViewById(R.id.see_us_on_the_web).setOnClickListener(new WebLinkListener("http://www.morningstarcc.org"));
-        root.findViewById(R.id.donate).setOnClickListener(myToastFailure);
-        root.findViewById(R.id.facebook).setOnClickListener(myToastFailure);
-        root.findViewById(R.id.twitter).setOnClickListener(myToastFailure);
-        root.findViewById(R.id.youtube).setOnClickListener(myToastFailure);
-        root.findViewById(R.id.instagram).setOnClickListener(myToastFailure);
-        root.findViewById(R.id.email_us).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.donate).setOnClickListener(new WebLinkListener("http://www.easytithe.com/dl/?uid=morn1624256"));
+        root.findViewById(R.id.facebook).setOnClickListener(new WebLinkListener("http://www.morningstarcc.org/morningstarfacebooklinks.html"));
+        root.findViewById(R.id.youtube).setOnClickListener(new WebLinkListener("https://www.youtube.com/user/morningstarcc"));
+        root.findViewById(R.id.instagram).setOnClickListener(new WebLinkListener("http://instagram.com/morningstarcc/"));
+        root.findViewById(R.id.email_us).setOnClickListener(new EmailListener());
 
         return root;
     }
@@ -59,6 +52,14 @@ public class ConnectFragment extends Fragment {
         @Override
         public void onClick(View view) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.url)));
+        }
+    }
+
+    class EmailListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            // TODO
+            Toast.makeText(mContext, "action unimplemented", Toast.LENGTH_SHORT).show();
         }
     }
 }
