@@ -1,12 +1,14 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -78,6 +80,8 @@ public class MainActivity extends ActionBarActivity {
     // a variable to hold state of events drop-down
     private int mEventPosition;
 
+    private boolean initialized = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +108,9 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
         selectItem(0);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        initialized = true;
     }
 
     @Override
@@ -174,11 +181,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mPosition = position;
-        getSupportFragmentManager()
+        FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
+                .replace(R.id.content_frame, fragment);
+
+        if (initialized)
+            transaction = transaction.addToBackStack(null);
+
+        transaction.commit();
+
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
