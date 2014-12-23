@@ -3,18 +3,15 @@ package org.morningstarcc.morningstarapp.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.activities.ConnectActivity;
-import org.morningstarcc.morningstarapp.adapters.ConnectAdapter;
 
 /**
  * Created by whykalo on 12/21/2014.
@@ -22,7 +19,6 @@ import org.morningstarcc.morningstarapp.adapters.ConnectAdapter;
 public class ConnectFragment extends Fragment {
 
     private Context mContext;
-    private BaseAdapter adapter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -32,26 +28,37 @@ public class ConnectFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.generic_list, container, false);
-        ListView list = (ListView) rootView.findViewById(R.id.list);
+        View root = inflater.inflate(R.layout.fragment_connect, container, false);
+        View.OnClickListener myToastFailure = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "action unimplemented", Toast.LENGTH_SHORT).show();
+            }
+        };
 
-        list.setAdapter(new ConnectAdapter(mContext));
-        list.setOnItemClickListener(new ItemClickListener());
+        root.findViewById(R.id.about_us).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.see_us_on_the_web).setOnClickListener(new WebLinkListener("http://www.morningstarcc.org"));
+        root.findViewById(R.id.donate).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.facebook).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.twitter).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.youtube).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.instagram).setOnClickListener(myToastFailure);
+        root.findViewById(R.id.email_us).setOnClickListener(myToastFailure);
 
-        return rootView;
+        return root;
     }
 
-    private class ItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Class nextActivity = getActivityForPosition(position);
+    class WebLinkListener implements View.OnClickListener {
 
-            Bundle item = (Bundle) adapter.getItem(position);
-            mContext.startActivity( new Intent(mContext, nextActivity) );
+        private String url;
+
+        public WebLinkListener(String url) {
+            this.url = url;
         }
-    }
 
-    private Class getActivityForPosition(int position) {
-        return ConnectActivity.class;
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.url)));
+        }
     }
 }

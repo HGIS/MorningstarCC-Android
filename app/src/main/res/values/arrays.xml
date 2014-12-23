@@ -23,7 +23,26 @@
     <string-array name="connect_titles">
 
         <item>About Us</item>
+        <item>See us on the web</item>
+        <item>Donate</item>
         <item>Facebook</item>
+        <item>Twitter</item>
+        <item>Youtube</item>
+        <item>Instagram</item>
+        <item>Email us</item>
+
+    </string-array>
+
+    <string-array name="connect_subtitles">
+
+        <item></item>
+        <item>www.morningstarcc.org</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
 
     </string-array>
 
