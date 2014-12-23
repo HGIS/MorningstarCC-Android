@@ -29,7 +29,7 @@ public class SeriesAdapter extends DatabaseItemAdapter {
     private String getStudyCount(int position) {
         int numStudies = getNumStudies(position);
 
-        if (numStudies >= 0)
+        if (numStudies > 0)
             return numStudies + " studies";
 
         return "";

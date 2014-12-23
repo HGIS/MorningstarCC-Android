@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.libs.DateUtils;
 
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
+import java.util.Date;
+
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
@@ -23,32 +26,18 @@ public class StudyAdapter extends DatabaseItemAdapter {
     private static final String IMAGE_THUMBNAIL = "http://img.youtube.com/vi/%s/1.jpg";
 
     public StudyAdapter(Activity activity, Bundle[] data) {
-        super(activity, R.layout.study_list_row, data);
-        mActivity = activity;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = mInflater.inflate(this.row_layout, parent, false);
-        }
-
-        setupView(convertView, position);
-
-        return convertView;
+        super(activity, R.layout.study_list_row_2, data);
+        this.mActivity = activity;
     }
 
     @Override
     protected void setupView(View root, final int position) {
-        setText(root, R.id.title, data[position].getString("title"));
-
-        setImageLink(mContext, root, R.id.image, String.format(IMAGE_THUMBNAIL, getVideoId(data[position].getString("VideoLink"))));
+        Date studyDate = getDate(data[position].getString("StudyDate"));
 
         setText(root, R.id.title, data[position].getString("title"));
-        setText(root, R.id.book, data[position].getString("Scripture"));
-        setText(root, R.id.speaker, data[position].getString("Speaker"));
-        setText(root, R.id.date, data[position].getString("StudyDate"));
+        setText(root, R.id.date, DateUtils.MONTH_DAY_SHORT.format(studyDate));
 
+        root.setClickable(false);
         root.findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,12 +51,16 @@ public class StudyAdapter extends DatabaseItemAdapter {
         root.findViewById(R.id.listen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getItem(position).getString("AudioLink")));
-                intent.setType("audio/*");
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(getItem(position).getString("AudioLink")), "audio/*");
 
                 mActivity.startActivity(intent);
             }
         });
+    }
+
+    private String getImageThumbnailLink(int position) {
+        return String.format(IMAGE_THUMBNAIL, getVideoId(data[position].getString("VideoLink")));
     }
 
     private String getVideoId(String videoLink) {

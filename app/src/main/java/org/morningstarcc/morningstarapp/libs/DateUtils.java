@@ -17,12 +17,13 @@ public class DateUtils {
     private static final SimpleDateFormat MONTH_DAY_YEAR = new SimpleDateFormat("M/d/yyyy");
 
     // output formats
-    private static final SimpleDateFormat MONTH = new SimpleDateFormat("MMM");
-    private static final SimpleDateFormat DAY = new SimpleDateFormat("dd");
-    private static final SimpleDateFormat MONTH_DAY = new SimpleDateFormat("MMMM d");
-    private static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm");
-    private static final SimpleDateFormat MARKER = new SimpleDateFormat("a");
-    private static final SimpleDateFormat WEEKDAY_MONTH_DATE = new SimpleDateFormat("EEE MMM d");
+    public static final SimpleDateFormat MONTH = new SimpleDateFormat("MMM");
+    public static final SimpleDateFormat DAY = new SimpleDateFormat("dd");
+    public static final SimpleDateFormat MONTH_DAY = new SimpleDateFormat("MMMM d");
+    public static final SimpleDateFormat MONTH_DAY_SHORT = new SimpleDateFormat("MMM d");
+    public static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm");
+    public static final SimpleDateFormat MARKER = new SimpleDateFormat("a");
+    public static final SimpleDateFormat WEEKDAY_MONTH_DATE = new SimpleDateFormat("EEE MMM d");
 
     public static Date getDate(String dateString) {
         try {

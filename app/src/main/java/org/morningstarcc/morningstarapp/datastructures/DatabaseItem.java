@@ -28,6 +28,9 @@ public class DatabaseItem {
     }
 
     private static Bundle[] getItems(Cursor cursor) {
+        if (cursor == null)
+            return new Bundle[0];
+
         Bundle[] items = new Bundle[cursor.getCount()];
 
         cursor.moveToFirst();
