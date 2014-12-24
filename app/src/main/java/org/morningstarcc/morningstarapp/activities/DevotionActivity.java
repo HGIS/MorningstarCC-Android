@@ -2,11 +2,10 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
-
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
  * Created by Kyle on 10/21/2014.
@@ -24,7 +23,8 @@ public class DevotionActivity extends DetailsActivity {
         setTitle(intent.getStringExtra("title"));
         setContentView(R.layout.activity_devotion);
 
-        setText(this, R.id.content, Html.fromHtml(intent.getStringExtra("content:encoded")).toString());
+        // NOTE: do not use ViewConstructorUtils.setText(...) as the html formatting will be lost
+        ((TextView) findViewById(R.id.content)).setText(Html.fromHtml(intent.getStringExtra("content:encoded")));
     }
 
     private void setRead() {
