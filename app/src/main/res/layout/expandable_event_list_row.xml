@@ -6,21 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/small_indent"
-    android:paddingBottom="@dimen/small_indent">
+    android:paddingBottom="@dimen/small_indent"
+    android:minHeight="@dimen/min_clickable_height">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_weight="2"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
         <TextView
+            android:text="hi"
             android:id="@+id/time"
             android:textSize="@dimen/text_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/small_indent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
@@ -31,6 +34,7 @@
         android:background="@color/grey" />
 
     <TextView
+        android:text="bye"
         android:id="@+id/title"
         android:textSize="@dimen/text_medium"
         android:layout_width="0dp"
@@ -38,6 +42,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/indent"
         android:ellipsize="marquee"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:layout_gravity="center_vertical"/>
 
 </LinearLayout>
