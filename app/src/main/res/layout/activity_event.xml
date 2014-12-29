@@ -23,7 +23,7 @@
             android:textSize="@dimen/text_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/indent"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/indent"
             android:paddingTop="@dimen/indent"/>
 
@@ -32,7 +32,7 @@
             android:textSize="@dimen/text_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/small_indent"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/indent"
             android:paddingBottom="@dimen/indent"/>
 
@@ -41,7 +41,7 @@
             android:textSize="@dimen/text_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/small_indent"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/indent"
             android:paddingTop="@dimen/indent"
             android:paddingBottom="@dimen/indent" />
@@ -49,8 +49,6 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/indent"
-            android:paddingRight="@dimen/indent"
             android:onClick="onRegister">
 
             <TextView
