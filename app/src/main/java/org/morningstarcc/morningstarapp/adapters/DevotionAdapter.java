@@ -51,7 +51,8 @@ public class DevotionAdapter extends DatabaseItemAdapter {
 
     private boolean isRead(String curTitle) {
         Cursor lookup = new DatabaseStorage(mContext).get(mResources.getString(R.string.devotion_table));
-        int valIdx = lookup.getColumnIndex("READ"), checkIdx = lookup.getColumnIndex("title");
+        int valIdx = lookup.getColumnIndex("READ"),
+          checkIdx = lookup.getColumnIndex("title");
 
         if (valIdx >= 0) {
             lookup.moveToFirst();

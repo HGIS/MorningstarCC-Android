@@ -12,6 +12,8 @@ import org.morningstarcc.morningstarapp.libs.DateUtils;
 import java.util.Date;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getDayString;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getMonthString;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
@@ -34,7 +36,8 @@ public class StudyAdapter extends DatabaseItemAdapter {
         Date studyDate = getDate(data[position].getString("StudyDate"));
 
         setText(root, R.id.title, data[position].getString("title"));
-        setText(root, R.id.date, DateUtils.MONTH_DAY_SHORT.format(studyDate));
+        setText(root, R.id.month, getMonthString(studyDate));
+        setText(root, R.id.day, getDayString(studyDate));
 
         root.setClickable(false);
         root.findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MCCTheme" parent="Theme.AppCompat.Light">
-        <item name="android:actionBarStyle">@style/MCCTheme.MCCActionBar</item>
+    <style name="Theme.MCCTheme" parent="Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/Theme.MCCTheme.MCCActionBar</item>
 
         <!-- support for reverse compatibility -->
-        <item name="actionBarStyle">@style/MCCTheme.MCCActionBar</item>
+        <item name="actionBarStyle">@style/Theme.MCCTheme.MCCActionBar</item>
     </style>
 
-    <style name="MCCTheme.MCCActionBar" parent="Widget.AppCompat.Light.ActionBar">
-        <item name="android:titleTextStyle">@style/MCCTheme.MCCActionBar.TitleTextStyle</item>
+    <style name="Theme.MCCTheme.MCCActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/Theme.MCCTheme.MCCActionBar.TitleTextStyle</item>
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:background">@color/theme_main</item>
 
         <!-- support for reverse compatibility -->
-        <item name="titleTextStyle">@style/MCCTheme.MCCActionBar.TitleTextStyle</item>
+        <item name="titleTextStyle">@style/Theme.MCCTheme.MCCActionBar.TitleTextStyle</item>
     </style>
 
-    <style name="MCCTheme.MCCActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="Theme.MCCTheme.MCCActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/theme_accent</item>
         <item name="android:textStyle">bold</item>
     </style>

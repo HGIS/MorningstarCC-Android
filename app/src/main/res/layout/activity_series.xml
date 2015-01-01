@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_medium"
-                android:paddingLeft="@dimen/indent"
+                android:paddingLeft="@dimen/small_indent"
                 android:textColor="@color/grey"/>
 
         </LinearLayout>
@@ -47,13 +47,29 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/grey"/>
+        android:layout_height="1dp"
+        android:background="@color/light_grey"/>
 
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/horizontal_shadow"
+            android:layout_alignParentTop="true"/>
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
