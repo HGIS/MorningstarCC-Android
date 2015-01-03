@@ -72,19 +72,5 @@ public class DevotionAdapter extends DatabaseItemAdapter {
         }
 
         return false;
-
-/*        Cursor lookup = new DatabaseStorage(mContext).get(mResources.getString(R.string.devotion_table));
-        int valIdx = lookup.getColumnIndex("read"),
-          checkIdx = lookup.getColumnIndex("title");
-
-        if (valIdx >= 0) {
-            lookup.moveToFirst();
-            while (!lookup.isAfterLast() && !lookup.getString(checkIdx).equals(curTitle))
-                lookup.moveToNext();
-
-            return !lookup.isAfterLast() && lookup.getInt(valIdx) > 0;
-        }
-
-        return false;*/
     }
 }

@@ -80,6 +80,25 @@ public class DatabaseTable {
     }
 
     /**
+     * Returns the values of the given columns in the given table in a cursor with given restraints.
+     * Does not modify the table.
+     *
+     * @param columns the array of column names as strings. If null, returns all columns.
+     * @param where sql restraints clause
+     * @param whereArgs arguments to the where
+     * @return  a cursor from the database query, or null if the table does not exist.
+     */
+    public DatabaseReadBuffer read(@Nullable String columns[], String where, String[] whereArgs) {
+        SQLiteDatabase db = databaseHandler.getReadableDatabase();
+        Cursor values = null;
+
+        if (exists(db))
+            values = read(db, columns, where, whereArgs);
+
+        return new DatabaseReadBuffer(values);
+    }
+
+    /**
      * Convenience method to read cursor data into a database buffer.
      * Does not modify the database table.
      *
@@ -146,6 +165,10 @@ public class DatabaseTable {
 
     private Cursor readAll(SQLiteDatabase db, String[] columns) {
         return db.query(table, columns, null, null, null, null, null, null);
+    }
+
+    private Cursor read(SQLiteDatabase db, String[] columns, String where, String[] whereArgs) {
+        return db.query(table, columns, where, whereArgs, null, null, null);
     }
 
     private void write(SQLiteDatabase db, List<ContentValues> rows) {

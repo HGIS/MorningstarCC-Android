@@ -27,6 +27,7 @@ import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
+import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 
 /**
  * TODO list:
@@ -201,11 +202,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.bulletin_url))));
+        startActivity(new WebViewIntent(getString(R.string.bulletin_url)));
+//        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.bulletin_url))));
     }
 
     private void launchLiveStream() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.live_stream_url))));
+        startActivity(new WebViewIntent(getString(R.string.live_stream_url)));
+//        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.live_stream_url))));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="connect_fields">
+        <item>linkid</item>
+        <item>haschild</item>
+        <item>parentId</item>
+        <item>title</item>
+        <item>\"content:encoded\"</item>
+        <item>weblink</item>
+        <item>modifieddate</item>
+        <item>isactive</item>
+    </string-array>
+
     <string-array name="series_fields">
         <item>SeriesId</item>
         <item>title</item>

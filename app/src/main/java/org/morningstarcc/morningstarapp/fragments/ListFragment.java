@@ -50,7 +50,6 @@ public abstract class ListFragment extends Fragment {
                 .asBundleArray();
 
         adapter = getAdapter(data);
-//        adapter = getAdapter(new DatabaseStorageWrapper(mContext).get(table, arrayResId));
         list.setAdapter(adapter);
         list.setOnItemClickListener(new ItemClickListener());
 

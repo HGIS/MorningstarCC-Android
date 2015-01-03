@@ -30,8 +30,6 @@ public abstract class DataManager {
 
     public void update(String from) {
         DatabaseTable table = Database.withContext(mContext).forTable(getTableName(from));
-//        DatabaseStorage local = new DatabaseStorage(this.mContext);
-//        from = getTableName(from);
 
         new RemoteStorage(table).execute(from);
     }
@@ -42,13 +40,6 @@ public abstract class DataManager {
     private class RemoteStorage extends DownloadUrlContentTask<List<ContentValues>> {
 
         private DatabaseTable table;
-        /*private DatabaseStorage local;
-        private String dest;
-
-        public RemoteStorage(DatabaseStorage local, String dest) {
-            this.local = local;
-            this.dest = dest;
-        }*/
 
         public RemoteStorage(DatabaseTable table) {
             this.table = table;
@@ -68,7 +59,6 @@ public abstract class DataManager {
         @Override
         protected void onPostExecute(List<ContentValues> result) {
             table.write(result);
-//            local.set(dest, result);
             onDataReturned(true);
         }
     }

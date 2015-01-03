@@ -46,7 +46,6 @@ public class StudyFragment extends ListFragment {
                 .asBundleArray();
 
         adapter = getAdapter(data);
-//        adapter = getAdapter(new DatabaseStorageWrapper(mContext).get(table, R.array.study_fields));
         list.setAdapter(adapter);
         list.setSelector(R.drawable.empty);
 

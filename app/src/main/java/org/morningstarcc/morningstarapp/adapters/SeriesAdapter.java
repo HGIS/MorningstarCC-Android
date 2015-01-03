@@ -42,7 +42,6 @@ public class SeriesAdapter extends DatabaseItemAdapter {
                     .forTable("MCCStudiesInSeriesRSS" + data[position].getString("SeriesId"))
                     .readAll(null)
                     .getSize();
-//            return new DatabaseStorageWrapper(mContext).get("MCCStudiesInSeriesRSS" + data[position].getString("SeriesId"), R.array.study_fields).length;
         }
         catch (NullPointerException e) {
             return -1;

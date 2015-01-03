@@ -52,7 +52,6 @@ public class ExpandableEventFragment extends Fragment {
                 .asBundleArray();
 
         adapter = getAdapter(data);
-//        adapter = getAdapter(new DatabaseStorageWrapper(mContext).get(table, arrayResId));
         list.setAdapter(adapter);
         list.setOnChildClickListener(new ItemClickListener());
         expandAll(list, adapter);

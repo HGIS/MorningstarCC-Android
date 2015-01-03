@@ -47,7 +47,8 @@ public class DatabaseUpdater extends DataManager {
         return new String[]{
                 mContext.getString(R.string.series_url),
                 mContext.getString(R.string.devotions_url),
-                mContext.getString(R.string.events_url)
+                mContext.getString(R.string.events_url),
+                mContext.getString(R.string.connect_url)
         };
     }
 
@@ -57,7 +58,6 @@ public class DatabaseUpdater extends DataManager {
                 .forTable("MCCStudySeriesRSS")
                 .readAll(new String[]{"SeriesId"})
                 .getData();
-//        Cursor seriesIds = new DatabaseStorage(mContext).get("MCCStudySeriesRSS", "SeriesId");
         String[] ids = new String[seriesIds.getCount()];
         String format = mContext.getString(R.string.studies_url);
 

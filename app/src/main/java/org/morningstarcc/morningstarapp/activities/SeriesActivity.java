@@ -64,7 +64,6 @@ public class SeriesActivity extends DetailsActivity {
                 .forTable("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"))
                 .readAll(null)
                 .getSize();
-//        int count = new DatabaseStorageWrapper(this).get("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"), R.array.study_fields).length;
 
         if (count > 0)
             return count + " studies";

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 
 /**
  * Created by whykalo on 12/21/2014.
@@ -51,7 +52,8 @@ public class ConnectFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.url)));
+            startActivity(new WebViewIntent(url));
+//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.url)));
         }
     }
 

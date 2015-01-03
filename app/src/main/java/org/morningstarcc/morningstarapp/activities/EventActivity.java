@@ -10,6 +10,8 @@ import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventAdapter;
+import org.morningstarcc.morningstarapp.intents.CalendarIntent;
+import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 
 import java.util.Date;
 
@@ -79,7 +81,8 @@ public class EventActivity extends DetailsActivity {
 
     public void onRegister(View view) {
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("registrationlink"))));
+            startActivity(new WebViewIntent(intent.getStringExtra("registrationlink")));
+//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("registrationlink"))));
         }
         catch (Exception e) {
             Log.e("EventActivity", Log.getStackTraceString(e));
@@ -93,6 +96,8 @@ public class EventActivity extends DetailsActivity {
     }
 
     private void addEventToCalendar(Date startDate, Date endDate) {
+        Intent calendarIntent = new CalendarIntent(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
+        /*
         Intent calendarIntent = new Intent(Intent.ACTION_EDIT);
 
         calendarIntent.setType("vnd.android.cursor.item/event");
@@ -100,7 +105,7 @@ public class EventActivity extends DetailsActivity {
         calendarIntent.putExtra("allDay", false);
         calendarIntent.putExtra("endTime", endDate.getTime());
         calendarIntent.putExtra("title", intent.getStringExtra("title"));
-        calendarIntent.putExtra("description", intent.getStringExtra("description"));
+        calendarIntent.putExtra("description", intent.getStringExtra("description"));*/
 
         startActivity(Intent.createChooser(calendarIntent, "Add this event to:"));
     }
