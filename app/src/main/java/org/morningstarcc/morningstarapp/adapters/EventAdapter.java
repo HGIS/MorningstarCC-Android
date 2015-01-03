@@ -33,7 +33,7 @@ public class EventAdapter extends DatabaseItemAdapter {
         Date startDate = getDate(event.getString("eventdate"), event.getString("eventstarttime"));
         Date endDate = getDate(event.getString("eventenddate"), event.getString("eventendtime"));
 
-        setImageLink(mContext, root, R.id.image, event.getString("imagepath"));
+        setImageLink(mContext, root, R.id.image, event.getString("imagepath"), R.drawable.empty, R.drawable.ic_launcher);
         setText(root, R.id.date, getDateInterval(startDate, endDate));
         setText(root, R.id.time, getTimeInterval(startDate, endDate));
     }

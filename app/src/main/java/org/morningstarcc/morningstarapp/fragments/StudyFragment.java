@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
-import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
+import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -41,8 +40,9 @@ public class StudyFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.generic_list, container, false);
         list = (ListView) rootView.findViewById(R.id.list);
 
-        adapter = getAdapter(new DatabaseItem(mContext).get(table, R.array.study_fields));
+        adapter = getAdapter(new BundleArrayAdapter(mContext).get(table, R.array.study_fields));
         list.setAdapter(adapter);
+        list.setSelector(R.drawable.empty);
 
         return rootView;
     }

@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
+import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
 
 /**
  * Created by Kyle on 7/19/2014.
@@ -44,7 +44,7 @@ public abstract class ListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.generic_list, container, false);
         ListView list = (ListView) rootView.findViewById(R.id.list);
 
-        adapter = getAdapter(new DatabaseItem(mContext).get(table, arrayResId));
+        adapter = getAdapter(new BundleArrayAdapter(mContext).get(table, arrayResId));
         list.setAdapter(adapter);
         list.setOnItemClickListener(new ItemClickListener());
 

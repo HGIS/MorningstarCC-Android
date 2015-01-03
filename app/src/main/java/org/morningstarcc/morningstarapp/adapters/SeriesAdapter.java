@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
 
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
@@ -37,7 +36,7 @@ public class SeriesAdapter extends DatabaseItemAdapter {
 
     private int getNumStudies(int position) {
         try {
-            return new DatabaseItem(mContext).get("MCCStudiesInSeriesRSS" + data[position].getString("SeriesId"), R.array.study_fields).length;
+            return new BundleArrayAdapter(mContext).get("MCCStudiesInSeriesRSS" + data[position].getString("SeriesId"), R.array.study_fields).length;
         }
         catch (NullPointerException e) {
             return -1;

@@ -2,13 +2,12 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.datastructures.DatabaseItem;
+import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
 import org.morningstarcc.morningstarapp.fragments.StudyFragment;
 
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
@@ -20,7 +19,6 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText
 public class SeriesActivity extends DetailsActivity {
 
     private boolean running;
-    private ShadowAlphaSetter shadowAlphaSetter;
     private View shadow;
     private View divider;
 
@@ -45,14 +43,12 @@ public class SeriesActivity extends DetailsActivity {
                 .beginTransaction()
                 .replace(R.id.content_frame, next)
                 .commit();
-
-        shadowAlphaSetter = new ShadowAlphaSetter();
     }
 
     @Override
     protected void onResume() {
         running = true;
-        shadowAlphaSetter.execute();
+        new ShadowAlphaSetter().execute();
         super.onResume();
     }
 
@@ -63,7 +59,7 @@ public class SeriesActivity extends DetailsActivity {
     }
 
     private String getStudyCount() {
-        int count = new DatabaseItem(this).get("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"), R.array.study_fields).length;
+        int count = new BundleArrayAdapter(this).get("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"), R.array.study_fields).length;
 
         if (count > 0)
             return count + " studies";
@@ -72,6 +68,8 @@ public class SeriesActivity extends DetailsActivity {
     }
 
     private class ShadowAlphaSetter extends AsyncTask<Void, Void, Void> {
+
+        private static final float ALPHA_CAP = 0.5f;
 
         private Runnable uiChanger;
         private float alpha;
@@ -100,8 +98,12 @@ public class SeriesActivity extends DetailsActivity {
                         .getScroll()
                             / (2.0f * shadow.getHeight());
 
+                // cap alpha value
+                if (!Float.isNaN(this.alpha))
+                    this.alpha = Math.min(this.alpha, ALPHA_CAP);
+
                 Log.d("SeriesActivity", "Setting shadow alpha to: " + alpha);
-                uiChanger.run();
+                runOnUiThread(uiChanger);
                 pause();
             }
 

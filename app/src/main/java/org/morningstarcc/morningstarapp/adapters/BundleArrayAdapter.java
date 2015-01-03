@@ -1,4 +1,4 @@
-package org.morningstarcc.morningstarapp.datastructures;
+package org.morningstarcc.morningstarapp.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,11 +9,11 @@ import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
 /**
  * Created by Kyle on 10/21/2014.
  */
-public class DatabaseItem {
+public class BundleArrayAdapter {
 
     protected Context mContext;
 
-    public DatabaseItem(Context mContext) {
+    public BundleArrayAdapter(Context mContext) {
         this.mContext = mContext;
     }
 

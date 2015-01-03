@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.DateUtils;
 
 import java.util.Date;
 
@@ -27,7 +27,7 @@ public class StudyAdapter extends DatabaseItemAdapter {
     private static final String IMAGE_THUMBNAIL = "http://img.youtube.com/vi/%s/1.jpg";
 
     public StudyAdapter(Activity activity, Bundle[] data) {
-        super(activity, R.layout.study_list_row_2, data);
+        super(activity, R.layout.study_list_row, data);
         this.mActivity = activity;
     }
 
