@@ -30,6 +30,8 @@ import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 
 /**
  * TODO list:
+ *  bug:
+ *      popping fragments off back stack does not change action bar state
  *
  * Version Alpha/Beta 0
  *  - Connect Tab

@@ -36,6 +36,7 @@
     </string-array>
 
     <string-array name="devotion_fields">
+        <item>devoId</item>
         <item>title</item>
         <item>\"dc:creator\"</item>
         <item>\"content:encoded\"</item>

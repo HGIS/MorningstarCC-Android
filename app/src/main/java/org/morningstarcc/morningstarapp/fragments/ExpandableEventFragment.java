@@ -14,8 +14,8 @@ import android.widget.ExpandableListView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.EventActivity;
+import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.adapters.ExpandableEventAdapter;
-import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,14 @@ public class ExpandableEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.expandable_list, container, false);
         ExpandableListView list = (ExpandableListView) rootView.findViewById(R.id.expandable_list);
+        Bundle[] data = Database
+                .withContext(mContext)
+                .forTable(table)
+                .readAll(arrayResId)
+                .asBundleArray();
 
-        adapter = getAdapter(new BundleArrayAdapter(mContext).get(table, arrayResId));
+        adapter = getAdapter(data);
+//        adapter = getAdapter(new DatabaseStorageWrapper(mContext).get(table, arrayResId));
         list.setAdapter(adapter);
         list.setOnChildClickListener(new ItemClickListener());
         expandAll(list, adapter);

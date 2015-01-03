@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
+import org.morningstarcc.morningstarapp.database.Database;
 
 /**
  * Created by Kyle on 7/19/2014.
@@ -43,8 +43,14 @@ public abstract class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.generic_list, container, false);
         ListView list = (ListView) rootView.findViewById(R.id.list);
+        Bundle[] data = Database
+                .withContext(mContext)
+                .forTable(table)
+                .readAll(arrayResId)
+                .asBundleArray();
 
-        adapter = getAdapter(new BundleArrayAdapter(mContext).get(table, arrayResId));
+        adapter = getAdapter(data);
+//        adapter = getAdapter(new DatabaseStorageWrapper(mContext).get(table, arrayResId));
         list.setAdapter(adapter);
         list.setOnItemClickListener(new ItemClickListener());
 

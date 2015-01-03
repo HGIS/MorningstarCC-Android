@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
+import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.fragments.StudyFragment;
 
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
@@ -59,7 +59,12 @@ public class SeriesActivity extends DetailsActivity {
     }
 
     private String getStudyCount() {
-        int count = new BundleArrayAdapter(this).get("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"), R.array.study_fields).length;
+        int count = Database
+                .withContext(this)
+                .forTable("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"))
+                .readAll(null)
+                .getSize();
+//        int count = new DatabaseStorageWrapper(this).get("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"), R.array.study_fields).length;
 
         if (count > 0)
             return count + " studies";

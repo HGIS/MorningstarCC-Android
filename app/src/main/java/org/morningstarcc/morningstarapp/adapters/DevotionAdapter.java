@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
+import org.morningstarcc.morningstarapp.activities.DevotionActivity;
+import org.morningstarcc.morningstarapp.database.Database;
 
 import java.util.Date;
 
@@ -41,7 +42,7 @@ public class DevotionAdapter extends DatabaseItemAdapter {
         setText(root, R.id.title, data[position].getString("title"));
         setText(root, R.id.author, data[position].getString("dc:creator"));
 
-        Typeface textStyle = isRead(data[position].getString("title"))
+        Typeface textStyle = isRead(data[position].getString("devoId"))
                 ? Typeface.DEFAULT
                 : Typeface.DEFAULT_BOLD;
 
@@ -49,9 +50,31 @@ public class DevotionAdapter extends DatabaseItemAdapter {
         setTypeface(root, R.id.author, textStyle);
     }
 
-    private boolean isRead(String curTitle) {
-        Cursor lookup = new DatabaseStorage(mContext).get(mResources.getString(R.string.devotion_table));
-        int valIdx = lookup.getColumnIndex("READ"),
+    private boolean isRead(String id) {
+        Cursor lookup = Database
+                .withContext(mContext)
+                .forTable(DevotionActivity.READ_DEVOTIONS_TABLE)
+                .readAll(null)
+                .getData();
+
+        if (lookup == null)
+            return false;
+
+        int readColumn = lookup.getColumnIndex(DevotionActivity.READ_COLUMN),
+            idColumn   = lookup.getColumnIndex("devoId");
+
+        lookup.moveToFirst();
+        while (!lookup.isAfterLast()) {
+            if (lookup.getString(idColumn).equals(id))
+                return lookup.getString(readColumn).equals(DevotionActivity.IS_READ);
+
+            lookup.moveToNext();
+        }
+
+        return false;
+
+/*        Cursor lookup = new DatabaseStorage(mContext).get(mResources.getString(R.string.devotion_table));
+        int valIdx = lookup.getColumnIndex("read"),
           checkIdx = lookup.getColumnIndex("title");
 
         if (valIdx >= 0) {
@@ -62,6 +85,6 @@ public class DevotionAdapter extends DatabaseItemAdapter {
             return !lookup.isAfterLast() && lookup.getInt(valIdx) > 0;
         }
 
-        return false;
+        return false;*/
     }
 }

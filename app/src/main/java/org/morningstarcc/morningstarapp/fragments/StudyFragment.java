@@ -8,8 +8,8 @@ import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
+import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
-import org.morningstarcc.morningstarapp.adapters.BundleArrayAdapter;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -39,14 +39,19 @@ public class StudyFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.generic_list, container, false);
         list = (ListView) rootView.findViewById(R.id.list);
+        Bundle[] data = Database
+                .withContext(mContext)
+                .forTable(table)
+                .readAll(R.array.study_fields)
+                .asBundleArray();
 
-        adapter = getAdapter(new BundleArrayAdapter(mContext).get(table, R.array.study_fields));
+        adapter = getAdapter(data);
+//        adapter = getAdapter(new DatabaseStorageWrapper(mContext).get(table, R.array.study_fields));
         list.setAdapter(adapter);
         list.setSelector(R.drawable.empty);
 
         return rootView;
     }
-
 
     /**
      * Determine how many pixels the listview has scrolled by.

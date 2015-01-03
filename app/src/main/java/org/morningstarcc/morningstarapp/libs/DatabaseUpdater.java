@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.database.Database;
 
 /**
  * Updates the database with all the feeds it grabs.
@@ -51,7 +52,12 @@ public class DatabaseUpdater extends DataManager {
     }
 
     private String[] getStudyLinks() {
-        Cursor seriesIds = new DatabaseStorage(mContext).get("MCCStudySeriesRSS", "SeriesId");
+        Cursor seriesIds = Database
+                .withContext(mContext)
+                .forTable("MCCStudySeriesRSS")
+                .readAll(new String[]{"SeriesId"})
+                .getData();
+//        Cursor seriesIds = new DatabaseStorage(mContext).get("MCCStudySeriesRSS", "SeriesId");
         String[] ids = new String[seriesIds.getCount()];
         String format = mContext.getString(R.string.studies_url);
 

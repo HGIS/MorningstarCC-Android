@@ -4,8 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
+import org.morningstarcc.morningstarapp.database.Database;
+import org.morningstarcc.morningstarapp.database.DatabaseTable;
+
 import java.io.IOException;
 import java.util.List;
+
+import static org.morningstarcc.morningstarapp.database.Database.getTableName;
 
 /**
  * Created by Kyle on 9/6/2014.
@@ -24,23 +29,29 @@ public abstract class DataManager {
     }
 
     public void update(String from) {
-        DatabaseStorage local = new DatabaseStorage(this.mContext);
-        String tableName = from.substring(from.lastIndexOf("/") + 1, from.lastIndexOf(".")) +
-                (from.contains("=") ? from.substring(from.indexOf("=") + 1) : "");
+        DatabaseTable table = Database.withContext(mContext).forTable(getTableName(from));
+//        DatabaseStorage local = new DatabaseStorage(this.mContext);
+//        from = getTableName(from);
 
-        new RemoteStorage(local, tableName).execute(from);
+        new RemoteStorage(table).execute(from);
     }
 
     public abstract void onDataReturned(boolean success);
 
     // a class to execute remote requests in the background
     private class RemoteStorage extends DownloadUrlContentTask<List<ContentValues>> {
-        private DatabaseStorage local;
+
+        private DatabaseTable table;
+        /*private DatabaseStorage local;
         private String dest;
 
         public RemoteStorage(DatabaseStorage local, String dest) {
             this.local = local;
             this.dest = dest;
+        }*/
+
+        public RemoteStorage(DatabaseTable table) {
+            this.table = table;
         }
 
         @Override
@@ -56,7 +67,8 @@ public abstract class DataManager {
 
         @Override
         protected void onPostExecute(List<ContentValues> result) {
-            local.set(dest, result);
+            table.write(result);
+//            local.set(dest, result);
             onDataReturned(true);
         }
     }

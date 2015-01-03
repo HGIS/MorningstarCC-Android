@@ -1,18 +1,23 @@
 package org.morningstarcc.morningstarapp.activities;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.DatabaseStorage;
+import org.morningstarcc.morningstarapp.database.Database;
+
+import java.util.ArrayList;
 
 /**
  * Created by Kyle on 10/21/2014.
  */
 public class DevotionActivity extends DetailsActivity {
 
-    private static boolean hasColumn = false;
+    public static final String READ_DEVOTIONS_TABLE = "DevotionsRead";
+    public static final String IS_READ = "TRUE";
+    public static final String READ_COLUMN = "read";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,17 +33,17 @@ public class DevotionActivity extends DetailsActivity {
     }
 
     private void setRead() {
-        DatabaseStorage storage = new DatabaseStorage(this);
+        ContentValues readDevotion = new ContentValues();
 
-        if (!hasColumn) {
-            storage.addColumn("MCCDailyDevoRSS", "READ",  "INTEGER",  "DEFAULT 0");
-            hasColumn = true;
-        }
+        readDevotion.put("devoId", intent.getStringExtra("devoId"));
+        readDevotion.put(READ_COLUMN, IS_READ);
 
-        storage.update(
-                "MCCDailyDevoRSS",
-                "title", intent.getStringExtra("title"),
-                "READ", "1"
-        );
+        Database
+                .withContext(this)
+                .forTable(READ_DEVOTIONS_TABLE)
+                .create(new String[] {
+                        "devoId", READ_COLUMN
+                })
+                .append(readDevotion);
     }
 }
