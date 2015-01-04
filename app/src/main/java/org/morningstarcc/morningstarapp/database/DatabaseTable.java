@@ -3,12 +3,16 @@ package org.morningstarcc.morningstarapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.annotation.Nullable;
+import android.support.v4.database.DatabaseUtilsCompat;
 import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
 
+import java.sql.SQLDataException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,6 +51,20 @@ public class DatabaseTable {
     }
 
     /**
+     * Counts the number of rows in this table
+     *
+     * @return the number of rows
+     */
+    public long getCount() {
+        SQLiteDatabase db = databaseHandler.getReadableDatabase();
+        long count = getCount(db);
+
+        db.close();
+
+        return count;
+    }
+
+    /**
      * Creates a table of the given name, with the given columns inside this database.
      *
      * @param columns the array of column names as strings.
@@ -73,8 +91,11 @@ public class DatabaseTable {
         SQLiteDatabase db = databaseHandler.getReadableDatabase();
         Cursor values = null;
 
-        if (exists(db))
+//        if (exists(db))
             values = readAll(db, columns);
+
+        if (values == null)
+            android.util.Log.e("TEST", "Failed read from " + table);
 
         return new DatabaseReadBuffer(values);
     }
@@ -92,8 +113,7 @@ public class DatabaseTable {
         SQLiteDatabase db = databaseHandler.getReadableDatabase();
         Cursor values = null;
 
-        if (exists(db))
-            values = read(db, columns, where, whereArgs);
+        values = read(db, columns, where, whereArgs);
 
         return new DatabaseReadBuffer(values);
     }
@@ -144,9 +164,18 @@ public class DatabaseTable {
      */
 
     private boolean exists(SQLiteDatabase db) {
-        Cursor tmp = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{table});
+        Cursor tmp = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '" + table + "'", null);
 
         return tmp != null && tmp.getCount() > 0;
+    }
+
+    private long getCount(SQLiteDatabase db) {
+        try {
+            return DatabaseUtils.queryNumEntries(databaseHandler.getReadableDatabase(), table);
+        }
+        catch (SQLiteException e) {
+            return 0;
+        }
     }
 
     private void create(SQLiteDatabase db, String[] columns) {
@@ -164,11 +193,21 @@ public class DatabaseTable {
     }
 
     private Cursor readAll(SQLiteDatabase db, String[] columns) {
-        return db.query(table, columns, null, null, null, null, null, null);
+        try {
+            return db.query(table, columns, null, null, null, null, null, null);
+        }
+        catch (SQLiteException e) {
+            return null;
+        }
     }
 
     private Cursor read(SQLiteDatabase db, String[] columns, String where, String[] whereArgs) {
-        return db.query(table, columns, where, whereArgs, null, null, null);
+        try {
+            return db.query(table, columns, where, whereArgs, null, null, null);
+        }
+        catch (SQLiteException e) {
+            return null;
+        }
     }
 
     private void write(SQLiteDatabase db, List<ContentValues> rows) {

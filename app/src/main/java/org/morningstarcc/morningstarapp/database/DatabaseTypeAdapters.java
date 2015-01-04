@@ -62,9 +62,8 @@ public class DatabaseTypeAdapters {
     private static Bundle getAsBundle(Cursor cursor) {
         Bundle item = new Bundle();
 
-        for (int col = 0; col < cursor.getColumnCount(); col++) {
+        for (int col = 0; col < cursor.getColumnCount(); col++)
             item.putString(cursor.getColumnName(col), cursor.getString(col));
-        }
 
         return item;
     }

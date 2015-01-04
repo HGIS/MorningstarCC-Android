@@ -27,7 +27,7 @@ public class SeriesAdapter extends DatabaseItemAdapter {
     }
 
     private String getStudyCount(int position) {
-        int numStudies = getNumStudies(position);
+        long numStudies = getNumStudies(position);
 
         if (numStudies > 0)
             return numStudies + " studies";
@@ -35,13 +35,11 @@ public class SeriesAdapter extends DatabaseItemAdapter {
         return "";
     }
 
-    private int getNumStudies(int position) {
+    private long getNumStudies(int position) {
         try {
-            return Database
-                    .withContext(mContext)
+            return Database.withContext(mContext)
                     .forTable("MCCStudiesInSeriesRSS" + data[position].getString("SeriesId"))
-                    .readAll(null)
-                    .getSize();
+                    .getCount();
         }
         catch (NullPointerException e) {
             return -1;
