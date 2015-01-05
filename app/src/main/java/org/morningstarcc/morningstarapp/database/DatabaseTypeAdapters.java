@@ -7,6 +7,7 @@ import android.os.Bundle;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A class with static methods to convert types commonly accessed in the database package.
@@ -20,15 +21,24 @@ public class DatabaseTypeAdapters {
      * @return  an array of all the keys in the ContentValues
      */
     public static String[] getColumnNames(List<ContentValues> rows) {
-        HashSet<String> keySet = new HashSet<String>();
+        Set<String> keySet = new HashSet<String>();
 
         // get column names from each row
-        for (ContentValues row : rows) {
+        for (ContentValues row : rows)
             for (Map.Entry<String, Object> entry : row.valueSet())
-                keySet.add(entry.getKey());
-        }
+                if (!myStringSetContains(entry.getKey(), keySet))
+                    keySet.add(entry.getKey());
 
         return keySet.toArray(new String[keySet.size()]);
+    }
+
+    // determines if the set contains the String (irregardless of case)
+    public static boolean myStringSetContains(String value, Set<String> toCheck) {
+        for (String tmp : toCheck)
+            if (tmp.equalsIgnoreCase(value))
+                return true;
+
+        return false;
     }
 
     /**

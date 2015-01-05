@@ -6,62 +6,90 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.activities.ConnectActivity;
+import org.morningstarcc.morningstarapp.adapters.ConnectAdapter;
+import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 
 /**
  * Created by whykalo on 12/21/2014.
  */
-public class ConnectFragment extends Fragment {
+public class ConnectFragment extends ListFragment {
 
-    private Context mContext;
+    public ConnectFragment() {
+        super(ConnectActivity.class, "", R.array.connect_fields);
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.mContext = activity;
+        this.table = Database.getTableName(activity.getString(R.string.connect_url));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_connect, container, false);
+        Bundle args = getArguments();
+        View rootView = null;
 
-//        root.findViewById(R.id.about_us).setOnClickListener(myToastFailure);
-        root.findViewById(R.id.see_us_on_the_web).setOnClickListener(new WebLinkListener("http://www.morningstarcc.org"));
-        root.findViewById(R.id.donate).setOnClickListener(new WebLinkListener("http://www.easytithe.com/dl/?uid=morn1624256"));
-        root.findViewById(R.id.facebook).setOnClickListener(new WebLinkListener("http://www.morningstarcc.org/morningstarfacebooklinks.html"));
-        root.findViewById(R.id.youtube).setOnClickListener(new WebLinkListener("https://www.youtube.com/user/morningstarcc"));
-        root.findViewById(R.id.instagram).setOnClickListener(new WebLinkListener("http://instagram.com/morningstarcc/"));
-        root.findViewById(R.id.email_us).setOnClickListener(new EmailListener());
+        // if no parent data was provided, load listview with the default data
+        if (args == null) {
+            rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-        return root;
+            ((ListView) rootView.findViewById(R.id.list)).setAdapter(getAdapter(getDefaultData()));
+        }
+
+        // if parent data was provided and there are more children, load listview with data
+        else if (args.getString("haschild").equalsIgnoreCase("true")) {
+            rootView = super.onCreateView(inflater, container, savedInstanceState);
+
+            ((ListView) rootView.findViewById(R.id.list)).setAdapter(getAdapter(getData(args.getString("parentId"))));
+        }
+
+        // if we have content, display it in a webview
+        else if (args.getString("content:encoded") != null && args.getString("content:encoded").length() > 0) {
+            rootView = inflater.inflate(R.layout.fragment_connect_content, container, false);
+
+            ((TextView) rootView.findViewById(R.id.content)).setText(Html.fromHtml(args.getString("content:encoded")));
+        }
+
+        // if we have no content, activity should have launched a browser with the web link. Otherwise, return null
+
+        return rootView;
     }
 
-    class WebLinkListener implements View.OnClickListener {
-
-        private String url;
-
-        public WebLinkListener(String url) {
-            this.url = url;
-        }
-
-        @Override
-        public void onClick(View view) {
-            startActivity(new WebViewIntent(url));
-//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.url)));
-        }
+    public ArrayAdapter getAdapter(Bundle[] data) {
+        return new ConnectAdapter(mContext, data);
     }
 
-    class EmailListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            // TODO
-            Toast.makeText(mContext, "action unimplemented", Toast.LENGTH_SHORT).show();
-        }
+    // gets the default data for the connect rows
+    public Bundle[] getDefaultData() {
+        return Database
+                .withContext(mContext)
+                .forTable(table)
+                .read(null, "parentId = \"0\" AND LOWER(isactive) = \"true\"", null)
+                .asBundleArray();
+    }
+
+    public Bundle[] getData(String parentId) {
+        if (parentId == null || parentId.equals("0"))
+            return getDefaultData();
+
+        return Database
+                .withContext(mContext)
+                .forTable(table)
+                .read(null, "parentId = \"?\"", new String[] {parentId})
+                .asBundleArray();
     }
 }
