@@ -195,6 +195,34 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // change the title
+        Fragment cur = getSupportFragmentManager()
+                .findFragmentById(R.id.content_frame);
+
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        if (cur instanceof ConnectFragment) {
+            mPosition = 0;
+            setTitle(mDrawerTitles[mPosition]);
+        }
+        else if (cur instanceof SeriesFragment) {
+            mPosition = 1;
+            setTitle(mDrawerTitles[mPosition]);
+        }
+        else if (cur instanceof EventFragment || cur instanceof ExpandableEventFragment) {
+            mPosition = 2;
+            setTitle("");
+            getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        }
+        else if (cur instanceof DevotionFragment) {
+            mPosition = 3;
+            setTitle(mDrawerTitles[mPosition]);
+        }
+    }
+
     private Fragment pickEventFragment(int position) {
         if (position == 0)
             return new EventFragment();
