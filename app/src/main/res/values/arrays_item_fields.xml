@@ -33,9 +33,7 @@
 
     <string-array name="event_fields">
         <!--<item>eventid</item>-->
-        <item>eventdate</item>
         <item>eventstarttime</item>
-        <item>eventenddate</item>
         <item>eventendtime</item>
         <item>title</item>
         <item>description</item>

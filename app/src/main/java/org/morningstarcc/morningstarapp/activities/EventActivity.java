@@ -15,7 +15,7 @@ import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 
 import java.util.Date;
 
-import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
@@ -56,14 +56,14 @@ public class EventActivity extends DetailsActivity {
     }
 
     private void setup() {
-        startDate = getDate(intent.getStringExtra("eventdate"), intent.getStringExtra("eventstarttime"));
-        endDate = getDate(intent.getStringExtra("eventenddate"), intent.getStringExtra("eventendtime"));
+        startDate = getFullDate(intent.getStringExtra("eventstarttime"));
+        endDate = getFullDate(intent.getStringExtra("eventendtime"));
 
         setTitle(intent.getStringExtra("title"));
 
         String imagePath = intent.getStringExtra("imagepath");
         if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH))
-            setImageLink(this, R.id.image, imagePath);
+            setImageLink(this, R.id.image, imagePath, R.drawable.default_event, R.drawable.default_event);
         else
             findViewById(R.id.image).getLayoutParams().height = 0;
 
@@ -81,7 +81,7 @@ public class EventActivity extends DetailsActivity {
 
     public void onRegister(View view) {
         try {
-            startActivity(new WebViewIntent(intent.getStringExtra("registrationlink")));
+            startActivity(WebViewIntent.build(intent.getStringExtra("registrationlink")));
         }
         catch (Exception e) {
             Log.e("EventActivity", Log.getStackTraceString(e));
@@ -95,7 +95,7 @@ public class EventActivity extends DetailsActivity {
     }
 
     private void addEventToCalendar(Date startDate, Date endDate) {
-        Intent calendarIntent = new CalendarIntent(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
+        Intent calendarIntent = CalendarIntent.build(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
         startActivity(Intent.createChooser(calendarIntent, "Add this event to:"));
     }
 }

@@ -2,6 +2,7 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
@@ -19,11 +20,11 @@ public class ConnectActivity extends DetailsActivity {
         setContentView(R.layout.activity_connect);
         ViewConstructorUtils.setTitle(this, intent.getStringExtra("title"));
 
-        android.util.Log.e("TEST", intent.getExtras().toString());
-
+        String hasChild = intent.getStringExtra("haschild");
         String content = intent.getStringExtra("content:encoded");
-        if (content == null || content.length() == 0) {
-            startActivity(new WebViewIntent(intent.getStringExtra("weblink")));
+
+        if (!"True".equalsIgnoreCase(hasChild) && (content == null || content.length() == 0)) {
+            startActivity(WebViewIntent.build(intent.getStringExtra("weblink")));
             finish();
         }
 

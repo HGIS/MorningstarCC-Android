@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.database.Database;
+import org.morningstarcc.morningstarapp.intents.EmailIntent;
 
 /**
  * Created by Kyle on 7/19/2014.
@@ -58,11 +60,16 @@ public abstract class ListFragment extends Fragment {
 
     protected abstract ArrayAdapter getAdapter(Bundle[] data);
 
-    private class ItemClickListener implements ListView.OnItemClickListener {
+    protected class ItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Bundle item = (Bundle) adapter.getItem(position);
-            mContext.startActivity( new Intent(mContext, nextActivity).putExtras(item) );
+
+            // email intents are send, all others are considered view
+            if (item.getString("title").toLowerCase().contains("email"))
+                mContext.startActivity(Intent.createChooser(EmailIntent.build(item.getString("weblink")), "Send email..."));
+            else
+                mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item) );
         }
     }
 }

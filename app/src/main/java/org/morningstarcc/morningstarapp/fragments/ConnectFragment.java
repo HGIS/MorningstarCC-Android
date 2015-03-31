@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import org.morningstarcc.morningstarapp.activities.ConnectActivity;
 import org.morningstarcc.morningstarapp.adapters.ConnectAdapter;
 import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.intents.WebViewIntent;
+
+import java.util.Arrays;
 
 /**
  * Created by whykalo on 12/21/2014.
@@ -46,15 +50,17 @@ public class ConnectFragment extends ListFragment {
         // if no parent data was provided, load listview with the default data
         if (args == null) {
             rootView = super.onCreateView(inflater, container, savedInstanceState);
+            adapter = getAdapter(getDefaultData());
 
-            ((ListView) rootView.findViewById(R.id.list)).setAdapter(getAdapter(getDefaultData()));
+            ((ListView) rootView.findViewById(R.id.list)).setAdapter(adapter);
         }
 
         // if parent data was provided and there are more children, load listview with data
         else if (args.getString("haschild").equalsIgnoreCase("true")) {
             rootView = super.onCreateView(inflater, container, savedInstanceState);
+            adapter = getAdapter(getData(args.getString("linkid")));
 
-            ((ListView) rootView.findViewById(R.id.list)).setAdapter(getAdapter(getData(args.getString("parentId"))));
+            ((ListView) rootView.findViewById(R.id.list)).setAdapter(adapter);
         }
 
         // if we have content, display it in a webview
@@ -89,7 +95,7 @@ public class ConnectFragment extends ListFragment {
         return Database
                 .withContext(mContext)
                 .forTable(table)
-                .read(null, "parentId = \"?\"", new String[] {parentId})
+                .read(null, "parentId = \"" + parentId + "\" AND LOWER(isactive) = \"true\"", null)
                 .asBundleArray();
     }
 }

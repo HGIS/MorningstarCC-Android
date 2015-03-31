@@ -11,6 +11,7 @@ import java.util.Date;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
@@ -30,10 +31,10 @@ public class EventAdapter extends DatabaseItemAdapter {
     protected void setupView(View root, int position) {
         Bundle event = data[position];
 
-        Date startDate = getDate(event.getString("eventdate"), event.getString("eventstarttime"));
-        Date endDate = getDate(event.getString("eventenddate"), event.getString("eventendtime"));
+        Date startDate = getFullDate(event.getString("eventstarttime"));
+        Date endDate = getFullDate(event.getString("eventendtime"));
 
-        setImageLink(mContext, root, R.id.image, event.getString("imagepath"), R.drawable.empty, R.drawable.ic_launcher);
+        setImageLink(mContext, root, R.id.image, event.getString("imagepath"), R.drawable.default_event, R.drawable.default_event);
         setText(root, R.id.date, getDateInterval(startDate, endDate));
         setText(root, R.id.time, getTimeInterval(startDate, endDate));
     }

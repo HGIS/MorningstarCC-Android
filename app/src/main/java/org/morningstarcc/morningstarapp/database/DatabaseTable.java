@@ -94,9 +94,6 @@ public class DatabaseTable {
 //        if (exists(db))
             values = readAll(db, columns);
 
-        if (values == null)
-            android.util.Log.e("TEST", "Failed read from " + table);
-
         return new DatabaseReadBuffer(values);
     }
 

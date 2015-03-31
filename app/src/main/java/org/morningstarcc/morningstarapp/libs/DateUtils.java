@@ -5,6 +5,7 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A collection of useful functions for parsing and creating date strings.
@@ -13,17 +14,18 @@ public class DateUtils {
     private static final String TAG = "DateUtils";
 
     // input formats
-    private static final SimpleDateFormat FULL = new SimpleDateFormat("M/d/yyyy h:mm a");
-    private static final SimpleDateFormat MONTH_DAY_YEAR = new SimpleDateFormat("M/d/yyyy");
+    private static final SimpleDateFormat FULL = new SimpleDateFormat("M/d/yyyy h:mm a", Locale.US);
+    private static final SimpleDateFormat SPECIFIC_FULL = new SimpleDateFormat("M/d/yyyy h:mm:ss a", Locale.US);
+    private static final SimpleDateFormat MONTH_DAY_YEAR = new SimpleDateFormat("M/d/yyyy", Locale.US);
 
     // output formats
-    public static final SimpleDateFormat MONTH = new SimpleDateFormat("MMM");
-    public static final SimpleDateFormat DAY = new SimpleDateFormat("dd");
-    public static final SimpleDateFormat MONTH_DAY = new SimpleDateFormat("MMMM d");
-    public static final SimpleDateFormat MONTH_DAY_SHORT = new SimpleDateFormat("MMM d");
-    public static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm");
-    public static final SimpleDateFormat MARKER = new SimpleDateFormat("a");
-    public static final SimpleDateFormat WEEKDAY_MONTH_DATE = new SimpleDateFormat("EEE MMM d");
+    public static final SimpleDateFormat MONTH = new SimpleDateFormat("MMM", Locale.US);
+    public static final SimpleDateFormat DAY = new SimpleDateFormat("dd", Locale.US);
+    public static final SimpleDateFormat MONTH_DAY = new SimpleDateFormat("MMMM d", Locale.US);
+    public static final SimpleDateFormat TIME_OF_DAY = new SimpleDateFormat("h:mm a", Locale.US);
+    public static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm", Locale.US);
+    public static final SimpleDateFormat MARKER = new SimpleDateFormat("a", Locale.US);
+    public static final SimpleDateFormat WEEKDAY_MONTH_DATE = new SimpleDateFormat("EEE MMM d", Locale.US);
 
     public static Date getDate(String dateString) {
         try {
@@ -45,7 +47,21 @@ public class DateUtils {
         }
     }
 
+    public static Date getFullDate(String dateString) {
+        try {
+            return SPECIFIC_FULL.parse(dateString);
+        }
+        catch (ParseException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+            return null;
+        }
+    }
+
     public static String getFullString(Date date) { return FULL.format(date); }
+
+    public static String getTimeOfDay(Date date) {
+        return TIME_OF_DAY.format(date);
+    }
 
     public static String getMonthString(Date month) {
         return MONTH.format(month);

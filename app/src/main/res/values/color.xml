@@ -13,5 +13,6 @@
     <color name="theme_tint">#009688</color>
     <color name="theme_accent">#FFF8E1</color>
     <color name="theme_contrast">#FF5252</color>
+    <color name="splash_bg">#65AE8C</color>
 
 </resources>

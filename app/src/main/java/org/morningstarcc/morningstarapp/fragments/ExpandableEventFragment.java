@@ -64,7 +64,8 @@ public class ExpandableEventFragment extends Fragment {
         List<List<Bundle>> bucketedEvents = new ArrayList<List<Bundle>>();
 
         for (Bundle event : events) {
-            String eventDate = event.getString("eventdate");
+            String eventDate = event.getString("eventstarttime");
+            eventDate = eventDate.substring(0, eventDate.indexOf(' '));
             int idx = titles.indexOf(eventDate);
 
             if (idx >= 0)

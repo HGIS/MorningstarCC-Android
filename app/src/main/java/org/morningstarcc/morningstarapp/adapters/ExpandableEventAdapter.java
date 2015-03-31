@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.libs.DateUtils;
 
 import java.util.Date;
 import java.util.List;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeOfDay;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDayString;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
@@ -61,7 +64,7 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
         }
 
         setText(convertView, R.id.title, event.getString("title"));
-        setText(convertView, R.id.time, event.getString("eventstarttime"));
+        setText(convertView, R.id.time, getTimeOfDay(getFullDate(event.getString("eventstarttime"))));
 
         return convertView;
     }
