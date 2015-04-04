@@ -230,11 +230,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        startActivity(WebViewIntent.build(getString(R.string.bulletin_url)));
+        startActivity(Intent.createChooser(WebViewIntent.build(getString(R.string.bulletin_url)), "Open with..."));
     }
 
     private void launchLiveStream() {
-        startActivity(WebViewIntent.build(getString(R.string.live_stream_url)));
+        startActivity(Intent.createChooser(WebViewIntent.build(getString(R.string.live_stream_url)), "Open with..."));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
