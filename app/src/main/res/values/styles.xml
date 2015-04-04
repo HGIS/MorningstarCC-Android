@@ -2,6 +2,7 @@
 <resources>
     <style name="Theme.MCCTheme" parent="Theme.AppCompat.Light">
         <item name="android:actionBarStyle">@style/Theme.MCCTheme.MCCActionBar</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <!-- support for reverse compatibility -->
         <item name="actionBarStyle">@style/Theme.MCCTheme.MCCActionBar</item>
@@ -11,6 +12,7 @@
         <item name="android:titleTextStyle">@style/Theme.MCCTheme.MCCActionBar.TitleTextStyle</item>
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:background">@color/theme_main</item>
+        <item name="background">@color/theme_main</item>
 
         <!-- support for reverse compatibility -->
         <item name="titleTextStyle">@style/Theme.MCCTheme.MCCActionBar.TitleTextStyle</item>
@@ -19,5 +21,10 @@
     <style name="Theme.MCCTheme.MCCActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/theme_accent</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/theme_accent</item>
     </style>
 </resources>

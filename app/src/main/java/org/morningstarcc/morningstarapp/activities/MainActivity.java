@@ -3,9 +3,8 @@ package org.morningstarcc.morningstarapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -91,6 +90,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarNavDrawerToggle(this, mDrawerLayout);
         mEventPosition = 0;
 
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerList.setAdapter(new NavigationDrawerAdapter(this, mDrawerTitles));
@@ -248,7 +248,6 @@ public class MainActivity extends ActionBarActivity {
         public ActionBarNavDrawerToggle(Activity mActivity, DrawerLayout mDrawerLayout) {
             super(mActivity,
                   mDrawerLayout,
-                  R.drawable.ic_drawer,
                   R.string.drawer_open,
                   R.string.drawer_close);
         }
