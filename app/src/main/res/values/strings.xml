@@ -21,4 +21,8 @@
     <string name="share">Share</string>
 
     <string name="devotion_table">MCCDailyDevoRSS</string>
+    <string name="title_activity_pdf">PdfActivity</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="loading">Loading…</string>
 </resources>
