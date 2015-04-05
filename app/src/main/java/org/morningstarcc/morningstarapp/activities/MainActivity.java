@@ -1,8 +1,11 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
@@ -230,11 +234,27 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        startActivity(Intent.createChooser(WebViewIntent.build(getString(R.string.bulletin_url)), "Open with..."));
+//        PackageManager manager = getPackageManager();
+        Intent intent = getPackageManager().getLaunchIntentForPackage("com.adobe.reader");
+        if (intent == null) {
+            Dialog dialog = new Dialog(this);
+
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.adobe.reader")));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.adobe.reader")));
+            }
+        }
+        else {
+
+            intent.setDataAndType(Uri.parse(getString(R.string.bulletin_url)), "application/pdf");
+
+            startActivity(intent);
+        }
     }
 
     private void launchLiveStream() {
-        startActivity(Intent.createChooser(WebViewIntent.build(getString(R.string.live_stream_url)), "Open with..."));
+        startActivity(WebViewIntent.build(getString(R.string.live_stream_url)));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

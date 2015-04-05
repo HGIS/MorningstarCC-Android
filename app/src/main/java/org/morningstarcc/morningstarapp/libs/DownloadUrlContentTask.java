@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.webkit.WebView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +20,6 @@ import java.util.GregorianCalendar;
  */
 public abstract class DownloadUrlContentTask<T> extends AsyncTask<String, Void, T> {
     private static final String TAG = "DownloadUrlContentTask";
-
-    // TODO: get actual date of latest data
-    private static Calendar curDataDate = new GregorianCalendar();
 
     @Override
     protected abstract T doInBackground(String... urls);

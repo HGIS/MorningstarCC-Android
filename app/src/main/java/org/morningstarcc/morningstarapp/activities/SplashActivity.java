@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 
+import org.morningstarcc.morningstarapp.BuildConfig;
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.DatabaseUpdater;
 import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
@@ -22,6 +25,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
+        findViewById(R.id.bg).setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     @Override
