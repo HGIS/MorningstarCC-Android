@@ -1,9 +1,9 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
@@ -234,19 +233,30 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-//        PackageManager manager = getPackageManager();
-        Intent intent = getPackageManager().getLaunchIntentForPackage("com.adobe.reader");
-        if (intent == null) {
-            Dialog dialog = new Dialog(this);
+        final String pdfPackageName = "com.adobe.reader";
+        Intent intent = getPackageManager().getLaunchIntentForPackage(pdfPackageName);
 
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.adobe.reader")));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.adobe.reader")));
-            }
-        }
+        if (intent == null)
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.no_pdf_reader_title))
+                    .setMessage(getString(R.string.no_pdf_reader_body))
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pdfPackageName)));
+                            } catch (android.content.ActivityNotFoundException e) {
+                                // we reach here only if Google Play is not installed on the device
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + pdfPackageName)));
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(WebViewIntent.build(getString(R.string.bulletin_url)));
+                        }
+                    })
+                    .show();
         else {
-
             intent.setDataAndType(Uri.parse(getString(R.string.bulletin_url)), "application/pdf");
 
             startActivity(intent);
