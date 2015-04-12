@@ -14,4 +14,9 @@
         android:title="@string/action_add_to_calendar"
         app:showAsAction="ifRoom"  />
 
+    <item android:id="@+id/action_share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:title="@string/action_share_event"
+        app:showAsAction="ifRoom" />
+
 </menu>

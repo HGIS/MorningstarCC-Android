@@ -11,7 +11,9 @@ import android.view.View;
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventAdapter;
 import org.morningstarcc.morningstarapp.intents.CalendarIntent;
+import org.morningstarcc.morningstarapp.intents.ShareIntent;
 import org.morningstarcc.morningstarapp.intents.WebViewIntent;
+import org.morningstarcc.morningstarapp.libs.DateUtils;
 
 import java.util.Date;
 
@@ -51,6 +53,9 @@ public class EventActivity extends DetailsActivity {
         switch (item.getItemId()) {
             case R.id.action_add_to_calendar:
                 addEventToCalendar(startDate, endDate);
+                return true;
+            case R.id.action_share:
+                shareEvent(startDate);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -94,6 +99,14 @@ public class EventActivity extends DetailsActivity {
         if (view.getHeight() <= getWindow().getDecorView().getHeight()) {
             view.setScrollContainer(false);
         }
+    }
+
+    private void shareEvent(Date startDate) {
+        Intent shareIntent = ShareIntent.build("Join me on " + DateUtils.getFullDayString(startDate) +
+                " for " + intent.getStringExtra("title") +
+                ". See more at: " + intent.getStringExtra("weblink"));
+
+        startActivity(shareIntent);
     }
 
     private void addEventToCalendar(Date startDate, Date endDate) {
