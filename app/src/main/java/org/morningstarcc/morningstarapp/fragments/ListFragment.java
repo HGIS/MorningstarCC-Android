@@ -67,7 +67,7 @@ public abstract class ListFragment extends Fragment {
 
             // email intents are send, all others are considered view
             if (item.getString("title").toLowerCase().contains("email"))
-                mContext.startActivity(Intent.createChooser(EmailIntent.build(item.getString("weblink")), "Send email..."));
+                mContext.startActivity(EmailIntent.build(item.getString("weblink")));
             else
                 mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item) );
         }

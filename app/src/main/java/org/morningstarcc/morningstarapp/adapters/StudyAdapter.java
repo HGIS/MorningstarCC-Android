@@ -46,7 +46,7 @@ public class StudyAdapter extends DatabaseItemAdapter {
                 String videoId = getVideoId(getItem(position).getString("VideoLink"));
                 Intent tostart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
 
-                mActivity.startActivity(Intent.createChooser(tostart, "Complete action using"));
+                mActivity.startActivity(tostart);
             }
         });
 

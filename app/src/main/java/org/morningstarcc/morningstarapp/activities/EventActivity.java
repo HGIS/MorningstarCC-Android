@@ -26,6 +26,8 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText
  */
 public class EventActivity extends DetailsActivity {
 
+    public static final String IMAGE = "EVENT_IMAGE";
+
     private Date startDate, endDate;
 
     @Override
@@ -96,6 +98,6 @@ public class EventActivity extends DetailsActivity {
 
     private void addEventToCalendar(Date startDate, Date endDate) {
         Intent calendarIntent = CalendarIntent.build(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
-        startActivity(Intent.createChooser(calendarIntent, "Add this event to:"));
+        startActivity(calendarIntent);
     }
 }
