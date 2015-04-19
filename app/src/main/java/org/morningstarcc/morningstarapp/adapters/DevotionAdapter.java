@@ -1,5 +1,6 @@
 package org.morningstarcc.morningstarapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -7,9 +8,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 
-import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.DevotionActivity;
 import org.morningstarcc.morningstarapp.database.Database;
+import org.morningstarcc.morningstarapp.viewholders.DevotionHolder;
 
 import java.util.Date;
 
@@ -22,32 +23,32 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setType
 /**
  * Created by Kyle on 10/10/2014.
  */
-public class DevotionAdapter extends DatabaseItemAdapter {
+public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
 
     Context mContext;
     Resources mResources;
 
-    public DevotionAdapter(Context mContext, Bundle[] data) {
-        super(mContext, R.layout.devotion_list_row, data);
+    public DevotionAdapter(Context mContext, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(mContext, row_layout, data, nextActivity);
         this.mContext = mContext;
         this.mResources = mContext.getResources();
     }
 
     @Override
-    protected void setupView(View root, int position) {
+    protected void setupView(DevotionHolder viewHolder, int position) {
         Date date = getDate(data[position].getString("pubDate"));
 
-        setText(root, R.id.month, getMonthString(date));
-        setText(root, R.id.day, getDayString(date));
-        setText(root, R.id.title, data[position].getString("title"));
-        setText(root, R.id.author, data[position].getString("dc:creator"));
+        viewHolder.month.setText(getMonthString(date));
+        viewHolder.day.setText(getDayString(date));
+        viewHolder.title.setText(data[position].getString("title"));
+        viewHolder.author.setText(data[position].getString("dc:creator"));
 
         Typeface textStyle = isRead(data[position].getString("devoId"))
                 ? Typeface.DEFAULT
                 : Typeface.DEFAULT_BOLD;
 
-        setTypeface(root, R.id.title, textStyle);
-        setTypeface(root, R.id.author, textStyle);
+        viewHolder.title.setTypeface(textStyle);
+        viewHolder.author.setTypeface(textStyle);
     }
 
     private boolean isRead(String id) {
@@ -72,5 +73,10 @@ public class DevotionAdapter extends DatabaseItemAdapter {
         }
 
         return false;
+    }
+
+    @Override
+    protected DevotionHolder getViewHolder(View view) {
+        return new DevotionHolder(view);
     }
 }

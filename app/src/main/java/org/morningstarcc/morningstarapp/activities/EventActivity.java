@@ -1,8 +1,9 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ public class EventActivity extends DetailsActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_event);
+        ViewCompat.setTransitionName(findViewById(R.id.image), IMAGE);
         setup();
     }
 
@@ -51,11 +53,8 @@ public class EventActivity extends DetailsActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_add_to_calendar:
-                addEventToCalendar(startDate, endDate);
-                return true;
             case R.id.action_share:
-                shareEvent(startDate);
+                shareEvent();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -69,6 +68,11 @@ public class EventActivity extends DetailsActivity {
         setTitle(intent.getStringExtra("title"));
 
         String imagePath = intent.getStringExtra("imagepath");
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH))
             setImageLink(this, R.id.image, imagePath, R.drawable.default_event, R.drawable.default_event);
         else
@@ -95,13 +99,18 @@ public class EventActivity extends DetailsActivity {
         }
     }
 
+    public void onViewMoreDetails(View view) {
+        startActivity(WebViewIntent.build(intent.getStringExtra("weblink")));
+    }
+
+
     private void disableScrollIfTooSmall(View view) {
         if (view.getHeight() <= getWindow().getDecorView().getHeight()) {
             view.setScrollContainer(false);
         }
     }
 
-    private void shareEvent(Date startDate) {
+    private void shareEvent() {
         Intent shareIntent = ShareIntent.build("Join me on " + DateUtils.getFullDayString(startDate) +
                 " for " + intent.getStringExtra("title") +
                 ". See more at: " + intent.getStringExtra("weblink"));
@@ -109,7 +118,7 @@ public class EventActivity extends DetailsActivity {
         startActivity(shareIntent);
     }
 
-    private void addEventToCalendar(Date startDate, Date endDate) {
+    public void addEventToCalendar(View view) {
         Intent calendarIntent = CalendarIntent.build(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
         startActivity(calendarIntent);
     }

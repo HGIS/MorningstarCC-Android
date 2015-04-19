@@ -22,4 +22,6 @@
     <dimen name="small_indent">5dp</dimen>
     <dimen name="indent">20dp</dimen>
     <dimen name="large_indent">30dp</dimen>
+
+    <dimen name="divider_height">1dp</dimen>
 </resources>

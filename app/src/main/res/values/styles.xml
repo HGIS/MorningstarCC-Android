@@ -14,6 +14,16 @@
         <item name="actionBarTheme">@style/Theme.MCCTheme.MCCActionBarStyle</item>
     </style>
 
+    <style name="Theme.MCCTheme.Toolbar" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/theme_main</item>
+        <item name="colorPrimaryDark">@color/theme_tint</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/theme_main</item>
+        <item name="android:textColorPrimary">@color/theme_accent</item>
+        <item name="android:textColorSecondary">@color/theme_accent</item>
+        <item name="actionMenuTextColor">@color/theme_accent</item>
+    </style>
+
     <style name="Theme.MCCTheme.MCCActionBar" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:titleTextStyle">@style/Theme.MCCTheme.MCCActionBar.TitleTextStyle</item>
         <item name="android:icon">@android:color/transparent</item>

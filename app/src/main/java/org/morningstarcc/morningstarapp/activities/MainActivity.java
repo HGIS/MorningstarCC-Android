@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -28,8 +29,13 @@ import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
+import org.morningstarcc.morningstarapp.fragments.PdfRendererBasicFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 import org.morningstarcc.morningstarapp.intents.WebViewIntent;
+import org.morningstarcc.morningstarapp.libs.FileDownloader;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * TODO list:
@@ -71,12 +77,12 @@ public class MainActivity extends ActionBarActivity {
 
     // the indices for the drawer items
     private static final int CONNECT = 0,
-                             SERIES = 1,
-                             EVENTS = 2,
-                             DEVOTIONS = 3,
-                             DIVIDER = 4,
-                             BULLETIN = 5,
-                             LIVE_STREAM = 6;
+            SERIES = 1,
+            EVENTS = 2,
+            DEVOTIONS = 3,
+            DIVIDER = 4,
+            BULLETIN = 5,
+            LIVE_STREAM = 6;
 
     // a variable to hold state of events drop-down
     private int mEventPosition;
@@ -175,8 +181,15 @@ public class MainActivity extends ActionBarActivity {
             case DIVIDER:
                 return;
             case BULLETIN:
-                launchBulletin();
-                return;
+                if (Build.VERSION.SDK_INT >= 21 /*5.0*/) {
+                    title = "Bulletin";
+                    fragment = new PdfRendererBasicFragment();
+                    break;
+                }
+                else {
+                    launchBulletin();
+                    return;
+                }
             case LIVE_STREAM:
                 launchLiveStream();
                 return;
@@ -233,7 +246,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        final String pdfPackageName = "com.adobe.reader";
+        try {
+            new FileDownloader("bulletin", ".pdf") {
+                @Override
+                public void onPostExecute(File file) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromFile(file)));
+                }
+            }.execute(getString(R.string.bulletin_url));
+        } catch (IOException e) {
+            Log.e("Bulletin", Log.getStackTraceString(e));
+        }
+
+        /*final String pdfPackageName = "com.adobe.reader";
         Intent intent = getPackageManager().getLaunchIntentForPackage(pdfPackageName);
 
         if (intent == null)
@@ -260,7 +284,7 @@ public class MainActivity extends ActionBarActivity {
             intent.setDataAndType(Uri.parse(getString(R.string.bulletin_url)), "application/pdf");
 
             startActivity(intent);
-        }
+        }*/
     }
 
     private void launchLiveStream() {
@@ -277,9 +301,9 @@ public class MainActivity extends ActionBarActivity {
     private class ActionBarNavDrawerToggle extends ActionBarDrawerToggle {
         public ActionBarNavDrawerToggle(Activity mActivity, DrawerLayout mDrawerLayout) {
             super(mActivity,
-                  mDrawerLayout,
-                  R.string.drawer_open,
-                  R.string.drawer_close);
+                    mDrawerLayout,
+                    R.string.drawer_open,
+                    R.string.drawer_close);
         }
 
         /** Called when a drawer has settled in a completely closed state. */

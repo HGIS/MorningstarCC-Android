@@ -2,6 +2,7 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,14 +19,15 @@ import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
  */
 public class SplashActivity extends Activity {
 
-    private static final int DELAY = 3000;
+    private static final int DELAY = 3000; // ms
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
-        findViewById(R.id.bg).setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class SplashActivity extends Activity {
         super.onStart();
 
         Log.d("SplashActivity", "Updater launching...");
-        updateFeeds(); // TODO: change this to something that doesn't return, cause I don't really care here
+        updateFeeds();
 
         // launch the next activity after a delay
         startAfter(new Intent(SplashActivity.this, MainActivity.class), DELAY);

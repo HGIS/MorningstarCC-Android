@@ -1,39 +1,27 @@
 package org.morningstarcc.morningstarapp.fragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.ConnectActivity;
 import org.morningstarcc.morningstarapp.adapters.ConnectAdapter;
+import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.database.Database;
-import org.morningstarcc.morningstarapp.intents.WebViewIntent;
-
-import java.util.Arrays;
 
 /**
  * Created by whykalo on 12/21/2014.
  */
-public class ConnectFragment extends ListFragment {
+public class ConnectFragment extends RecyclerFragment {
 
     public ConnectFragment() {
-        super(ConnectActivity.class, "", R.array.connect_fields);
+        super("", R.array.connect_fields);
     }
 
     @Override
@@ -52,7 +40,7 @@ public class ConnectFragment extends ListFragment {
             rootView = super.onCreateView(inflater, container, savedInstanceState);
             adapter = getAdapter(getDefaultData());
 
-            ((ListView) rootView.findViewById(R.id.list)).setAdapter(adapter);
+            ((RecyclerView) rootView.findViewById(R.id.recycler)).setAdapter(adapter);
         }
 
         // if parent data was provided and there are more children, load listview with data
@@ -60,7 +48,7 @@ public class ConnectFragment extends ListFragment {
             rootView = super.onCreateView(inflater, container, savedInstanceState);
             adapter = getAdapter(getData(args.getString("linkid")));
 
-            ((ListView) rootView.findViewById(R.id.list)).setAdapter(adapter);
+            ((RecyclerView) rootView.findViewById(R.id.recycler)).setAdapter(adapter);
         }
 
         // if we have content, display it in a webview
@@ -75,8 +63,8 @@ public class ConnectFragment extends ListFragment {
         return rootView;
     }
 
-    public ArrayAdapter getAdapter(Bundle[] data) {
-        return new ConnectAdapter(mContext, data);
+    public DatabaseItemAdapter getAdapter(Bundle[] data) {
+        return new ConnectAdapter(mContext, R.layout.connect_list_row, data, ConnectActivity.class);
     }
 
     // gets the default data for the connect rows

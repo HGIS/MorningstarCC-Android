@@ -1,24 +1,24 @@
 package org.morningstarcc.morningstarapp.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.DevotionActivity;
-import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.adapters.DevotionAdapter;
 
 /**
  * Created by Kyle on 7/19/2014.
  */
-public class DevotionFragment extends ListFragment {
+public class DevotionFragment extends RecyclerFragment {
 
     public DevotionFragment() {
-        super(DevotionActivity.class, "MCCDailyDevoRSS", R.array.devotion_fields);
+        super("MCCDailyDevoRSS", R.array.devotion_fields);
     }
 
     @Override
-    protected DatabaseItemAdapter getAdapter(Bundle[] data) {
-        return new DevotionAdapter(mContext, data);
+    protected RecyclerView.Adapter getAdapter(Bundle[] data) {
+        return new DevotionAdapter(mContext, R.layout.devotion_list_row, data, DevotionActivity.class);
     }
 
     @Override

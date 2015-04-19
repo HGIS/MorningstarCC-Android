@@ -83,7 +83,7 @@ public class ViewConstructorUtils {
         setImageLink(context, link, defaultResId, errorResId, (ImageView) parent.findViewById(resId));
     }
 
-    private static void setImageLink(Context context, String link, int defaultResId, int errorResId, ImageView into) {
+    public static void setImageLink(Context context, String link, int defaultResId, int errorResId, ImageView into) {
         Picasso
                 .with(context)
                 .load(link)

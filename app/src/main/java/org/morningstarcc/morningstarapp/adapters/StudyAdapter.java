@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.viewholders.StudyHolder;
 
 import java.util.Date;
 
@@ -19,42 +19,42 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText
 /**
  * Created by Kyle on 10/30/2014.
  */
-public class StudyAdapter extends DatabaseItemAdapter {
+public class StudyAdapter extends DatabaseItemAdapter<StudyHolder> {
 
     private Activity mActivity;
 
     private static String VIDEO_LINK = "vnd.youtube://";
     private static final String IMAGE_THUMBNAIL = "http://img.youtube.com/vi/%s/1.jpg";
 
-    public StudyAdapter(Activity activity, Bundle[] data) {
-        super(activity, R.layout.study_list_row, data);
+    public StudyAdapter(Activity activity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(activity, row_layout, data, nextActivity);
         this.mActivity = activity;
     }
 
     @Override
-    protected void setupView(View root, final int position) {
+    protected void setupView(StudyHolder viewHolder, final int position) {
         Date studyDate = getDate(data[position].getString("StudyDate"));
 
-        setText(root, R.id.title, data[position].getString("title"));
-        setText(root, R.id.month, getMonthString(studyDate));
-        setText(root, R.id.day, getDayString(studyDate));
+        viewHolder.title.setText(data[position].getString("title"));
+        viewHolder.month.setText(getMonthString(studyDate));
+        viewHolder.day.setText(getDayString(studyDate));
 
-        root.setClickable(false);
-        root.findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
+        viewHolder.root.setClickable(false);
+        viewHolder.root.findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String videoId = getVideoId(getItem(position).getString("VideoLink"));
-                Intent tostart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
+                String videoId = getVideoId(data[position].getString("VideoLink"));
+                Intent toStart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
 
-                mActivity.startActivity(tostart);
+                mActivity.startActivity(toStart);
             }
         });
 
-        root.findViewById(R.id.listen).setOnClickListener(new View.OnClickListener() {
+        viewHolder.root.findViewById(R.id.listen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(getItem(position).getString("AudioLink")), "audio/*");
+                intent.setDataAndType(Uri.parse(data[position].getString("AudioLink")), "audio/*");
 
                 mActivity.startActivity(intent);
             }
@@ -67,5 +67,10 @@ public class StudyAdapter extends DatabaseItemAdapter {
 
     private String getVideoId(String videoLink) {
         return videoLink.substring(videoLink.lastIndexOf("/") + 1);
+    }
+
+    @Override
+    protected StudyHolder getViewHolder(View view) {
+        return new StudyHolder(view);
     }
 }

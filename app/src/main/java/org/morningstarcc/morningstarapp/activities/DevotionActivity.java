@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
@@ -36,26 +37,10 @@ public class DevotionActivity extends DetailsActivity {
         ((TextView) findViewById(R.id.content)).setText(Html.fromHtml(intent.getStringExtra("content:encoded")));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_devotions_actions, menu);
-
-        return super.onCreateOptionsMenu(menu);
+    public void onShare(View view) {
+        Intent shareIntent = ShareIntent.build(intent.getStringExtra("content:encoded"));
+        startActivity(shareIntent);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_share:
-                Intent shareIntent = ShareIntent.build(intent.getStringExtra("content:encoded"));
-                startActivity(shareIntent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
 
     private void setRead() {
         ContentValues readDevotion = new ContentValues();
