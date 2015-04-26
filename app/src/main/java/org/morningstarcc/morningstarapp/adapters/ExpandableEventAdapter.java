@@ -1,116 +1,110 @@
 package org.morningstarcc.morningstarapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 
-import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.libs.DateUtils;
+import org.morningstarcc.morningstarapp.libs.SectionableList;
+import org.morningstarcc.morningstarapp.viewholders.ExpandableEventHolder;
 
+import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
-import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeOfDay;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDayString;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeOfDay;
 
 /**
  * Created by Kyle on 10/10/2014.
  */
-public class ExpandableEventAdapter extends BaseExpandableListAdapter {
-    private Context mContext;
-    private List<String> titles;
-    private List<List<Bundle>> events;
+public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventHolder> {
+    public static final int HEADER = 0;
+    public static final int BODY = 1;
 
-    private LayoutInflater mInflater;
+    private SectionableList<Bundle> data;
+    private int row_layout_header;
 
-    public ExpandableEventAdapter(Context context, List<String> titles, List<List<Bundle>> events) {
-        super();
-        if (titles.size() != events.size()) {
-            throw new IllegalArgumentException("Titles and Contents must be the same size.");
+    public ExpandableEventAdapter(Context mContext, int row_layout_header, int row_layout_list, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(mContext, row_layout_list, data, nextActivity);
+        this.row_layout_header = row_layout_header;
+        this.data = new SectionableList<Bundle>(data, new EventSorter()) {
+            @Override
+            public Bundle buildHeader(Bundle item) {
+                Bundle header = new Bundle();
+
+                header.putString("eventstarttime", item.getString("eventstarttime"));
+
+                return header;
+            }
+        };
+    }
+
+    @Override
+    public ExpandableEventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View rootView;
+
+        if (viewType != HEADER) {
+            rootView = mInflater.inflate(row_layout, parent, false);
+
+            rootView.setOnClickListener(new ItemClickListener());
         }
+        else
+            rootView = mInflater.inflate(row_layout_header, parent, false);
 
-        this.mContext = context;
-        this.titles = titles;
-        this.events = events;
+        return new ExpandableEventHolder(rootView, viewType);
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        Date eventDate = getDate(titles.get(groupPosition));
+    protected void setupView(ExpandableEventHolder holder, int position) {
+        Bundle bundle = this.data.get(position);
+        Date day = getFullDate(bundle.getString("eventstarttime"));
 
-        if (convertView == null) {
-            getLayoutInflaterIfNeeded();
-            convertView = mInflater.inflate(R.layout.expandable_event_header_row, parent, false);
+        if (holder.time != null) {
+            holder.title.setText(bundle.getString("title"));
+            holder.time.setText(getTimeOfDay(day));
         }
-
-        setText(convertView, R.id.title, getFullDayString(eventDate));
-
-        return convertView;
+        else
+            holder.title.setText(getFullDayString(day));
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Bundle event = events.get(groupPosition).get(childPosition);
+    public int getItemCount() {
+        return this.data.size();
+    }
 
-        if (convertView == null) {
-            getLayoutInflaterIfNeeded();
-            convertView = mInflater.inflate(R.layout.expandable_event_list_row, parent, false);
+    @Override
+    public int getItemViewType(int position) {
+        if (this.data.isHeader(position))
+            return HEADER;
+        return BODY;
+    }
+
+    @Override
+    protected ExpandableEventHolder getViewHolder(View view) {
+        return null;
+    }
+
+    private class EventSorter implements Comparator<Bundle> {
+        @Override
+        public int compare(Bundle lhs, Bundle rhs) {
+            Date start = getDate(lhs.getString("eventstarttime").split(" ")[0]);
+            Date end = getDate(rhs.getString("eventstarttime").split(" ")[0]);
+
+            return start.compareTo(end);
         }
-
-        setText(convertView, R.id.title, event.getString("title"));
-        setText(convertView, R.id.time, getTimeOfDay(getFullDate(event.getString("eventstarttime"))));
-
-        return convertView;
     }
 
-    @Override
-    public List<Bundle> getGroup(int groupPosition) {
-        return events.get(groupPosition);
-    }
-
-    @Override
-    public Bundle getChild(int groupPosition, int childPosition) {
-        return events.get(groupPosition).get(childPosition);
-    }
-
-    @Override
-    public int getGroupCount() {
-        return events.size();
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return events.get(groupPosition).size();
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return 0;
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return 0;
-    }
-
-    private void getLayoutInflaterIfNeeded() {
-        if (mInflater == null)
-            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private class ItemClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int itemPosition = mRecyclerView.getChildPosition(v);
+            Bundle item = data.get(itemPosition);
+            mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item));
+        }
     }
 }

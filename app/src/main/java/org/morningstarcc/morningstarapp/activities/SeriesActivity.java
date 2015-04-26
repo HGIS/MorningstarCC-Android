@@ -2,7 +2,9 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -18,7 +20,8 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText
  */
 public class SeriesActivity extends DetailsActivity {
 
-    private boolean running;
+    private static final float ALPHA_CAP = 0.5f;
+
     private View shadow;
     private View divider;
 
@@ -29,7 +32,7 @@ public class SeriesActivity extends DetailsActivity {
         setTitle(intent.getStringExtra("title"));
         setContentView(R.layout.activity_series);
 
-        setImageLink(this,R.id.image, intent.getStringExtra("Imagelink"));
+        setImageLink(this, R.id.image, intent.getStringExtra("Imagelink"));
         setText(this, R.id.title, intent.getStringExtra("title"));
         setText(this, R.id.count, getStudyCount());
 
@@ -43,19 +46,10 @@ public class SeriesActivity extends DetailsActivity {
                 .beginTransaction()
                 .replace(R.id.content_frame, next)
                 .commit();
-    }
 
-    @Override
-    protected void onResume() {
-        running = true;
-        new ShadowAlphaSetter().execute();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        running = false;
-        super.onPause();
+        // initialize shadow to have 0 alpha
+        ViewCompat.setAlpha(shadow, 0);
+        divider.getLayoutParams().height = 1;
     }
 
     private String getStudyCount() {
@@ -71,56 +65,9 @@ public class SeriesActivity extends DetailsActivity {
         return "";
     }
 
-    private class ShadowAlphaSetter extends AsyncTask<Void, Void, Void> {
-
-        private static final float ALPHA_CAP = 0.5f;
-
-        private Runnable uiChanger;
-        private float alpha;
-
-        public ShadowAlphaSetter() {
-            super();
-
-            this.uiChanger = new Runnable() {
-                @Override
-                public void run() {
-                    ViewCompat.setAlpha(shadow, alpha);
-                    divider.getLayoutParams().height = alpha == 0
-                            ? 1
-                            : 0;
-                }
-            };
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            while (running) {
-                this.alpha = ((StudyFragment) SeriesActivity.this
-                        .getSupportFragmentManager()
-                        .findFragmentById(R.id.content_frame))
-                        .getScroll()
-                            / (2.0f * shadow.getHeight());
-
-                // cap alpha value
-                if (!Float.isNaN(this.alpha))
-                    this.alpha = Math.min(this.alpha, ALPHA_CAP);
-
-                Log.d("SeriesActivity", "Setting shadow alpha to: " + alpha);
-                runOnUiThread(uiChanger);
-                pause();
-            }
-
-            return null;
-        }
-
-        private void pause() {
-            try {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e) {
-                running = false;
-            }
-        }
+    public void setScroll(int scroll) {
+        float alpha = Math.min(scroll / (2.0f * shadow.getHeight()), ALPHA_CAP);
+        ViewCompat.setAlpha(shadow, alpha);
+        divider.getLayoutParams().height = alpha == 0 ? 1 : 0;
     }
 }

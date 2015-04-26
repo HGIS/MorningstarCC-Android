@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.morningstarcc.morningstarapp.R;
+import org.morningstarcc.morningstarapp.activities.SeriesActivity;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
@@ -53,15 +54,12 @@ public class StudyFragment extends RecyclerFragment {
     }
 
     private class RecyclerScrollListener extends RecyclerView.OnScrollListener {
-
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             scroll += dy;
-        }
-    }
 
-    public int getScroll() {
-        return scroll;
+            ((SeriesActivity) getActivity()).setScroll(scroll);
+        }
     }
 }

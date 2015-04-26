@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,7 +67,7 @@ public class EventActivity extends DetailsActivity {
         startDate = getFullDate(intent.getStringExtra("eventstarttime"));
         endDate = getFullDate(intent.getStringExtra("eventendtime"));
 
-        setTitle(intent.getStringExtra("title"));
+        setTitle(Html.fromHtml(intent.getStringExtra("title")).toString());
 
         String imagePath = intent.getStringExtra("imagepath");
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,8 +77,11 @@ public class EventActivity extends DetailsActivity {
 
         if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH))
             setImageLink(this, R.id.image, imagePath, R.drawable.default_event, R.drawable.default_event);
-        else
+        else {
             findViewById(R.id.image).getLayoutParams().height = 0;
+            ViewCompat.setTranslationY(findViewById(R.id.fab), dpToPx(36));
+            findViewById(R.id.fab).bringToFront();
+        }
 
         setText(this, R.id.date, getDateInterval(startDate, endDate));
         setText(this, R.id.time, getTimeInterval(startDate, endDate));
@@ -121,5 +126,9 @@ public class EventActivity extends DetailsActivity {
     public void addEventToCalendar(View view) {
         Intent calendarIntent = CalendarIntent.build(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
         startActivity(calendarIntent);
+    }
+
+    public int dpToPx(int dp) {
+        return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
