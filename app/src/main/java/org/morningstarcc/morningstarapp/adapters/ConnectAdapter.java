@@ -3,11 +3,13 @@ package org.morningstarcc.morningstarapp.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.morningstarcc.morningstarapp.intents.EmailIntent;
 import org.morningstarcc.morningstarapp.viewholders.ConnectHolder;
 
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
@@ -46,8 +48,10 @@ public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
             int itemPosition = mRecyclerView.getChildPosition(v);
             Bundle item = data[itemPosition];
 
-            Log.e("exc", item.toString());
-            mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item));
+            if (item.getString("title").contains("Email")) 
+                mContext.startActivity(EmailIntent.build(item.getString("weblink")));
+            else
+                mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item));
         }
     }
 }
