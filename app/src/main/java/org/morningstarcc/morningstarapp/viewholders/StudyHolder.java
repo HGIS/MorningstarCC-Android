@@ -15,18 +15,10 @@ public class StudyHolder extends RecyclerView.ViewHolder {
     public TextView day;
     public TextView title;
 
-    public ImageView play;
-    public ImageView listen;
-
-    public View root;
-
     public StudyHolder(View view) {
         super(view);
         this.month = (TextView) view.findViewById(R.id.month);
         this.day = (TextView) view.findViewById(R.id.day);
         this.title = (TextView) view.findViewById(R.id.title);
-        this.play = (ImageView) view.findViewById(R.id.play);
-        this.listen = (ImageView) view.findViewById(R.id.listen);
-        this.root = view;
     }
 }

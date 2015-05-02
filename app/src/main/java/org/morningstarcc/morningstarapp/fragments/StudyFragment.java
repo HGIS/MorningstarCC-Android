@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.SeriesActivity;
+import org.morningstarcc.morningstarapp.activities.StudyActivity;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
@@ -31,7 +32,7 @@ public class StudyFragment extends RecyclerFragment {
 
     @Override
     protected DatabaseItemAdapter getAdapter(Bundle[] data) {
-        return new StudyAdapter(getActivity(), R.layout.study_list_row, data, null);
+        return new StudyAdapter(getActivity(), R.layout.study_list_row, data, StudyActivity.class);
     }
 
     @Override

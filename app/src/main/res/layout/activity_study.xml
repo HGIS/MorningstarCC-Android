@@ -1,0 +1,67 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="org.morningstarcc.morningstarapp.activities.StudyActivity">
+
+    <TextView
+        android:id="@+id/scripture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:paddingBottom="@dimen/small_indent"
+        tools:text="Genesis 5:11"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scripture"
+        android:textSize="@dimen/text_medium"
+        android:paddingBottom="@dimen/small_indent"
+        tools:text="Tuesday, December 31"/>
+
+    <TextView
+        android:id="@+id/speaker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:textSize="@dimen/text_medium"
+        android:paddingBottom="@dimen/small_indent"
+        tools:text="Sample speaker"/>
+
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/speaker"
+        android:textSize="@dimen/text_medium"
+        android:paddingTop="@dimen/small_indent"
+        android:paddingBottom="@dimen/small_indent"
+        tools:text="A sample description that runs on multiple lines"/>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_play"
+        android:layout_marginRight="@dimen/large_indent"
+        android:layout_marginEnd="@dimen/large_indent"
+        android:layout_marginBottom="@dimen/large_indent"
+        app:fab_colorNormal="@color/theme_main"
+        app:fab_colorRipple="@color/theme_tint"
+        app:fab_colorDisabled="@color/theme_tint"
+        app:fab_colorPressed="@color/theme_tint"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onPlay"/>
+
+</RelativeLayout>
