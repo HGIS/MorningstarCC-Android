@@ -29,9 +29,7 @@
     <string name="previous">previous</string>
     <string name="next">next</string>
 
-    <!-- No pdf reader dialog strings -->
-    <string name="no_pdf_reader_title">PDF READER NOT FOUND</string>
-    <string name="no_pdf_reader_body">No app found to open the bulletin. Would you like to download the free Adobe Reader app from Google Play Store?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No, just download bulletin</string>
+    <string name="splash">Splash screen</string>
+    <string name="series_image">Series cover image</string>
+    <string name="event_image">Event image</string>
 </resources>

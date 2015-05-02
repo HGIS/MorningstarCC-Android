@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -10,8 +11,8 @@
     android:minHeight="@dimen/min_clickable_height">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_weight="2.75"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
 
@@ -22,7 +23,8 @@
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/small_indent"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            tools:text="12:00 AM"/>
 
     </RelativeLayout>
 
@@ -41,6 +43,7 @@
         android:paddingLeft="@dimen/indent"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        tools:text="Sample event title"/>
 
 </LinearLayout>

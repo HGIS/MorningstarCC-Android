@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- extends android.R.layout.simple_spinner_dropdown_item.xml -->
 <CheckedTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="?android:attr/spinnerDropDownItemStyle"
     android:singleLine="true"
     android:layout_width="match_parent"
@@ -13,4 +14,5 @@
     android:textSize="@dimen/text_medium"
     android:textStyle="bold"
     android:textColor="@color/theme_accent"
-    android:textColorHint="@color/theme_accent"/>
+    android:textColorHint="@color/theme_accent"
+    tools:text="Sample title"/>

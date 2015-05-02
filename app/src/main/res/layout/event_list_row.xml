@@ -3,6 +3,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,7 +19,9 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/event_image"
+            tools:src="@drawable/default_event"/>
 
         <TextView
             android:id="@+id/date"
@@ -26,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:paddingLeft="@dimen/small_indent"/>
+            android:paddingLeft="@dimen/small_indent"
+            tools:text="Dec 31"/>
 
 
         <TextView
@@ -36,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:paddingLeft="@dimen/small_indent"
-            android:paddingBottom="@dimen/small_indent"/>
+            android:paddingBottom="@dimen/small_indent"
+            tools:text="12:00 AM - 12:00 PM"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
