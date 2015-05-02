@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventAdapter;
@@ -80,7 +81,8 @@ public class EventActivity extends DetailsActivity {
         else {
             findViewById(R.id.image).getLayoutParams().height = 0;
             ViewCompat.setTranslationY(findViewById(R.id.fab), dpToPx(36));
-            findViewById(R.id.fab).bringToFront();
+            findViewById(R.id.fab).getParent().requestLayout();
+            // TODO: figure out why Floating Action Button is partially invisible
         }
 
         setText(this, R.id.date, getDateInterval(startDate, endDate));

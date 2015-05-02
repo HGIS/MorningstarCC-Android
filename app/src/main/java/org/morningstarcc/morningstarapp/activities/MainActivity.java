@@ -1,19 +1,20 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,9 +30,9 @@ import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
-import org.morningstarcc.morningstarapp.fragments.PdfRendererBasicFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 import org.morningstarcc.morningstarapp.intents.WebViewIntent;
+import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
 import org.morningstarcc.morningstarapp.libs.FileDownloader;
 
 import java.io.File;
@@ -80,9 +81,8 @@ public class MainActivity extends ActionBarActivity {
             SERIES = 1,
             EVENTS = 2,
             DEVOTIONS = 3,
-            DIVIDER = 4,
-            BULLETIN = 5,
-            LIVE_STREAM = 6;
+            BULLETIN = 4,
+            LIVE_STREAM = 5;
 
     // a variable to hold state of events drop-down
     private int mEventPosition;
@@ -178,18 +178,9 @@ public class MainActivity extends ActionBarActivity {
                 title = mDrawerTitles[position];
                 fragment = new DevotionFragment();
                 break;
-            case DIVIDER:
-                return;
             case BULLETIN:
-                if (Build.VERSION.SDK_INT >= 21 /*5.0*/) {
-                    title = "Bulletin";
-                    fragment = new PdfRendererBasicFragment();
-                    break;
-                }
-                else {
-                    launchBulletin();
-                    return;
-                }
+                launchBulletin();
+                return;
             case LIVE_STREAM:
                 launchLiveStream();
                 return;
@@ -246,45 +237,29 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        try {
-            new FileDownloader("bulletin", ".pdf") {
-                @Override
-                public void onPostExecute(File file) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromFile(file)));
-                }
-            }.execute(getString(R.string.bulletin_url));
-        } catch (IOException e) {
-            Log.e("Bulletin", Log.getStackTraceString(e));
+        if (DownloadUrlContentTask.hasInternetAccess(this)) {
+            final ProgressDialog dialog = new ProgressDialog(this);
+            final FileDownloader downloader = new BulletinDownloader("bulletin.pdf", this, dialog);
+
+            // TODO: obviously we don't want this if they has no internets
+            dialog.setMessage("Downloading most recent version");
+            dialog.setIndeterminate(true);
+            dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            dialog.setCancelable(true);
+            dialog.setOnCancelListener(new AsyncTaskCancelListener(downloader));
+
+            dialog.show();
+            downloader.execute(getString(R.string.bulletin_url));
         }
+        else
+            openBulletin();
+    }
 
-        /*final String pdfPackageName = "com.adobe.reader";
-        Intent intent = getPackageManager().getLaunchIntentForPackage(pdfPackageName);
+    private void openBulletin() {
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+        pdfIntent.setDataAndType(Uri.fromFile(new File(getFilesDir(), "bulletin.pdf")), "application/pdf");
 
-        if (intent == null)
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.no_pdf_reader_title))
-                    .setMessage(getString(R.string.no_pdf_reader_body))
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pdfPackageName)));
-                            } catch (android.content.ActivityNotFoundException e) {
-                                // we reach here only if Google Play is not installed on the device
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + pdfPackageName)));
-                            }
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(WebViewIntent.build(getString(R.string.bulletin_url)));
-                        }
-                    })
-                    .show();
-        else {
-            intent.setDataAndType(Uri.parse(getString(R.string.bulletin_url)), "application/pdf");
-
-            startActivity(intent);
-        }*/
+        startActivity(pdfIntent);
     }
 
     private void launchLiveStream() {
@@ -339,6 +314,41 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
 
             return true;
+        }
+    }
+
+    private class BulletinDownloader extends FileDownloader {
+        private ProgressDialog dialog;
+
+        public BulletinDownloader(String filename, Context context, ProgressDialog dialog) {
+            super(filename, context);
+            this.dialog = dialog;
+        }
+
+        @Override
+        public void onPostExecute(File file) {
+            dialog.hide();
+            openBulletin();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            dialog.setIndeterminate(false);
+            dialog.setMax((int) length);
+            dialog.setProgress((int) progress);
+        }
+    }
+
+    private class AsyncTaskCancelListener implements ProgressDialog.OnCancelListener {
+        private AsyncTask task;
+
+        public AsyncTaskCancelListener(AsyncTask task) {
+            this.task = task;
+        }
+
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            task.cancel(false);
         }
     }
 }

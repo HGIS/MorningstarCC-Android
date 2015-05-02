@@ -48,7 +48,7 @@ public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
             int itemPosition = mRecyclerView.getChildPosition(v);
             Bundle item = data[itemPosition];
 
-            if (item.getString("title").contains("Email")) 
+            if (item.getString("title").contains("Email"))
                 mContext.startActivity(EmailIntent.build(item.getString("weblink")));
             else
                 mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item));

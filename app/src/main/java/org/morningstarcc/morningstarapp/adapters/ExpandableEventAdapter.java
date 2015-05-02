@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
         Date day = getFullDate(bundle.getString("eventstarttime"));
 
         if (holder.time != null) {
-            holder.title.setText(bundle.getString("title"));
+            holder.title.setText(Html.fromHtml(bundle.getString("title")).toString());
             holder.time.setText(getTimeOfDay(day));
         }
         else

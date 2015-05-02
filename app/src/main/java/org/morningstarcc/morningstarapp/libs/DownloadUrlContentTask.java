@@ -21,6 +21,8 @@ import java.util.GregorianCalendar;
 public abstract class DownloadUrlContentTask<T> extends AsyncTask<String, Void, T> {
     private static final String TAG = "DownloadUrlContentTask";
 
+    protected long length = 0;
+
     @Override
     protected abstract T doInBackground(String... urls);
 
@@ -31,22 +33,29 @@ public abstract class DownloadUrlContentTask<T> extends AsyncTask<String, Void, 
      * Given a string representation of a URL, sets up a connection and gets an input stream.
      */
     protected InputStream getRemoteInputStream(String urlString) throws IOException {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
+        conn.setReadTimeout(10000 /* milliseconds */);
+        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
 
-            // Starts the query
-            conn.connect();
-            return conn.getInputStream();
-        } catch (IOException e) {
-            Log.e(TAG, Log.getStackTraceString(e));
-            return null;
+        // Starts the query
+        conn.connect();
+
+        if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException(urlString + " (" + conn.getResponseCode() + ") - " + conn.getResponseMessage());
         }
+
+        this.length = conn.getContentLength();
+        Log.d(TAG, urlString + " - " + length + " bytes");
+
+        return conn.getInputStream();
+    }
+
+    public long getLength() {
+        return length;
     }
 
     /**
