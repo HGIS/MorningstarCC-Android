@@ -19,7 +19,7 @@ import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
  */
 public class SplashActivity extends Activity {
 
-    private static final int DELAY = 3000; // ms
+    private static final int DELAY = 1500; // ms
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

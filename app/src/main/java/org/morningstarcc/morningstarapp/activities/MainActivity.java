@@ -2,6 +2,7 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventDropdownAdapter;
@@ -241,7 +243,6 @@ public class MainActivity extends ActionBarActivity {
             final ProgressDialog dialog = new ProgressDialog(this);
             final FileDownloader downloader = new BulletinDownloader("bulletin.pdf", this, dialog);
 
-            // TODO: obviously we don't want this if they has no internets
             dialog.setMessage("Downloading most recent version");
             dialog.setIndeterminate(true);
             dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -251,8 +252,14 @@ public class MainActivity extends ActionBarActivity {
             dialog.show();
             downloader.execute(getString(R.string.bulletin_url));
         }
-        else
-            openBulletin();
+        else {
+            try {
+                openBulletin();
+            }
+            catch (ActivityNotFoundException e) {
+                Toast.makeText(this, "Cannot retrieve bulletin", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void openBulletin() {

@@ -3,6 +3,7 @@ package org.morningstarcc.morningstarapp.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,10 +61,10 @@ public class StudyActivity extends DetailsActivity {
     }
 
     public void onListen() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(intent.getStringExtra("AudioLink")), "audio/*");
+        Intent listenIntent = new Intent(Intent.ACTION_VIEW);
+        listenIntent.setDataAndType(Uri.parse(intent.getStringExtra("AudioLink")), "audio/*");
 
-        startActivity(intent);
+        startActivity(listenIntent);
     }
 
     public void onPlay(View view) {
