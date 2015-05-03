@@ -24,7 +24,7 @@ public abstract class SectionableList<T> {
         this.headerIndices.add(0);
 
         for (int i = 2; i < this.data.size(); i++) {
-            if (sorter.compare(this.data.get(i), this.data.get(i - 1)) == 0) {
+            if (sorter.compare(this.data.get(i), this.data.get(i - 1)) != 0) {
                 this.data.add(i, buildHeader(this.data.get(i)));
                 this.headerIndices.add(i);
                 i++;
