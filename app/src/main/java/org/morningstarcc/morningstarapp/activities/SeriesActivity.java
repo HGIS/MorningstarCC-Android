@@ -59,6 +59,9 @@ public class SeriesActivity extends DetailsActivity {
                 .readAll(null)
                 .getSize();
 
+        if (count == 1)
+            return count + " study";
+
         if (count > 0)
             return count + " studies";
 

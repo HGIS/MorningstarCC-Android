@@ -40,6 +40,9 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
     private String getStudyCount(Bundle data) {
         long numStudies = getNumStudies(data);
 
+        if (numStudies == 1)
+            return numStudies + " study";
+
         if (numStudies > 0)
             return numStudies + " studies";
 
