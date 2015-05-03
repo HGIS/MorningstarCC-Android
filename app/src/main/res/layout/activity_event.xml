@@ -1,104 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll_container"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scroll_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            tools:title="Hello World!"/>
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_below="@id/toolbar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:onClick="onViewMoreDetails"
-            android:contentDescription="@string/event_image"
-            tools:src="@drawable/default_event"/>
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_below="@id/image"
-            android:textSize="@dimen/text_medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/indent"
-            android:paddingTop="@dimen/indent"
-            tools:text="Mmm dd"/>
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_below="@id/date"
-            android:textSize="@dimen/text_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/indent"
-            android:paddingBottom="@dimen/indent"
-            android:background="@android:color/transparent"
-            tools:text="12:00 AM - 12:00 PM"/>
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_below="@id/time"
-            android:textSize="@dimen/text_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/indent"
-            android:paddingTop="@dimen/indent"
-            android:paddingBottom="@dimen/indent"
-            android:background="@android:color/transparent"
-            tools:text="Some random sample description text that runs for multiple lines"/>
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <RelativeLayout
-            android:layout_below="@id/description"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onRegister">
+            android:id="@+id/event_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                tools:title="Hello World!"/>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_below="@id/toolbar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:onClick="onViewMoreDetails"
+                android:contentDescription="@string/event_image"
+                tools:src="@drawable/default_event"/>
 
             <TextView
-                android:id="@+id/register"
-                android:text="@string/event_register"
+                android:id="@+id/date"
+                android:layout_below="@id/image"
                 android:textSize="@dimen/text_medium"
-                android:textColor="@color/blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/indent"
+                android:paddingTop="@dimen/indent"
+                tools:text="Mmm dd"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_below="@id/date"
+                android:textSize="@dimen/text_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/indent"
+                android:paddingBottom="@dimen/indent"
+                android:background="@android:color/transparent"
+                tools:text="12:00 AM - 12:00 PM"/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_below="@id/time"
+                android:textSize="@dimen/text_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/indent"
+                android:paddingTop="@dimen/indent"
+                android:paddingBottom="@dimen/indent"
+                android:background="@android:color/transparent"
+                tools:text="Some random sample description text that runs for multiple lines"/>
+
+            <RelativeLayout
+                android:layout_below="@id/description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onRegister">
+
+                <TextView
+                    android:id="@+id/register"
+                    android:text="@string/event_register"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
+    </ScrollView>
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_alignBottom="@id/image"
-            android:layout_marginRight="@dimen/large_indent"
-            android:layout_marginEnd="@dimen/large_indent"
-            android:layout_marginBottom="-32dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_calendar"
-            android:onClick="addEventToCalendar"
-            fab:fab_colorNormal="@color/theme_main"
-            fab:fab_colorPressed="@color/theme_tint" />
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_marginRight="@dimen/large_indent"
+        android:layout_marginEnd="@dimen/large_indent"
+        android:layout_marginBottom="@dimen/large_indent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_calendar"
+        android:onClick="addEventToCalendar"
+        fab:fab_colorNormal="@color/theme_main"
+        fab:fab_colorPressed="@color/theme_tint" />
 
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

@@ -1,11 +1,7 @@
 package org.morningstarcc.morningstarapp.activities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;

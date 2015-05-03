@@ -1,16 +1,21 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
+import android.widget.RelativeLayout;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventAdapter;
@@ -76,14 +81,22 @@ public class EventActivity extends DetailsActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH))
+        if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH)) {
             setImageLink(this, R.id.image, imagePath, R.drawable.default_event, R.drawable.default_event);
-        else {
-            findViewById(R.id.image).getLayoutParams().height = 0;
-            ViewCompat.setTranslationY(findViewById(R.id.fab), dpToPx(36));
-            findViewById(R.id.fab).getParent().requestLayout();
-            // TODO: figure out why Floating Action Button is partially invisible
+
+            View floatingActionButton = findViewById(R.id.fab);
+            ((ViewManager) floatingActionButton.getParent()).removeView(floatingActionButton);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) floatingActionButton.getLayoutParams();
+
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.image);
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30, getResources().getDisplayMetrics()));
+
+            ((ViewGroup) findViewById(R.id.event_container)).addView(floatingActionButton, params);
         }
+        else
+            findViewById(R.id.image).getLayoutParams().height = 0;
 
         setText(this, R.id.date, getDateInterval(startDate, endDate));
         setText(this, R.id.time, getTimeInterval(startDate, endDate));
