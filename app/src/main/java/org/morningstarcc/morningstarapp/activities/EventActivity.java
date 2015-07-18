@@ -15,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.squareup.picasso.Picasso;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventAdapter;
@@ -82,21 +85,8 @@ public class EventActivity extends DetailsActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH)) {
-            setImageLink(this, R.id.image, imagePath, R.drawable.default_event, R.drawable.default_event);
-
-            View floatingActionButton = findViewById(R.id.fab);
-            ((ViewManager) floatingActionButton.getParent()).removeView(floatingActionButton);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) floatingActionButton.getLayoutParams();
-
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.image);
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30, getResources().getDisplayMetrics()));
-
-            ((ViewGroup) findViewById(R.id.event_container)).addView(floatingActionButton, params);
+            setImageLink(this, R.id.image, imagePath, R.drawable.logo_event_default, R.drawable.logo_event_default);
         }
-        else
-            findViewById(R.id.image).getLayoutParams().height = 0;
 
         setText(this, R.id.date, getDateInterval(startDate, endDate));
         setText(this, R.id.time, getTimeInterval(startDate, endDate));
@@ -104,7 +94,7 @@ public class EventActivity extends DetailsActivity {
         setText(this, R.id.description, intent.getStringExtra("description"));
 
         if (intent.getStringExtra("hasregistration").equalsIgnoreCase("false")) {
-            findViewById(R.id.register).setVisibility(View.INVISIBLE);
+            findViewById(R.id.register).setVisibility(View.GONE);
         }
 
         disableScrollIfTooSmall(findViewById(R.id.scroll_container));
@@ -141,9 +131,5 @@ public class EventActivity extends DetailsActivity {
     public void addEventToCalendar(View view) {
         Intent calendarIntent = CalendarIntent.build(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
         startActivity(calendarIntent);
-    }
-
-    public int dpToPx(int dp) {
-        return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

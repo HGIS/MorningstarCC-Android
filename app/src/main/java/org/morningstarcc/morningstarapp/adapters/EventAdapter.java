@@ -27,8 +27,8 @@ public class EventAdapter extends DatabaseItemAdapter<EventHolder> {
 
     public static final String DEFAULT_IMAGE_PATH = "http://www.morningstarcc.org";
 
-    public EventAdapter(Context mContext, int layout, Bundle[] events, Class<? extends Activity> nextActivity) {
-        super(mContext, layout, trim(events), nextActivity);
+    public EventAdapter(Activity mActivity, int layout, Bundle[] events, Class<? extends Activity> nextActivity) {
+        super(mActivity, layout, trim(events), nextActivity);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class EventAdapter extends DatabaseItemAdapter<EventHolder> {
         Date endDate = getFullDate(event.getString("eventendtime"));
 
         Picasso
-                .with(mContext)
+                .with(mActivity)
                 .load(event.getString("imagepath"))
-                .placeholder(R.drawable.default_event)
+                .placeholder(R.drawable.logo_event_default)
                 .into(holder.image);
 
         holder.date.setText(getDateInterval(startDate, endDate));

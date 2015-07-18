@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +17,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.transition.ChangeBounds;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
@@ -32,13 +36,12 @@ import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
 import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
-import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
+import org.morningstarcc.morningstarapp.fragments.SeriesCategoryFragment;
 import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
 import org.morningstarcc.morningstarapp.libs.FileDownloader;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * TODO list:
@@ -91,6 +94,15 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // set up animations for those of us lucky to have them
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+            getWindow().setEnterTransition(new Explode());
+            getWindow().setExitTransition(new Explode());
+            getWindow().setSharedElementEnterTransition(new ChangeBounds());
+            getWindow().setSharedElementExitTransition(new ChangeBounds());
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -117,10 +129,10 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_frame, new ConnectFragment())
+                .replace(R.id.content_frame, new SeriesCategoryFragment())
                 .commit();
 
-        mPosition = 0;
+        mPosition = 1;
         mDrawerList.setItemChecked(mPosition, true);
         setTitle(mDrawerTitles[mPosition]);
         mDrawerLayout.closeDrawer(mDrawerList);
@@ -169,7 +181,7 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case SERIES:
                 title = mDrawerTitles[position];
-                fragment = new SeriesFragment();
+                fragment = new SeriesCategoryFragment();
                 break;
             case EVENTS:
                 title = "";
@@ -217,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
             mPosition = 0;
             setTitle(mDrawerTitles[mPosition]);
         }
-        else if (cur instanceof SeriesFragment) {
+        else if (cur instanceof SeriesCategoryFragment) {
             mPosition = 1;
             setTitle(mDrawerTitles[mPosition]);
         }

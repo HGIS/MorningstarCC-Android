@@ -12,6 +12,7 @@
     android:paddingBottom="10dp">
 
     <LinearLayout
+        android:transitionName="@string/transition_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

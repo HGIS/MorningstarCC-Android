@@ -68,7 +68,7 @@ public class ViewConstructorUtils {
      */
 
     public static void setImageLink(Activity activity, int resId, String link) {
-        setImageLink(activity, resId, link, R.drawable.ic_launcher, R.drawable.ic_launcher);
+        setImageLink(activity, resId, link, R.drawable.ic_splash, R.drawable.ic_splash);
     }
 
     public static void setImageLink(Activity activity, int resId, String link, int defaultResId, int errorResId) {
@@ -76,7 +76,7 @@ public class ViewConstructorUtils {
     }
 
     public static void setImageLink(Context context, View parent, int resId, String link) {
-        setImageLink(context, parent, resId, link, R.drawable.ic_launcher, R.drawable.ic_launcher);
+        setImageLink(context, parent, resId, link, R.drawable.ic_splash, R.drawable.ic_splash);
     }
 
     public static void setImageLink(Context context, View parent, int resId, String link, int defaultResId, int errorResId) {

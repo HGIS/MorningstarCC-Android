@@ -13,6 +13,6 @@ public class ShareIntent {
         sendIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(text).toString());
         sendIntent.setType("text/plain");
 
-        return Intent.createChooser(sendIntent, "Share to...");
+        return sendIntent;
     }
 }

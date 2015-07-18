@@ -34,4 +34,11 @@
     <string name="series_image">Series cover image</string>
     <string name="event_image">Event image</string>
     <string name="title_activity_study">StudyActivity</string>
+
+    <!-- transition item names -->
+    <string name="transition_item">T_ITEM</string>
+    <string name="title_activity_series_category">SeriesCategoryActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -48,13 +48,8 @@ public abstract class RecyclerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.generic_recycler, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        Bundle[] data = Database
-                .withContext(mContext)
-                .forTable(table)
-                .readAll(arrayResId)
-                .asBundleArray();
 
-        adapter = getAdapter(data);
+        adapter = getAdapter(fetchData(arrayResId));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
@@ -62,6 +57,14 @@ public abstract class RecyclerFragment extends Fragment {
             recyclerView.setOnScrollListener(new OnScrollToolbarHider());
 
         return rootView;
+    }
+
+    protected Bundle[] fetchData(int arrayResId) {
+        return Database
+                .withContext(mContext)
+                .forTable(table)
+                .readAll(arrayResId)
+                .asBundleArray();
     }
 
     protected abstract RecyclerView.Adapter getAdapter(Bundle[] data);

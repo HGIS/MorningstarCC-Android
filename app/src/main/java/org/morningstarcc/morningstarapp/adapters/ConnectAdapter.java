@@ -19,8 +19,8 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText
  */
 public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
 
-    public ConnectAdapter(Context mContext, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
-        super(mContext, row_layout, data, nextActivity);
+    public ConnectAdapter(Activity mActivity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(mActivity, row_layout, data, nextActivity);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
             Bundle item = data[itemPosition];
 
             if (item.getString("title").contains("Email"))
-                mContext.startActivity(EmailIntent.build(item.getString("weblink")));
+                mActivity.startActivity(EmailIntent.build(item.getString("weblink")));
             else
-                mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item));
+                mActivity.startActivity(new Intent(mActivity, nextActivity).putExtras(item));
         }
     }
 }

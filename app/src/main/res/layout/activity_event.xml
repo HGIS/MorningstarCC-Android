@@ -26,42 +26,65 @@
                 android:background="?attr/colorPrimary"
                 tools:title="Hello World!"/>
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_below="@id/toolbar"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:onClick="onViewMoreDetails"
-                android:contentDescription="@string/event_image"
-                tools:src="@drawable/default_event"/>
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_below="@id/image"
-                android:textSize="@dimen/text_medium"
+            <!-- transitions wrapper -->
+            <RelativeLayout
+                android:transitionName="@string/transition_item"
+                android:id="@+id/wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/indent"
-                android:paddingTop="@dimen/indent"
-                tools:text="Mmm dd"/>
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar">
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_below="@id/date"
-                android:textSize="@dimen/text_medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/indent"
-                android:paddingBottom="@dimen/indent"
-                android:background="@android:color/transparent"
-                tools:text="12:00 AM - 12:00 PM"/>
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:onClick="onViewMoreDetails"
+                    android:contentDescription="@string/event_image"
+                    android:src="@drawable/logo_event_default"/>
+
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_marginRight="@dimen/indent"
+                    android:layout_marginEnd="@dimen/indent"
+                    android:layout_marginBottom="-30dp"
+                    android:layout_alignBottom="@id/image"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_calendar"
+                    android:onClick="addEventToCalendar"
+                    fab:fab_colorNormal="@color/theme_main"
+                    fab:fab_colorPressed="@color/theme_tint" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_below="@id/image"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/indent"
+                    android:paddingTop="@dimen/indent"
+                    tools:text="Mmm dd"/>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_below="@id/date"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/indent"
+                    android:paddingBottom="@dimen/indent"
+                    android:background="@android:color/transparent"
+                    tools:text="12:00 AM - 12:00 PM"/>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/description"
-                android:layout_below="@id/time"
+                android:layout_below="@id/wrapper"
                 android:textSize="@dimen/text_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,19 +115,6 @@
         </RelativeLayout>
     </ScrollView>
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_marginRight="@dimen/large_indent"
-        android:layout_marginEnd="@dimen/large_indent"
-        android:layout_marginBottom="@dimen/large_indent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_calendar"
-        android:onClick="addEventToCalendar"
-        fab:fab_colorNormal="@color/theme_main"
-        fab:fab_colorPressed="@color/theme_tint" />
+
 
 </RelativeLayout>

@@ -12,6 +12,18 @@
         <item>isactive</item>
     </string-array>
 
+    <string-array name="series_category_fields">
+        <item>SeriesId</item>
+        <item>LastStudyDate</item>
+        <item>StudyCount</item>
+        <item>title</item>
+        <item>Book</item>
+        <item>Imagelink</item>
+        <item>SeriesType</item>
+        <item>SeriesTypeSortOrder</item>
+        <item>SeriesTypeDesc</item>
+    </string-array>
+
     <string-array name="series_fields">
         <item>SeriesId</item>
         <item>title</item>

@@ -19,8 +19,8 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText
  */
 public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
 
-    public SeriesAdapter(Context mContext, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
-        super(mContext, row_layout, data, nextActivity);
+    public SeriesAdapter(Activity mActivity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(mActivity, row_layout, data, nextActivity);
     }
 
     @Override
@@ -28,9 +28,9 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
         Bundle curData = data[position];
 
         Picasso
-                .with(mContext)
+                .with(mActivity)
                 .load(curData.getString("Imagelink"))
-                .placeholder(R.drawable.ic_launcher)
+                .placeholder(R.drawable.ic_splash)
                 .into(viewHolder.image);
 
         viewHolder.title.setText(curData.getString("title"));
@@ -51,7 +51,7 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
 
     private long getNumStudies(Bundle data) {
         try {
-            return Database.withContext(mContext)
+            return Database.withContext(mActivity)
                     .forTable("MCCStudiesInSeriesRSS" + data.getString("SeriesId"))
                     .getCount();
         }

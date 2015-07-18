@@ -18,7 +18,7 @@ public class DevotionFragment extends RecyclerFragment {
 
     @Override
     protected RecyclerView.Adapter getAdapter(Bundle[] data) {
-        return new DevotionAdapter(mContext, R.layout.devotion_list_row, data, DevotionActivity.class);
+        return new DevotionAdapter(getActivity(), R.layout.devotion_list_row, data, DevotionActivity.class);
     }
 
     @Override

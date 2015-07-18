@@ -25,13 +25,13 @@ import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setType
  */
 public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
 
-    Context mContext;
+    Activity mActivity;
     Resources mResources;
 
-    public DevotionAdapter(Context mContext, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
-        super(mContext, row_layout, data, nextActivity);
-        this.mContext = mContext;
-        this.mResources = mContext.getResources();
+    public DevotionAdapter(Activity mActivity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(mActivity, row_layout, data, nextActivity);
+        this.mActivity = mActivity;
+        this.mResources = mActivity.getResources();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
 
     private boolean isRead(String id) {
         Cursor lookup = Database
-                .withContext(mContext)
+                .withContext(mActivity)
                 .forTable(DevotionActivity.READ_DEVOTIONS_TABLE)
                 .readAll(null)
                 .getData();

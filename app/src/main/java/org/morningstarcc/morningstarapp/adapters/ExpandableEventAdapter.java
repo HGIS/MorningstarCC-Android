@@ -30,8 +30,8 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
     private SectionableList<Bundle> data;
     private int row_layout_header;
 
-    public ExpandableEventAdapter(Context mContext, int row_layout_header, int row_layout_list, Bundle[] data, Class<? extends Activity> nextActivity) {
-        super(mContext, row_layout_list, data, nextActivity);
+    public ExpandableEventAdapter(Activity mActivity, int row_layout_header, int row_layout_list, Bundle[] data, Class<? extends Activity> nextActivity) {
+        super(mActivity, row_layout_list, data, nextActivity);
         this.row_layout_header = row_layout_header;
         this.data = new SectionableList<Bundle>(data, new EventSorter()) {
             @Override
@@ -105,7 +105,7 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
         public void onClick(View v) {
             int itemPosition = mRecyclerView.getChildPosition(v);
             Bundle item = data.get(itemPosition);
-            mContext.startActivity(new Intent(mContext, nextActivity).putExtras(item));
+            mActivity.startActivity(new Intent(mActivity, nextActivity).putExtras(item));
         }
     }
 }

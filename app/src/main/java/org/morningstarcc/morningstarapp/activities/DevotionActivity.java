@@ -3,7 +3,9 @@ package org.morningstarcc.morningstarapp.activities;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +32,12 @@ public class DevotionActivity extends DetailsActivity {
 
         setRead();
 
-        setTitle(intent.getStringExtra("title"));
         setContentView(R.layout.activity_devotion);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setTitle(intent.getStringExtra("title"));
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         // NOTE: do not use ViewConstructorUtils.setText(...) as the html formatting will be lost
         ((TextView) findViewById(R.id.content)).setText(Html.fromHtml(intent.getStringExtra("content:encoded")));

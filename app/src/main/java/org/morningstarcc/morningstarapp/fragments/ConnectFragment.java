@@ -64,7 +64,7 @@ public class ConnectFragment extends RecyclerFragment {
     }
 
     public DatabaseItemAdapter getAdapter(Bundle[] data) {
-        return new ConnectAdapter(mContext, R.layout.connect_list_row, data, ConnectActivity.class);
+        return new ConnectAdapter(getActivity(), R.layout.connect_list_row, data, ConnectActivity.class);
     }
 
     // gets the default data for the connect rows

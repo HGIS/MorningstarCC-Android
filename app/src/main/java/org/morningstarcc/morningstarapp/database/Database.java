@@ -3,6 +3,7 @@ package org.morningstarcc.morningstarapp.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.SystemClock;
 
 import org.morningstarcc.morningstarapp.R;
 
@@ -37,7 +38,9 @@ public class Database extends SQLiteOpenHelper {
      *  no tables for core data is needed here.
      */
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {}
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("DELETE TABLE IF EXISTS MCCStudySeriesRSS");
+    }
 
     /**
      * This method is only called when the database on the android device has a version number less than

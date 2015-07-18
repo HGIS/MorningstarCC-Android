@@ -210,8 +210,13 @@ public class DatabaseTable {
     private void write(SQLiteDatabase db, List<ContentValues> rows) {
         DatabaseWriteBuffer buffer = new DatabaseWriteBuffer(db, table);
 
-        for (ContentValues row : rows)
-            buffer.add(row);
+        if (rows != null)
+            for (ContentValues row : rows)
+                buffer.add(row);
+        else {
+            Log.e("DatabaseTable", "Null response for table: " + table);
+            return;
+        }
 
         db.execSQL("DROP TABLE IF EXISTS " + table);
         create(db, getColumnNames(rows));

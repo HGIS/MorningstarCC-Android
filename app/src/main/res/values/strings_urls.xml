@@ -2,7 +2,8 @@
 <resources>
 
     <string name="connect_url">http://www.morningstarcc.org/MCCConnectWithUsLinksRSS.xml</string>
-    <string name="series_url">http://www.morningstarcc.org/MCCStudySeriesRSS.aspx</string>
+    <string name="series_categories_url">http://www.morningstarcc.org/MCCCurrentStudySeriesTypesRSS.aspx</string>
+    <string name="series_url">http://www.morningstarcc.org/MCCStudySeriesByTypeRSS.aspx?typeid=</string>
     <string name="events_url">http://www.morningstarcc.org/MCCEventsRSS.aspx</string>
     <string name="devotions_url">http://www.morningstarcc.org/MCCDailyDevoRSS.aspx</string>
     <string name="studies_url">http://www.morningstarcc.org/MCCStudiesinseriesRSS.aspx?SeriesId=</string>

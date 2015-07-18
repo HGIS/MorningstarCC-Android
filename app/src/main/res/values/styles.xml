@@ -9,6 +9,9 @@
         <item name="colorPrimaryDark">@color/theme_tint</item>
         <item name="android:navigationBarColor" tools:targetApi="21">@color/theme_main</item>
 
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+
         <!-- support for reverse compatibility -->
         <item name="actionBarStyle">@style/Theme.MCCTheme.MCCActionBar</item>
         <item name="actionBarTheme">@style/Theme.MCCTheme.MCCActionBarStyle</item>
