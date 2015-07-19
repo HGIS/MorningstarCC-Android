@@ -2,11 +2,10 @@ package org.morningstarcc.morningstarapp.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.fragments.ConnectFragment;
-import org.morningstarcc.morningstarapp.intents.WebViewIntent;
+import org.morningstarcc.morningstarapp.libs.IntentUtils;
 import org.morningstarcc.morningstarapp.libs.ViewConstructorUtils;
 
 /**
@@ -24,7 +23,7 @@ public class ConnectActivity extends DetailsActivity {
         String content = intent.getStringExtra("content:encoded");
 
         if (!"True".equalsIgnoreCase(hasChild) && (content == null || content.length() == 0)) {
-            startActivity(WebViewIntent.build(intent.getStringExtra("weblink")));
+            startActivity(IntentUtils.webIntent(intent.getStringExtra("weblink")));
             finish();
         }
 

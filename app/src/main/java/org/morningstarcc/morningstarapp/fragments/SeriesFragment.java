@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.SeriesActivity;
-import org.morningstarcc.morningstarapp.activities.SeriesCategoryActivity;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
 import org.morningstarcc.morningstarapp.adapters.SeriesAdapter;
 import org.morningstarcc.morningstarapp.viewholders.SeriesHolder;

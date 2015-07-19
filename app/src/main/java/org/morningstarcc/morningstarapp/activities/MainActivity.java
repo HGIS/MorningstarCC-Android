@@ -37,9 +37,9 @@ import org.morningstarcc.morningstarapp.fragments.DevotionFragment;
 import org.morningstarcc.morningstarapp.fragments.EventFragment;
 import org.morningstarcc.morningstarapp.fragments.ExpandableEventFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesCategoryFragment;
-import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;
 import org.morningstarcc.morningstarapp.libs.FileDownloader;
+import org.morningstarcc.morningstarapp.libs.IntentUtils;
 
 import java.io.File;
 
@@ -49,24 +49,19 @@ import java.io.File;
  *      popping fragments off back stack does not change action bar state
  *
  * Version Alpha/Beta 0
- *  - Connect Tab
  *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
  *      + update picasso to use file backing cache
  *      + remove feature that lets you add event to calendar when you have already done so
  *      + do some stuff with downloading audio
  *      + Consolidate update and old
- *  - default views to error/loading state
  *  - Allow for Vimeo
- *  - click on different sub-list items
  *  - see Pastor Rod's scrum updates
  *
  * Version Beta 1
  *  - Style everything better
  *  - animations!
- *  - palettes
+ *  - palettes?
  *  - update nav drawer
- *  - Get differently sized images (almost all of them) -- maybe
- *  - Month dividers (and spinner) for events
  *  - push notifications?
  */
 public class MainActivity extends ActionBarActivity {
@@ -282,7 +277,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchLiveStream() {
-        startActivity(WebViewIntent.build(getString(R.string.live_stream_url)));
+        startActivity(IntentUtils.webIntent(getString(R.string.live_stream_url)));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

@@ -24,13 +24,14 @@ public class SeriesActivity extends DetailsActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        long count = getStudyCount();
 
         setTitle(intent.getStringExtra("title"));
         setContentView(R.layout.activity_series);
 
         setImageLink(this, R.id.image, intent.getStringExtra("Imagelink"));
         setText(this, R.id.title, intent.getStringExtra("title"));
-        setText(this, R.id.count, getStudyCount());
+        setText(this, R.id.count, count + (count == 1 ? " study" : " studies"));
 
         shadow = findViewById(R.id.shadow);
         divider = findViewById(R.id.divider);
@@ -48,20 +49,14 @@ public class SeriesActivity extends DetailsActivity {
         divider.getLayoutParams().height = 1;
     }
 
-    private String getStudyCount() {
-        int count = Database
-                .withContext(this)
-                .forTable("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"))
-                .readAll(null)
-                .getSize();
-
-        if (count == 1)
-            return count + " study";
-
-        if (count > 0)
-            return count + " studies";
-
-        return "";
+    private long getStudyCount() {
+        return Math.max(
+                Database
+                    .withContext(this)
+                    .forTable("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"))
+                    .readAll(null)
+                    .getSize(),
+                0);
     }
 
     public void setScroll(int scroll) {

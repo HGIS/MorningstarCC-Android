@@ -1,36 +1,24 @@
 package org.morningstarcc.morningstarapp.activities;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
-import com.squareup.picasso.Picasso;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.adapters.EventAdapter;
-import org.morningstarcc.morningstarapp.intents.CalendarIntent;
-import org.morningstarcc.morningstarapp.intents.ShareIntent;
-import org.morningstarcc.morningstarapp.intents.WebViewIntent;
 import org.morningstarcc.morningstarapp.libs.DateUtils;
+import org.morningstarcc.morningstarapp.libs.IntentUtils;
 
 import java.util.Date;
 
-import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
+import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
@@ -102,7 +90,7 @@ public class EventActivity extends DetailsActivity {
 
     public void onRegister(View view) {
         try {
-            startActivity(WebViewIntent.build(intent.getStringExtra("registrationlink")));
+            startActivity(IntentUtils.webIntent(intent.getStringExtra("registrationlink")));
         }
         catch (Exception e) {
             Log.e("EventActivity", Log.getStackTraceString(e));
@@ -110,7 +98,7 @@ public class EventActivity extends DetailsActivity {
     }
 
     public void onViewMoreDetails(View view) {
-        startActivity(WebViewIntent.build(intent.getStringExtra("weblink")));
+        startActivity(IntentUtils.webIntent(intent.getStringExtra("weblink")));
     }
 
 
@@ -121,7 +109,7 @@ public class EventActivity extends DetailsActivity {
     }
 
     private void shareEvent() {
-        Intent shareIntent = ShareIntent.build("Join me on " + DateUtils.getFullDayString(startDate) +
+        Intent shareIntent = IntentUtils.shareIntent("Join me on " + DateUtils.getFullDayString(startDate) +
                 " for " + intent.getStringExtra("title") +
                 ". See more at: " + intent.getStringExtra("weblink"));
 
@@ -129,7 +117,7 @@ public class EventActivity extends DetailsActivity {
     }
 
     public void addEventToCalendar(View view) {
-        Intent calendarIntent = CalendarIntent.build(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
+        Intent calendarIntent = IntentUtils.calendarIntent(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
         startActivity(calendarIntent);
     }
 }

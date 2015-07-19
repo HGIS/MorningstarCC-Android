@@ -3,7 +3,6 @@ package org.morningstarcc.morningstarapp.activities;
 import android.os.Bundle;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.fragments.SeriesCategoryFragment;
 import org.morningstarcc.morningstarapp.fragments.SeriesFragment;
 
 public class SeriesCategoryActivity extends DetailsActivity {

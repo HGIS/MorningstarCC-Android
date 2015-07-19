@@ -11,8 +11,8 @@ import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.SeriesActivity;
 import org.morningstarcc.morningstarapp.activities.StudyActivity;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
-import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.adapters.StudyAdapter;
+import org.morningstarcc.morningstarapp.database.Database;
 
 /**
  * Created by Kyle on 10/30/2014.

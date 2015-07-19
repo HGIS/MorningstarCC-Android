@@ -1,13 +1,9 @@
 package org.morningstarcc.morningstarapp.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.activities.StudyActivity;
 import org.morningstarcc.morningstarapp.viewholders.StudyHolder;
 
 import java.util.Date;
@@ -15,7 +11,6 @@ import java.util.Date;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDayString;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getMonthString;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
  * Created by Kyle on 10/30/2014.

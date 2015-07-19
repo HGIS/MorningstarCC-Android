@@ -2,22 +2,12 @@ package org.morningstarcc.morningstarapp.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.activities.SeriesActivity;
 import org.morningstarcc.morningstarapp.activities.SeriesCategoryActivity;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
-import org.morningstarcc.morningstarapp.adapters.SeriesAdapter;
 import org.morningstarcc.morningstarapp.adapters.SeriesCategoryAdapter;
-import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.viewholders.SeriesCategoryHolder;
-import org.morningstarcc.morningstarapp.viewholders.SeriesHolder;
 
 import java.util.Arrays;
 import java.util.Comparator;

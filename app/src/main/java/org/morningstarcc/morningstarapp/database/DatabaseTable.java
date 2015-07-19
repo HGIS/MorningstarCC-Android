@@ -7,16 +7,10 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.Nullable;
-import android.support.v4.database.DatabaseUtilsCompat;
 import android.util.Log;
 
-import org.morningstarcc.morningstarapp.R;
-
-import java.sql.SQLDataException;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.security.auth.callback.Callback;
 
 import static org.morningstarcc.morningstarapp.database.DatabaseTypeAdapters.getColumnNames;
 

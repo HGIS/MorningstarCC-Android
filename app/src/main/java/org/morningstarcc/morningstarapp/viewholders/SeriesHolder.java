@@ -11,6 +11,7 @@ import org.morningstarcc.morningstarapp.R;
  * Created by Kyle on 4/18/2015.
  */
 public class SeriesHolder extends RecyclerView.ViewHolder {
+    private View root;
     public ImageView image;
     public TextView title;
     public TextView count;
@@ -20,5 +21,9 @@ public class SeriesHolder extends RecyclerView.ViewHolder {
         this.image = (ImageView) view.findViewById(R.id.image);
         this.title = (TextView) view.findViewById(R.id.title);
         this.count = (TextView) view.findViewById(R.id.count);
+    }
+
+    public void setClickable(boolean clickable) {
+        root.setClickable(clickable);
     }
 }

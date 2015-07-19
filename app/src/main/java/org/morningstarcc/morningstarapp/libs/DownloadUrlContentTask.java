@@ -5,14 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.WebView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * A class that retrieves data from a specified remote location and loads it through an RSS parser,

@@ -6,15 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.Explode;
-import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 
-import org.morningstarcc.morningstarapp.BuildConfig;
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.libs.DatabaseUpdater;
 import org.morningstarcc.morningstarapp.libs.DownloadUrlContentTask;

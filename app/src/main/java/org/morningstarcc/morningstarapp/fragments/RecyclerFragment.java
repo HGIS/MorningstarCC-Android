@@ -3,7 +3,6 @@ package org.morningstarcc.morningstarapp.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +54,11 @@ public abstract class RecyclerFragment extends Fragment {
 
         if (toolbar != null)
             recyclerView.setOnScrollListener(new OnScrollToolbarHider());
+
+        if (adapter.getItemCount() == 0)
+            rootView.findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
+        else
+            android.util.Log.e("Kyle", "" + adapter.getItemCount());
 
         return rootView;
     }

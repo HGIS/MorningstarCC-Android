@@ -1,7 +1,6 @@
 package org.morningstarcc.morningstarapp.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -17,8 +16,6 @@ import java.util.Date;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDayString;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getMonthString;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setTypeface;
 
 /**
  * Created by Kyle on 10/10/2014.

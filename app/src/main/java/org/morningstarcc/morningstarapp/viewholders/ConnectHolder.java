@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import org.morningstarcc.morningstarapp.activities.ConnectActivity;
-
 /**
  * Created by Kyle on 4/19/2015.
  */

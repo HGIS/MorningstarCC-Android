@@ -1,7 +1,6 @@
 package org.morningstarcc.morningstarapp.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,12 +12,9 @@ import org.morningstarcc.morningstarapp.viewholders.EventHolder;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static org.morningstarcc.morningstarapp.libs.DateUtils.getDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getDateInterval;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getFullDate;
 import static org.morningstarcc.morningstarapp.libs.DateUtils.getTimeInterval;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
  * Created by whykalo on 12/20/2014.

@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.activities.EventActivity;
-import org.morningstarcc.morningstarapp.adapters.EventAdapter;
 import org.morningstarcc.morningstarapp.adapters.DatabaseItemAdapter;
+import org.morningstarcc.morningstarapp.adapters.EventAdapter;
 
 /**
  * Created by whykalo on 12/20/2014.

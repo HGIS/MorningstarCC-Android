@@ -6,8 +6,6 @@ import android.database.Cursor;
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.database.Database;
 
-import java.util.Arrays;
-
 /**
  * Updates the database with all the feeds it grabs.
  */

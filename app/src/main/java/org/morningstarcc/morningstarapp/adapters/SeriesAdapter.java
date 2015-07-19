@@ -1,7 +1,6 @@
 package org.morningstarcc.morningstarapp.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,9 +9,6 @@ import com.squareup.picasso.Picasso;
 import org.morningstarcc.morningstarapp.R;
 import org.morningstarcc.morningstarapp.database.Database;
 import org.morningstarcc.morningstarapp.viewholders.SeriesHolder;
-
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setImageLink;
-import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
 /**
  * Created by Kyle on 8/2/2014.
@@ -26,6 +22,7 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
     @Override
     protected void setupView(SeriesHolder viewHolder, int position) {
         Bundle curData = data[position];
+        long numStudies = getStudyCount(curData);
 
         Picasso
                 .with(mActivity)
@@ -34,19 +31,11 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
                 .into(viewHolder.image);
 
         viewHolder.title.setText(curData.getString("title"));
-        viewHolder.count.setText(getStudyCount(curData));
+        viewHolder.count.setText(numStudies + (numStudies == 1 ? " study" : " studies"));
     }
 
-    private String getStudyCount(Bundle data) {
-        long numStudies = getNumStudies(data);
-
-        if (numStudies == 1)
-            return numStudies + " study";
-
-        if (numStudies > 0)
-            return numStudies + " studies";
-
-        return "";
+    private long getStudyCount(Bundle data) {
+        return Math.max(getNumStudies(data), 0);
     }
 
     private long getNumStudies(Bundle data) {

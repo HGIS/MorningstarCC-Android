@@ -3,7 +3,6 @@ package org.morningstarcc.morningstarapp.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.SystemClock;
 
 import org.morningstarcc.morningstarapp.R;
 

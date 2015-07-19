@@ -2,7 +2,6 @@ package org.morningstarcc.morningstarapp.libs;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.os.SystemClock;
 import android.util.Log;
 
 import org.morningstarcc.morningstarapp.database.Database;

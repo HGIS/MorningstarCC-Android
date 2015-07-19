@@ -3,13 +3,12 @@ package org.morningstarcc.morningstarapp.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import org.morningstarcc.morningstarapp.R;
-import org.morningstarcc.morningstarapp.intents.ShareIntent;
+import org.morningstarcc.morningstarapp.libs.IntentUtils;
 
 import static org.morningstarcc.morningstarapp.libs.ViewConstructorUtils.setText;
 
@@ -51,7 +50,7 @@ public class StudyActivity extends DetailsActivity {
     }
 
     public void onShare() {
-        Intent shareIntent = ShareIntent.build(String.format(
+        Intent shareIntent = IntentUtils.shareIntent(String.format(
                 "Morningstar's %s taught about %s from %s on %s. Check it out at: %s, or listen to it at: %s",
                 intent.getStringExtra("Speaker"), intent.getStringExtra("title").toLowerCase(),
                 intent.getStringExtra("Scripture"), intent.getStringExtra("StudyDate"),
