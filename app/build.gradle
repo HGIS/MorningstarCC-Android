@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "org.morningstarcc.morningstarapp"
+        applicationId "org.morningstarcc.app"
         minSdkVersion 8
         targetSdkVersion 22
         versionCode 3
