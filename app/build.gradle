@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        googlePlay {
+            keyAlias 'mcc-keystore'
+            keyPassword 'g8hCGSAnJ9DvmJ2h'
+            storeFile file('../keystore.jks')
+            storePassword 'g8hCGSAnJ9DvmJ2h'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "20.0.0"
-
     defaultConfig {
         applicationId "org.morningstarcc.app"
         minSdkVersion 8
@@ -16,6 +23,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
+            signingConfig signingConfigs.googlePlay
         }
     }
 }
