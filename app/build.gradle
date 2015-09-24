@@ -44,4 +44,6 @@ dependencies {
 
     // ORM mirror
     compile 'com.j256.ormlite:ormlite-android:4.48'
+
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
 }
