@@ -47,13 +47,13 @@ public abstract class DataManager {
 
         @Override
         protected List<ContentValues> doInBackground(String... urls) {
-            try {
-                return RssParser.parse(getRemoteInputStream(urls[0]));
-            }
-            catch (IOException e) {
-                Log.e(TAG, Log.getStackTraceString(e));
+//            try {
+//                return RssParser.parse(getRemoteInputStream(urls[0]));
+//            }
+//            catch (IOException e) {
+                Log.e(TAG, "Error, bad use of RssParser detected");
                 return null;
-            }
+//            }
         }
 
         @Override

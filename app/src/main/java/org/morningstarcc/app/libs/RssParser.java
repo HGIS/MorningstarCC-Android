@@ -1,22 +1,16 @@
 package org.morningstarcc.app.libs;
 
-import android.content.ContentValues;
 import android.util.Log;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.morningstarcc.app.http.XmlArray;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import java.util.HashMap;
 
 /**
  * Created by Kyle on 8/10/2014.
@@ -35,60 +29,49 @@ import javax.xml.parsers.ParserConfigurationException;
  *
  */
 public class RssParser {
+    public static XmlArray parse(byte[] data, String encoding) {
+        return parse(new ByteArrayInputStream(data), encoding);
+    }
 
-    /**
-     * Public facing method that allows other classes to get a list of ContentValues as explained above.
-     *
-     * @param src   Rss Feed stream
-     * @return      read entries
-     */
-    // TODO: apparently SAX parser is faster version of the same thing
-    public static List<ContentValues> parse(InputStream src) {
+    private static XmlArray parse(InputStream stream, String encoding) {
+        XmlArray xmlArray = new XmlArray();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(src);
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser;
+            String text = null;
+            HashMap<String, String> item = null;
 
-            if (document.hasChildNodes())
-                return readItems(document.getElementsByTagName("item"));
-        }
-        catch (ParserConfigurationException e) {
-            Log.e("RssParser", Log.getStackTraceString(e));
-        }
-        catch (SAXException e) {
-            Log.e("RssParser", Log.getStackTraceString(e));
-        }
-        catch (IOException e) {
-            Log.e("RssParser", Log.getStackTraceString(e));
-        }
-        catch (IllegalArgumentException e) {
-            Log.e("RssParser", Log.getStackTraceString(e));
-        }
+            factory.setNamespaceAware(true);
+            parser = factory.newPullParser();
+            parser.setInput(stream, encoding);
 
-        return new ArrayList<ContentValues>();
-    }
-
-    // TODO: break failure down, so I can at least get some items -- i think this requires SAX, since it builds everything initially
-    private static List<ContentValues> readItems(NodeList nodeList) {
-        List<ContentValues> items = new ArrayList<ContentValues>(nodeList.getLength());
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            items.add(readItem((Element) nodeList.item(i)));
-        }
-
-        return items;
-    }
-
-    private static ContentValues readItem(Element element) {
-        ContentValues item = new ContentValues();
-        NodeList nodes = element.getElementsByTagName("*");
-
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node cur = nodes.item(i);
-
-            item.put('\"' + cur.getNodeName() + '\"', cur.getTextContent());
+            for (int eventType = parser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = parser.next()) {
+                String tag = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (tag.equalsIgnoreCase("item")) {
+                            item = new HashMap<>();
+                        }
+                        break;
+                    case XmlPullParser.TEXT:
+                        text = parser.getText();
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if (tag.equalsIgnoreCase("item")) {
+                            xmlArray.add(item);
+                            item = null;
+                        } else if (item != null) {
+                            item.put(tag, text);
+                        }
+                        break;
+                }
+            }
+        } catch (XmlPullParserException e) {
+            Log.e("RssParser", e.toString());
+        } catch (IOException e) {
+            Log.e("RssParser", e.toString());
         }
 
-        return item;
+        return xmlArray;
     }
 }

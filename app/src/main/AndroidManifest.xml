@@ -11,7 +11,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MCCTheme" >
+        android:theme="@style/Theme.MCCTheme"
+        android:name=".App">
         <activity
             android:name="org.morningstarcc.app.activities.SplashActivity"
             android:label="@string/app_name"

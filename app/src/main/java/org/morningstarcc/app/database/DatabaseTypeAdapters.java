@@ -24,10 +24,11 @@ public class DatabaseTypeAdapters {
         Set<String> keySet = new HashSet<String>();
 
         // get column names from each row
-        for (ContentValues row : rows)
-            for (Map.Entry<String, Object> entry : row.valueSet())
-                if (!myStringSetContains(entry.getKey(), keySet))
-                    keySet.add(entry.getKey());
+        if (rows != null)
+            for (ContentValues row : rows)
+                for (Map.Entry<String, Object> entry : row.valueSet())
+                    if (!myStringSetContains(entry.getKey(), keySet))
+                        keySet.add(entry.getKey());
 
         return keySet.toArray(new String[keySet.size()]);
     }

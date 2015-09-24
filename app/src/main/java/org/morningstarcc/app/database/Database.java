@@ -38,7 +38,6 @@ public class Database extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("DELETE TABLE IF EXISTS MCCStudySeriesRSS");
     }
 
     /**

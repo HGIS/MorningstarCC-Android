@@ -67,6 +67,9 @@ public class DatabaseUpdater extends DataManager {
                 .forTable("MCCCurrentStudySeriesTypesRSS")
                 .readAll(new String[]{"SeriesType"})
                 .getData();
+
+        if (seriesTypes == null) return new String[0];
+
         String[] types = new String[seriesTypes.getCount()];
         String format = mContext.getString(R.string.series_url);
 
