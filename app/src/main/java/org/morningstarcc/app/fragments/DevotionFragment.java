@@ -6,14 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.DevotionActivity;
 import org.morningstarcc.app.adapters.DevotionAdapter;
+import org.morningstarcc.app.data.Devotion;
 
 /**
  * Created by Kyle on 7/19/2014.
  */
-public class DevotionFragment extends RecyclerFragment {
+public class DevotionFragment extends RecyclerFragment<Devotion> {
 
     public DevotionFragment() {
-        super("MCCDailyDevoRSS", R.array.devotion_fields);
+        super(Devotion.class);
     }
 
     @Override

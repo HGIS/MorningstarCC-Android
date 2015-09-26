@@ -12,22 +12,24 @@ import org.morningstarcc.app.activities.SeriesActivity;
 import org.morningstarcc.app.activities.StudyActivity;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
 import org.morningstarcc.app.adapters.StudyAdapter;
+import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.database.Database;
 
 /**
  * Created by Kyle on 10/30/2014.
  */
-public class StudyFragment extends RecyclerFragment {
+public class StudyFragment extends RecyclerFragment<Study> {
 
     private int scroll = 0;
 
     public StudyFragment() {
-        super("MCCStudiesInSeriesRSS", R.array.study_fields);
+        super(Study.class);
     }
 
     @Override
     public void setArguments(Bundle args) {
-        this.table += args.getString("SeriesId");
+        super.setArguments(args);
+        this.id += args.getString("SeriesId");
     }
 
     @Override
@@ -37,18 +39,11 @@ public class StudyFragment extends RecyclerFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.generic_recycler, container, false);
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        Bundle[] data = Database
-                .withContext(mContext)
-                .forTable(table)
-                .readAll(R.array.study_fields)
-                .asBundleArray();
 
         scroll = 0;
-        adapter = getAdapter(data);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setOnScrollListener(new RecyclerScrollListener());
 
         return rootView;

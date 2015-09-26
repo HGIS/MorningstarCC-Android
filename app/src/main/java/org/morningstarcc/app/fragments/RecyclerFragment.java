@@ -16,6 +16,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Bundlable;
 import org.morningstarcc.app.database.Database;
 
 import java.sql.SQLException;
@@ -24,13 +25,14 @@ import java.util.List;
 /**
  * Created by Kyle on 4/16/2015.
  */
-public abstract class RecyclerFragment<T> extends Fragment {
-    protected RecyclerView.Adapter adapter;
+public abstract class RecyclerFragment<T extends Bundlable> extends Fragment {
     private Toolbar toolbar;
     private Class<T> clazz;
-    private Integer id;
 
-    protected RecyclerFragment(Class<T> clazz, Integer id) {
+    protected RecyclerView.Adapter adapter;
+    protected String id;
+
+    protected RecyclerFragment(Class<T> clazz, String id) {
         this.clazz = clazz;
         this.id = id;
     }
@@ -53,28 +55,33 @@ public abstract class RecyclerFragment<T> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.generic_recycler, container, false);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         try {
             Dao<T, Integer> dao = OpenHelperManager.getHelper(getActivity(), Database.class).getDao(clazz);
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
 
-            adapter = getAdapter(id == null ? dao.queryForAll() : dao.queryForEq("id", id));
+            adapter = getAdapter(fetchData(dao));
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-            if (toolbar != null)
-                recyclerView.setOnScrollListener(new OnScrollToolbarHider());
-
-            if (adapter.getItemCount() == 0)
-                rootView.findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
-
-            OpenHelperManager.releaseHelper();
         } catch (SQLException ignored) {
         }
+
+        OpenHelperManager.releaseHelper();
+
+        if (toolbar != null)
+            recyclerView.setOnScrollListener(new OnScrollToolbarHider());
+
+        if (adapter.getItemCount() == 0)
+            rootView.findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
 
         return rootView;
     }
 
-    protected abstract RecyclerView.Adapter getAdapter(List<T> data);
+    protected Bundle[] fetchData(Dao<T, Integer> dao) throws SQLException {
+        return Bundlable.bundle(id == null ? dao.queryForAll() : dao.queryForEq("id", id));
+    }
+
+    protected abstract RecyclerView.Adapter getAdapter(Bundle[] data);
 
     public class OnScrollToolbarHider extends RecyclerView.OnScrollListener {
         @Override

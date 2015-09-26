@@ -16,6 +16,7 @@ import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.ConnectActivity;
 import org.morningstarcc.app.adapters.ConnectAdapter;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
+import org.morningstarcc.app.data.Bundlable;
 import org.morningstarcc.app.data.Connect;
 import org.morningstarcc.app.database.Database;
 
@@ -71,25 +72,25 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
         return rootView;
     }
 
-    public DatabaseItemAdapter getAdapter(List<Connect> data) {
+    public DatabaseItemAdapter getAdapter(Bundle[] data) {
         return new ConnectAdapter(getActivity(), R.layout.connect_list_row, data, ConnectActivity.class);
     }
 
     // gets the default data for the connect rows
-    public List<Connect> getDefaultData() {
+    public Bundle[] getDefaultData() {
         try {
             HashMap<String, Object> values = new HashMap<>(2);
 
             values.put("parentId", "0");
             values.put("isactive", "True");
 
-            return OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values);
+            return Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
         } catch (SQLException ignored) {
-            return new ArrayList<>(0);
+            return new Bundle[0];
         }
     }
 
-    public List<Connect> getData(String parentId) {
+    public Bundle[] getData(String parentId) {
         if (parentId == null || parentId.equals("0"))
             return getDefaultData();
 
@@ -99,9 +100,9 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
             values.put("parentId", parentId);
             values.put("isactive", "True");
 
-            return OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values);
+            return Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
         } catch (SQLException ignored) {
-            return new ArrayList<>(0);
+            return new Bundle[0];
         }
     }
 }

@@ -6,14 +6,15 @@ import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.EventActivity;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
 import org.morningstarcc.app.adapters.EventAdapter;
+import org.morningstarcc.app.data.Event;
 
 /**
  * Created by whykalo on 12/20/2014.
  */
-public class EventFragment extends RecyclerFragment {
+public class EventFragment extends RecyclerFragment<Event> {
 
     public EventFragment() {
-        super("MCCEventsRSS", R.array.event_fields);
+        super(Event.class);
     }
 
     @Override
