@@ -3,6 +3,7 @@ package org.morningstarcc.app.adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,7 +31,7 @@ public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
 
     @Override
     protected void setupView(ConnectHolder viewHolder, int position) {
-        viewHolder.title.setText(data[position].getString("title"));
+        viewHolder.title.setText(String.valueOf(data[position].getString("title")));
     }
 
     @Override

@@ -43,4 +43,6 @@
     </plurals>
 
     <string name="empty_list">No items could be found</string>
+
+    <string name="unknown_author">Unknown author</string>
 </resources>

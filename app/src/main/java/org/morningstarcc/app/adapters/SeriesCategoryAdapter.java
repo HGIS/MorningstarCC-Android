@@ -2,6 +2,7 @@ package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.squareup.picasso.Picasso;
@@ -21,12 +22,20 @@ public class SeriesCategoryAdapter extends DatabaseItemAdapter<SeriesCategoryHol
     @Override
     protected void setupView(SeriesCategoryHolder viewHolder, int position) {
         Bundle curData = data[position];
+        String image = curData.getString("Imagelink");
 
-        Picasso
-            .with(mActivity)
-            .load(curData.getString("Imagelink"))
-            .placeholder(R.drawable.ic_splash)
-            .into(viewHolder.image);
+        if (TextUtils.isEmpty(image)) {
+            Picasso
+                    .with(mActivity)
+                    .load(R.drawable.ic_splash)
+                    .into(viewHolder.image);
+        } else {
+            Picasso
+                    .with(mActivity)
+                    .load(image)
+                    .placeholder(R.drawable.ic_splash)
+                    .into(viewHolder.image);
+        }
     }
 
     @Override

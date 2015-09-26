@@ -49,7 +49,6 @@ public class UpdateDbListener<T extends Bundlable> implements Response.Listener<
 
     @Override
     public void onResponse(RssArray response) {
-        Log.i("Volley", "Updating database for " + clazz);
         List<T> items = response.convert(clazz);
         try {
             Dao<T, Integer> dao = database.getDao(clazz);
@@ -58,17 +57,15 @@ public class UpdateDbListener<T extends Bundlable> implements Response.Listener<
                 try {
                     dao.create(item);
                 } catch (SQLException e) {
+                    Log.e("Database", "Failed to add row to " + clazz + "\n" + Log.getStackTraceString(e));
                 }
             }
-        } catch (SQLException e) {
-        }
 
-        Log.i("Volley", "Finished update for database " + clazz);
+        } catch (SQLException e) {
+            Log.e("Database", Log.getStackTraceString(e));
+        }
 
         if (counter != null) counterCallback.onResponse(counter.decrementAndGet());
-        if (callback != null) {
-            Log.e("Volley", "Giving back " + items.size() + " items of the original " + response.size());
-            callback.onResponse(items);
-        }
+        if (callback != null) callback.onResponse(items);
     }
 }

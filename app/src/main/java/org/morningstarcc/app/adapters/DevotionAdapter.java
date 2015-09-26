@@ -5,8 +5,10 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
+import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.DevotionActivity;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.viewholders.DevotionHolder;
@@ -33,14 +35,24 @@ public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
 
     @Override
     protected void setupView(DevotionHolder viewHolder, int position) {
-        Date date = getDate(data[position].getString("pubDate"));
+        Bundle devotion = data[position];
+        String dateString = devotion.getString("pubDate");
+        String author = devotion.getString("dccreator");
+        String read = devotion.getString("read");
 
-        viewHolder.month.setText(getMonthString(date));
-        viewHolder.day.setText(getDayString(date));
-        viewHolder.title.setText(data[position].getString("title"));
-        viewHolder.author.setText(data[position].getString("dc:creator"));
+        Date date = TextUtils.isEmpty(dateString) ? null : getDate(dateString);
 
-        Typeface textStyle = Boolean.parseBoolean(data[position].getString("read"))
+        if (date != null) {
+            viewHolder.month.setText(getMonthString(date));
+            viewHolder.day.setText(getDayString(date));
+        } else {
+            viewHolder.month.setVisibility(View.GONE);
+            viewHolder.day.setVisibility(View.GONE);
+        }
+        viewHolder.title.setText(String.valueOf(devotion.getString("title")));
+        viewHolder.author.setText(TextUtils.isEmpty(author) ? mActivity.getString(R.string.unknown_author) : author);
+
+        Typeface textStyle = !TextUtils.isEmpty(read) && Boolean.parseBoolean(read)
                 ? Typeface.DEFAULT
                 : Typeface.DEFAULT_BOLD;
 

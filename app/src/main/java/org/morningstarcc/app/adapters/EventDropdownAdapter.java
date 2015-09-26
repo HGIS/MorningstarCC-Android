@@ -38,7 +38,7 @@ public class EventDropdownAdapter implements SpinnerAdapter {
         if (convertView == null)
             convertView = mLayoutInflater.inflate(mDropdownLayout, parent, false);
 
-        setText(convertView, android.R.id.text1, titles[position]);
+        setText(convertView, android.R.id.text1, String.valueOf(titles[position]));
 
         return convertView;
     }
@@ -78,7 +78,7 @@ public class EventDropdownAdapter implements SpinnerAdapter {
         if (convertView == null)
             convertView = mLayoutInflater.inflate(mLayout, parent, false);
 
-        setText(convertView, android.R.id.text1, titles[position]);
+        setText(convertView, android.R.id.text1, String.valueOf(titles[position]));
 
         return convertView;
     }

@@ -23,11 +23,18 @@ public class StudyAdapter extends DatabaseItemAdapter<StudyHolder> {
 
     @Override
     protected void setupView(StudyHolder viewHolder, final int position) {
-        Date studyDate = getDate(data[position].getString("StudyDate"));
+        Bundle study = data[position];
+        Date studyDate = getDate(study.getString("StudyDate"));
 
-        viewHolder.title.setText(data[position].getString("title"));
-        viewHolder.month.setText(getMonthString(studyDate));
-        viewHolder.day.setText(getDayString(studyDate));
+        viewHolder.title.setText(String.valueOf(study.getString("title")));
+        
+        if (studyDate != null) {
+            viewHolder.day.setText(getDayString(studyDate));
+            viewHolder.month.setText(getMonthString(studyDate));
+        } else {
+            viewHolder.day.setVisibility(View.GONE);
+            viewHolder.month.setVisibility(View.GONE);
+        }
     }
 
     @Override

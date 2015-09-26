@@ -36,7 +36,7 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
             public Bundle buildHeader(Bundle item) {
                 Bundle header = new Bundle();
 
-                header.putString("eventstarttime", item.getString("eventstarttime"));
+                header.putString("eventstarttime", String.valueOf(item.getString("eventstarttime")));
 
                 return header;
             }
@@ -62,13 +62,18 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
     protected void setupView(ExpandableEventHolder holder, int position) {
         Bundle bundle = this.data.get(position);
         Date day = getFullDate(bundle.getString("eventstarttime"));
+        String title = String.valueOf(bundle.getString("title"));
 
-        if (holder.time != null) {
-            holder.title.setText(Html.fromHtml(bundle.getString("title")).toString());
+        try {
+            title = Html.fromHtml(bundle.getString("title")).toString();
+        } catch (RuntimeException e) {}
+
+        holder.title.setText(title);
+        if (day != null) {
             holder.time.setText(getTimeOfDay(day));
+        } else {
+            holder.time.setVisibility(View.GONE);
         }
-        else
-            holder.title.setText(getFullDayString(day));
     }
 
     @Override
