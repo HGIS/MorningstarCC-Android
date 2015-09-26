@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Kyle on 9/20/2015.
  */
 @DatabaseTable(tableName = "Events")
-public class Event {
+public class Event extends Bundlable {
     @DatabaseField(id = true, columnName = "id")
     public String eventid;
 

@@ -30,7 +30,7 @@ public class EventDropdownAdapter implements SpinnerAdapter {
         this.mLayout = layoutResId;
         this.mDropdownLayout = dropdownLayoutResId;
         this.mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mObservers = new ArrayList<DataSetObserver>();
+        this.mObservers = new ArrayList<>();
     }
 
     @Override

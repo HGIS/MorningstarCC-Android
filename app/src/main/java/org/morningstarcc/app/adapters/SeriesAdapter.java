@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squareup.picasso.Picasso;
 
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.viewholders.SeriesHolder;
+
+import java.sql.SQLException;
 
 /**
  * Created by Kyle on 8/2/2014.
@@ -40,11 +44,12 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
 
     private long getNumStudies(Bundle data) {
         try {
-            return Database.withContext(mActivity)
-                    .forTable("MCCStudiesInSeriesRSS" + data.getString("SeriesId"))
-                    .getCount();
+            return OpenHelperManager.getHelper(mActivity, Database.class)
+                    .getDao(Study.class)
+                    .queryForEq("SeriesId", data.getString("SeriesId"))
+                    .size();
         }
-        catch (NullPointerException e) {
+        catch (SQLException e) {
             return -1;
         }
     }

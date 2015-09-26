@@ -1,11 +1,15 @@
 package org.morningstarcc.app.data;
 
+import android.os.Bundle;
+
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Kyle on 9/25/2015.
  */
-public class Devotion {
+@DatabaseTable(tableName = "Devotions")
+public class Devotion extends Bundlable {
     @DatabaseField(id = true, columnName = "id")
 	String devoId;
 
@@ -24,4 +28,6 @@ public class Devotion {
     @DatabaseField
 	String pubDate;
 
+    @DatabaseField(defaultValue = "false")
+    boolean read;
 }

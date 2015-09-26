@@ -40,36 +40,12 @@ public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
         viewHolder.title.setText(data[position].getString("title"));
         viewHolder.author.setText(data[position].getString("dc:creator"));
 
-        Typeface textStyle = isRead(data[position].getString("devoId"))
+        Typeface textStyle = Boolean.parseBoolean(data[position].getString("read"))
                 ? Typeface.DEFAULT
                 : Typeface.DEFAULT_BOLD;
 
         viewHolder.title.setTypeface(textStyle);
         viewHolder.author.setTypeface(textStyle);
-    }
-
-    private boolean isRead(String id) {
-        Cursor lookup = Database
-                .withContext(mActivity)
-                .forTable(DevotionActivity.READ_DEVOTIONS_TABLE)
-                .readAll(null)
-                .getData();
-
-        if (lookup == null)
-            return false;
-
-        int readColumn = lookup.getColumnIndex(DevotionActivity.READ_COLUMN),
-            idColumn   = lookup.getColumnIndex("devoId");
-
-        lookup.moveToFirst();
-        while (!lookup.isAfterLast()) {
-            if (lookup.getString(idColumn).equals(id))
-                return lookup.getString(readColumn).equals(DevotionActivity.IS_READ);
-
-            lookup.moveToNext();
-        }
-
-        return false;
     }
 
     @Override

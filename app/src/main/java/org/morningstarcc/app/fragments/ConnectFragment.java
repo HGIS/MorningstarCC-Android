@@ -9,25 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.ConnectActivity;
 import org.morningstarcc.app.adapters.ConnectAdapter;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
+import org.morningstarcc.app.data.Connect;
 import org.morningstarcc.app.database.Database;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by whykalo on 12/21/2014.
  */
-public class ConnectFragment extends RecyclerFragment {
+public class ConnectFragment extends RecyclerFragment<Connect> {
 
     public ConnectFragment() {
-        super("", R.array.connect_fields);
+        super(Connect.class);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.table = Database.getTableName(activity.getString(R.string.connect_url));
     }
 
     @Override
@@ -63,27 +71,37 @@ public class ConnectFragment extends RecyclerFragment {
         return rootView;
     }
 
-    public DatabaseItemAdapter getAdapter(Bundle[] data) {
+    public DatabaseItemAdapter getAdapter(List<Connect> data) {
         return new ConnectAdapter(getActivity(), R.layout.connect_list_row, data, ConnectActivity.class);
     }
 
     // gets the default data for the connect rows
-    public Bundle[] getDefaultData() {
-        return Database
-                .withContext(mContext)
-                .forTable(table)
-                .read(null, "parentId = \"0\" AND LOWER(isactive) = \"true\"", null)
-                .asBundleArray();
+    public List<Connect> getDefaultData() {
+        try {
+            HashMap<String, Object> values = new HashMap<>(2);
+
+            values.put("parentId", "0");
+            values.put("isactive", "True");
+
+            return OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values);
+        } catch (SQLException ignored) {
+            return new ArrayList<>(0);
+        }
     }
 
-    public Bundle[] getData(String parentId) {
+    public List<Connect> getData(String parentId) {
         if (parentId == null || parentId.equals("0"))
             return getDefaultData();
 
-        return Database
-                .withContext(mContext)
-                .forTable(table)
-                .read(null, "parentId = \"" + parentId + "\" AND LOWER(isactive) = \"true\"", null)
-                .asBundleArray();
+        try {
+            HashMap<String, Object> values = new HashMap<>(2);
+
+            values.put("parentId", parentId);
+            values.put("isactive", "True");
+
+            return OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values);
+        } catch (SQLException ignored) {
+            return new ArrayList<>(0);
+        }
     }
 }

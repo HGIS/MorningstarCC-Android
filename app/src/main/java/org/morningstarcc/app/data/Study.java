@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Kyle on 9/25/2015.
  */
 @DatabaseTable(tableName = "Studies")
-public class Study {
+public class Study extends Bundlable {
     @DatabaseField(id = true, columnName = "id")
 	String StudyId;
 

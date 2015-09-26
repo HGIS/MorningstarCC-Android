@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Bundlable;
+
+import java.util.List;
 
 /**
  * A generic adapter for RecyclerViews
