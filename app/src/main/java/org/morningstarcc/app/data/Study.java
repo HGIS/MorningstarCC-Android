@@ -35,5 +35,5 @@ public class Study extends Bundlable {
     @DatabaseField
 	String VideoLink;
 
-    Study() {}
+    public Study() {}
 }

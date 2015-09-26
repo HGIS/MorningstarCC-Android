@@ -34,5 +34,5 @@ public class Connect extends Bundlable {
     @DatabaseField
 	String isactive;
 
-    Connect() {}
+    public Connect() {}
 }

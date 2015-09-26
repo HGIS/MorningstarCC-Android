@@ -38,5 +38,5 @@ public class Event extends Bundlable {
     @DatabaseField
     public String pubDate;
 
-    Event() {}
+    public Event() {}
 }

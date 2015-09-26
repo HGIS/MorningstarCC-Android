@@ -96,16 +96,23 @@ public class DataService {
         get(SeriesCategory.class, new UpdateDbListener<>(SeriesCategory.class, database, new Listener<List<SeriesCategory>>() {
             @Override
             public void onResponse(List<SeriesCategory> categories) {
+                Log.e("Volley", "Queuing " + categories.size() + " requests for series");
                 for (SeriesCategory category : categories) {
+                    numQueries.incrementAndGet();
                     get(Series.class, category.SeriesId, new UpdateDbListener<>(Series.class, database, new Listener<List<Series>>() {
                         @Override
                         public void onResponse(List<Series> seriesList) {
+                            Log.e("Volley", "Queuing " + seriesList.size() + " requests for studies");
                             for (Series series : seriesList) {
+                                numQueries.incrementAndGet();
                                 get(Study.class, series.SeriesId, new UpdateDbListener<>(Study.class, database, numQueries, decrementListener), decrementErrorListener);
                             }
+                            decrementListener.onResponse(numQueries.decrementAndGet());
+
                         }
                     }), decrementErrorListener);
                 }
+                decrementListener.onResponse(numQueries.decrementAndGet());
             }
         }), decrementErrorListener);
     }

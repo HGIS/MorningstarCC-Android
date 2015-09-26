@@ -20,5 +20,5 @@ public class Series extends Bundlable {
     @DatabaseField
 	public String Imagelink;
 
-    Series() {}
+    public Series() {}
 }

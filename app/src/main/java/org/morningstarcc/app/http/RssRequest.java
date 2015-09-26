@@ -1,5 +1,7 @@
 package org.morningstarcc.app.http;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -31,6 +33,7 @@ public class RssRequest extends Request<RssArray> {
 
     @Override
     protected Response<RssArray> parseNetworkResponse(NetworkResponse response) {
+        Log.d("Volley", "Response " + response.statusCode + " from " + getUrl());
         RssArray parsed = RssParser.parse(response.data, HttpHeaderParser.parseCharset(response.headers));
 
         if (parsed == null || parsed.size() == 0) {

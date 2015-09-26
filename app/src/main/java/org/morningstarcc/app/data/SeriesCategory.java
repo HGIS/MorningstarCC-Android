@@ -35,5 +35,5 @@ public class SeriesCategory extends Bundlable {
     @DatabaseField
     public String SeriesTypeDesc;
 
-    SeriesCategory() {}
+    public SeriesCategory() {}
 }
