@@ -11,23 +11,23 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "Devotions")
 public class Devotion extends Bundlable {
     @DatabaseField(id = true, columnName = "id")
-	String devoId;
+	public String devoId;
 
     @DatabaseField
-	String title;
+	public String title;
 
     @DatabaseField(columnName = "author")
-	String dccreator;
+	public String dccreator;
 
     @DatabaseField(columnName = "content")
-	String contentencoded;
+	public String contentencoded;
 
     @DatabaseField
-	String link;
+	public String link;
 
     @DatabaseField
-	String pubDate;
+	public String pubDate;
 
     @DatabaseField(defaultValue = "false")
-    boolean read;
+    public Boolean read;
 }

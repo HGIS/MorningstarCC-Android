@@ -4,9 +4,14 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.fragments.StudyFragment;
+
+import java.sql.SQLException;
 
 import static org.morningstarcc.app.libs.ViewConstructorUtils.setImageLink;
 import static org.morningstarcc.app.libs.ViewConstructorUtils.setText;
@@ -24,14 +29,14 @@ public class SeriesActivity extends DetailsActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        long count = getStudyCount();
+        int count = getStudyCount();
 
         setTitle(intent.getStringExtra("title"));
         setContentView(R.layout.activity_series);
 
         setImageLink(this, R.id.image, intent.getStringExtra("Imagelink"));
         setText(this, R.id.title, intent.getStringExtra("title"));
-        setText(this, R.id.count, count + (count == 1 ? " study" : " studies"));
+        setText(this, R.id.count, getResources().getQuantityString(R.plurals.study_counter, count, count));
 
         shadow = findViewById(R.id.shadow);
         divider = findViewById(R.id.divider);
@@ -49,14 +54,15 @@ public class SeriesActivity extends DetailsActivity {
         divider.getLayoutParams().height = 1;
     }
 
-    private long getStudyCount() {
-        return Math.max(
-                Database
-                    .withContext(this)
-                    .forTable("MCCStudiesInSeriesRSS" + intent.getStringExtra("SeriesId"))
-                    .readAll(null)
-                    .getSize(),
-                0);
+    private int getStudyCount() {
+        int count = 0;
+        try {
+            count = OpenHelperManager.getHelper(this, Database.class).getDao(Study.class).queryForEq("id", intent.getStringExtra("SeriesId")).size();
+        } catch (SQLException e) {
+        }
+
+        OpenHelperManager.releaseHelper();
+        return count;
     }
 
     public void setScroll(int scroll) {

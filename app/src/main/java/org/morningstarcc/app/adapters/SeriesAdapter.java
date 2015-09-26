@@ -43,15 +43,18 @@ public class SeriesAdapter extends DatabaseItemAdapter<SeriesHolder> {
     }
 
     private long getNumStudies(Bundle data) {
+        int size = -1;
         try {
-            return OpenHelperManager.getHelper(mActivity, Database.class)
+            size = OpenHelperManager.getHelper(mActivity, Database.class)
                     .getDao(Study.class)
                     .queryForEq("SeriesId", data.getString("SeriesId"))
                     .size();
         }
         catch (SQLException e) {
-            return -1;
         }
+
+        OpenHelperManager.releaseHelper();
+        return size;
     }
 
     @Override

@@ -78,31 +78,39 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
 
     // gets the default data for the connect rows
     public Bundle[] getDefaultData() {
+        Bundle[] data;
         try {
             HashMap<String, Object> values = new HashMap<>(2);
 
             values.put("parentId", "0");
             values.put("isactive", "True");
 
-            return Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
+            data = Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
         } catch (SQLException ignored) {
-            return new Bundle[0];
+            data = new Bundle[0];
         }
+
+        OpenHelperManager.releaseHelper();
+        return data;
     }
 
     public Bundle[] getData(String parentId) {
         if (parentId == null || parentId.equals("0"))
             return getDefaultData();
 
+        Bundle[] data;
         try {
             HashMap<String, Object> values = new HashMap<>(2);
 
             values.put("parentId", parentId);
             values.put("isactive", "True");
 
-            return Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
+            data = Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
         } catch (SQLException ignored) {
-            return new Bundle[0];
+            data = new Bundle[0];
         }
+
+        OpenHelperManager.releaseHelper();
+        return data;
     }
 }

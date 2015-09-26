@@ -1,6 +1,5 @@
 package org.morningstarcc.app.activities;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,19 +7,20 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Bundlable;
+import org.morningstarcc.app.data.Devotion;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.libs.IntentUtils;
+
+import java.sql.SQLException;
 
 /**
  * Created by Kyle on 10/21/2014.
  */
 public class DevotionActivity extends DetailsActivity {
-
-    public static final String READ_DEVOTIONS_TABLE = "DevotionsRead";
-    public static final String IS_READ = "TRUE";
-    public static final String READ_COLUMN = "read";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +44,17 @@ public class DevotionActivity extends DetailsActivity {
     }
 
     private void setRead() {
-        ContentValues readDevotion = new ContentValues();
+        try {
+            Devotion devotion = Bundlable.unbundle(intent.getExtras(), Devotion.class);
+            if (!devotion.read) {
+                devotion.read = true;
+                OpenHelperManager.getHelper(this, Database.class).getDao(Devotion.class).update(devotion);
+            }
+        } catch (IllegalAccessException e) {
+        } catch (InstantiationException e) {
+        } catch (SQLException e) {
+        }
 
-        readDevotion.put("devoId", intent.getStringExtra("devoId"));
-        readDevotion.put(READ_COLUMN, IS_READ);
-
-        Database
-                .withContext(this)
-                .forTable(READ_DEVOTIONS_TABLE)
-                .create(new String[] {
-                        "devoId", READ_COLUMN
-                })
-                .append(readDevotion);
+        OpenHelperManager.releaseHelper();
     }
 }

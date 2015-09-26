@@ -28,7 +28,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.adapters.EventDropdownAdapter;
@@ -38,8 +37,7 @@ import org.morningstarcc.app.fragments.DevotionFragment;
 import org.morningstarcc.app.fragments.EventFragment;
 import org.morningstarcc.app.fragments.ExpandableEventFragment;
 import org.morningstarcc.app.fragments.SeriesCategoryFragment;
-import org.morningstarcc.app.libs.DownloadUrlContentTask;
-import org.morningstarcc.app.libs.FileDownloader;
+import org.morningstarcc.app.http.DataService;
 import org.morningstarcc.app.libs.IntentUtils;
 
 import java.io.File;
@@ -248,7 +246,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        if (DownloadUrlContentTask.hasInternetAccess(this)) {
+        // TODO
+        /*if (DownloadUrlContentTask.hasInternetAccess(this)) {
             final ProgressDialog dialog = new ProgressDialog(this);
             final FileDownloader downloader = new BulletinDownloader("bulletin.pdf", this, dialog);
 
@@ -268,7 +267,7 @@ public class MainActivity extends ActionBarActivity {
             catch (ActivityNotFoundException e) {
                 Toast.makeText(this, "Cannot retrieve bulletin", Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
     }
 
     private void openBulletin() {
@@ -279,7 +278,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchLiveStream() {
-        startActivity(IntentUtils.webIntent(getString(R.string.live_stream_url)));
+        startActivity(IntentUtils.webIntent(DataService.LiveStreamUrl));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -333,7 +332,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private class BulletinDownloader extends FileDownloader {
+    /*private class BulletinDownloader extends FileDownloader {
         private ProgressDialog dialog;
 
         public BulletinDownloader(String filename, Context context, ProgressDialog dialog) {
@@ -353,7 +352,7 @@ public class MainActivity extends ActionBarActivity {
             dialog.setMax((int) length);
             dialog.setProgress((int) progress);
         }
-    }
+    }*/
 
     private class AsyncTaskCancelListener implements ProgressDialog.OnCancelListener {
         private AsyncTask task;

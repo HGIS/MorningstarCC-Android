@@ -37,8 +37,10 @@
     <string name="transition_item">T_ITEM</string>
     <string name="title_activity_series_category">SeriesCategoryActivity</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <plurals name="study_counter">
+        <item quantity="one">%d study</item>
+        <item quantity="other">%d studies</item>
+    </plurals>
 
     <string name="empty_list">No items could be found</string>
 </resources>

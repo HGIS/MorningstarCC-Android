@@ -119,6 +119,7 @@ public class DataService {
         } catch (SQLException ignored) {
         }
 
+        OpenHelperManager.releaseHelper();
         return null;
     }
 }

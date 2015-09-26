@@ -32,4 +32,18 @@ public class Bundlable {
 
         return bundles;
     }
+
+    public static <T extends Bundlable> T unbundle(Bundle bundle, Class<T> clazz) throws IllegalAccessException, InstantiationException {
+        T object = clazz.newInstance();
+
+        for (String fieldName : bundle.keySet()) {
+            try {
+                clazz.getDeclaredField(fieldName).set(object, bundle.getString(fieldName));
+            } catch (NoSuchFieldException e) {
+            } catch (IllegalAccessException e) {
+            }
+        }
+
+        return object;
+    }
 }
