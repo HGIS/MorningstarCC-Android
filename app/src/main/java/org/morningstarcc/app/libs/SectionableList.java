@@ -18,6 +18,8 @@ public abstract class SectionableList<T> {
         this.data = new LinkedList<>(Arrays.asList(data));
         this.headerIndices = new ArrayList<>();
 
+        if (data.length == 0) return;
+
         Collections.sort(this.data, sorter);
 
         this.data.add(0, buildHeader(this.data.get(0)));

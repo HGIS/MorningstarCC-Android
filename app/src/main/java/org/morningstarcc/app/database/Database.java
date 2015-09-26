@@ -26,7 +26,7 @@ public class Database extends OrmLiteSqliteOpenHelper {
             Connect.class, Devotion.class, Event.class, SeriesCategory.class, Series.class, Study.class
     };
 
-    private Database(Context mContext) {
+    public Database(Context mContext) {
         super(mContext, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -41,6 +41,6 @@ public class Database extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        // TODO: update this if I change DATABASE_VERSION
+        // TODO: drop all the tables
     }
 }

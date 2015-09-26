@@ -61,11 +61,12 @@ public abstract class RecyclerFragment<T extends Bundlable> extends Fragment {
 
             adapter = getAdapter(fetchData(dao));
             recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         } catch (SQLException ignored) {
+            recyclerView.setAdapter(adapter = getAdapter(new Bundle[0]));
         }
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         OpenHelperManager.releaseHelper();
 
         if (toolbar != null)

@@ -2,11 +2,13 @@ package org.morningstarcc.app.http;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -20,6 +22,7 @@ import org.morningstarcc.app.data.SeriesCategory;
 import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.database.Database;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +35,7 @@ import static com.android.volley.Request.Method.GET;
  * Created by Kyle on 9/20/2015.
  */
 public class DataService {
-    public static final String UrlPrefix = "http://www/morningstarcc.org/";
+    public static final String UrlPrefix = "http://www.morningstarcc.org/";
     public static final String EventsUrl = "MCCConnectWithUsLinksRSS.xml";
     public static final String DevotionsUrl = "MCCDailyDevoRSS.aspx";
     public static final String ConnectsUrl = "MCCConnectWithUsLinksRSS.xml";
@@ -67,6 +70,13 @@ public class DataService {
         final ErrorListener decrementErrorListener = new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                try {
+                    Log.e("Volley", "Failed call " + new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers)));
+                } catch (UnsupportedEncodingException e) {
+                    Log.e("Volley", "Failed call " + error);
+                } catch (NullPointerException e) {
+                    Log.e("Volley", "Failed call");
+                }
                 if (numQueries.decrementAndGet() == 0) {
                     OpenHelperManager.releaseHelper();
                     finishedCallback.onResponse(null);

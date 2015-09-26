@@ -30,4 +30,6 @@ public class Devotion extends Bundlable {
 
     @DatabaseField(defaultValue = "false")
     public Boolean read;
+
+    Devotion() {}
 }

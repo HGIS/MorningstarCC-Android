@@ -1,5 +1,7 @@
 package org.morningstarcc.app.http;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
