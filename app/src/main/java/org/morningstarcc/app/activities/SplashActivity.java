@@ -12,22 +12,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.data.Event;
 import org.morningstarcc.app.http.DataService;
 import org.morningstarcc.app.http.RssRequest;
-import org.morningstarcc.app.http.XmlArray;
+import org.morningstarcc.app.http.RssArray;
 import org.morningstarcc.app.libs.DatabaseUpdater;
 import org.morningstarcc.app.libs.DownloadUrlContentTask;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -64,9 +59,9 @@ public class SplashActivity extends Activity {
     }
 
     public void updateFeeds() {
-        DataService.enqueue(new RssRequest("http://www.morningstarcc.org/MCCEventsRSS.aspx", new Response.Listener<XmlArray>() {
+        DataService.enqueue(new RssRequest("http://www.morningstarcc.org/MCCEventsRSS.aspx", new Response.Listener<RssArray>() {
             @Override
-            public void onResponse(XmlArray response) {
+            public void onResponse(RssArray response) {
                 List<Event> events = response.convert(Event.class);
                 Log.d("Volley", "First volley request: " + events);
             }

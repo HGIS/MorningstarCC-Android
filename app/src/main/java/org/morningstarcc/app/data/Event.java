@@ -1,22 +1,40 @@
 package org.morningstarcc.app.data;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by Kyle on 9/20/2015.
  */
+@DatabaseTable(tableName = "Events")
 public class Event {
+    @DatabaseField(id = true, columnName = "id")
     public String eventid;
-    public String eventstarttime;
-    public String eventendtime;
-    public String title;
-    public String description;
-    public String hasregistration;
-    public String registrationlink;
-    public String weblink;
-    public String imagepath;
-    public String pubDate;
 
-    @Override
-    public String toString() {
-        return String.format("%s (%s)", title, eventid);
-    }
+    @DatabaseField
+    public String eventstarttime;
+
+    @DatabaseField
+    public String eventendtime;
+
+    @DatabaseField
+    public String title;
+
+    @DatabaseField
+    public String description;
+
+    @DatabaseField
+    public String hasregistration;
+
+    @DatabaseField
+    public String registrationlink;
+
+    @DatabaseField
+    public String weblink;
+
+    @DatabaseField
+    public String imagepath;
+
+    @DatabaseField
+    public String pubDate;
 }

@@ -8,10 +8,10 @@ import java.util.Map;
 /**
  * Created by Kyle on 9/24/2015.
  */
-public class XmlArray {
+public class RssArray {
     private List<HashMap<String, String>> items;
 
-    public XmlArray() {
+    public RssArray() {
         items = new ArrayList<>();
     }
 
@@ -32,7 +32,7 @@ public class XmlArray {
 
                 for (Map.Entry<String, String> field : item.entrySet()) {
                     try {
-                        clazz.getDeclaredField(field.getKey()).set(object, field.getValue());
+                        clazz.getDeclaredField(field.getKey()).set(object, field.getValue().replace(":", ""));
                     } catch (NoSuchFieldException ignored) {
                     } catch (IllegalAccessException ignored) {
                     }

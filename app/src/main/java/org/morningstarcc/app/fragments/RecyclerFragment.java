@@ -18,17 +18,15 @@ import org.morningstarcc.app.database.Database;
 /**
  * Created by Kyle on 4/16/2015.
  */
-public abstract class RecyclerFragment extends Fragment {
+public abstract class RecyclerFragment<T> extends Fragment {
 
     protected Context mContext;
     protected RecyclerView.Adapter adapter;
     protected String table;
-    private int arrayResId;
     private Toolbar toolbar;
 
-    protected RecyclerFragment(String table, int arrayResId) {
+    protected RecyclerFragment(String table) {
         this.table = table;
-        this.arrayResId = arrayResId;
     }
 
     @Override
@@ -48,7 +46,6 @@ public abstract class RecyclerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.generic_recycler, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
 
-        adapter = getAdapter(fetchData(arrayResId));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
@@ -57,21 +54,11 @@ public abstract class RecyclerFragment extends Fragment {
 
         if (adapter.getItemCount() == 0)
             rootView.findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
-        else
-            android.util.Log.e("Kyle", "" + adapter.getItemCount());
 
         return rootView;
     }
 
-    protected Bundle[] fetchData(int arrayResId) {
-        return Database
-                .withContext(mContext)
-                .forTable(table)
-                .readAll(arrayResId)
-                .asBundleArray();
-    }
-
-    protected abstract RecyclerView.Adapter getAdapter(Bundle[] data);
+    protected abstract RecyclerView.Adapter getAdapter();
 
     public class OnScrollToolbarHider extends RecyclerView.OnScrollListener {
         @Override

@@ -2,7 +2,7 @@ package org.morningstarcc.app.libs;
 
 import android.util.Log;
 
-import org.morningstarcc.app.http.XmlArray;
+import org.morningstarcc.app.http.RssArray;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -29,12 +29,12 @@ import java.util.HashMap;
  *
  */
 public class RssParser {
-    public static XmlArray parse(byte[] data, String encoding) {
+    public static RssArray parse(byte[] data, String encoding) {
         return parse(new ByteArrayInputStream(data), encoding);
     }
 
-    private static XmlArray parse(InputStream stream, String encoding) {
-        XmlArray xmlArray = new XmlArray();
+    private static RssArray parse(InputStream stream, String encoding) {
+        RssArray xmlArray = new RssArray();
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser parser;

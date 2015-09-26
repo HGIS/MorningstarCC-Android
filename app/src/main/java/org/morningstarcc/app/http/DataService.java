@@ -16,7 +16,11 @@ public class DataService {
         queue = Volley.newRequestQueue(context);
     }
 
+    @Deprecated
     public static void enqueue(Request request) {
         queue.add(request);
+    }
+
+    public static void getEvents() {
     }
 }

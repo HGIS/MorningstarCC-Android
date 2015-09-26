@@ -10,8 +10,6 @@
     <string name="drawer_open">Navigation Drawer Open</string>
     <string name="drawer_close">Navigation Drawer Closed</string>
 
-    <string name="database_name">Morningstar.db</string>
-
     <string name="default_content_description">Image</string>
 
     <string name="event_expand">Learn More</string>
