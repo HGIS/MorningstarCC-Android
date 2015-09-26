@@ -9,29 +9,29 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "SeriesCategories")
 public class SeriesCategory extends Bundlable {
     @DatabaseField(id = true, columnName = "id")
-    String SeriesId;
+    public String SeriesId;
 
     @DatabaseField
-    String LastStudyDate;
+    public String LastStudyDate;
 
     @DatabaseField
-    String StudyCount;
+    public String StudyCount;
 
     @DatabaseField
-    String title;
+    public String title;
 
     @DatabaseField
-    String Book;
+    public String Book;
 
     @DatabaseField
-    String Imagelink;
+    public String Imagelink;
 
     @DatabaseField
-    String SeriesType;
+    public String SeriesType;
 
     @DatabaseField
-    String SeriesTypeSortOrder;
+    public String SeriesTypeSortOrder;
 
     @DatabaseField
-    String SeriesTypeDesc;
+    public String SeriesTypeDesc;
 }

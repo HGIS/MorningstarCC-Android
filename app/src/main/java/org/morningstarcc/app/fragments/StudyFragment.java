@@ -29,7 +29,7 @@ public class StudyFragment extends RecyclerFragment<Study> {
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        this.id += args.getString("SeriesId");
+        this.id = args.getString("SeriesId");
     }
 
     @Override

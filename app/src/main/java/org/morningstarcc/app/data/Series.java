@@ -9,15 +9,15 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "Series")
 public class Series extends Bundlable {
     @DatabaseField(id = true, columnName = "id")
-	String SeriesId;
+	public String SeriesId;
 
     @DatabaseField
-	String title;
+	public String title;
 
     @DatabaseField
-	String Book;
+	public String Book;
 
     @DatabaseField
-	String Imagelink;
+	public String Imagelink;
 
 }

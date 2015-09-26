@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.data.Event;
+import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.http.DataService;
 import org.morningstarcc.app.http.RssRequest;
 import org.morningstarcc.app.http.RssArray;
@@ -29,9 +30,6 @@ import java.util.List;
  * Created by Kyle on 10/26/2014.
  */
 public class SplashActivity extends Activity {
-
-    private static final int DELAY = 1500; // ms
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -52,38 +50,16 @@ public class SplashActivity extends Activity {
         super.onStart();
 
         Log.d("SplashActivity", "Updater launching...");
-        updateFeeds();
-
-        // launch the next activity after a delay
-        startAfter(new Intent(SplashActivity.this, MainActivity.class), DELAY);
-    }
-
-    public void updateFeeds() {
-        DataService.enqueue(new RssRequest("http://www.morningstarcc.org/MCCEventsRSS.aspx", new Response.Listener<RssArray>() {
+        DataService.updateAll(this, new Response.Listener<Void>() {
             @Override
-            public void onResponse(RssArray response) {
-                List<Event> events = response.convert(Event.class);
-                Log.d("Volley", "First volley request: " + events);
+            public void onResponse(Void response) {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                finish();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Volley", "Something something error: " + error);
-            }
-        }));
+        });
 
         if (DownloadUrlContentTask.hasInternetAccess(this)) {
             new DatabaseUpdater(this).update();
         }
-    }
-
-    private void startAfter(final Intent toStart, final int delay) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(toStart);
-                finish();
-            }
-        }, delay);
     }
 }
