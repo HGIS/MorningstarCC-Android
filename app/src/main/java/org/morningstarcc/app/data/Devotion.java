@@ -10,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Devotions")
 public class Devotion extends Bundlable {
-    @DatabaseField(id = true, columnName = "id")
+    @DatabaseField(columnName = "id")
 	public String devoId;
 
     @DatabaseField

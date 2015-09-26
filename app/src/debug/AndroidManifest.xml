@@ -5,6 +5,7 @@
 
     <application
         tools:replace="android:name"
+        android:allowBackup="true"
         android:debuggable="true"
         android:name=".DebugApp" />
 

@@ -10,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Connects")
 public class Connect extends Bundlable {
-    @DatabaseField(id = true, columnName = "id")
+    @DatabaseField(columnName = "id")
 	String linkid;
 
     @DatabaseField

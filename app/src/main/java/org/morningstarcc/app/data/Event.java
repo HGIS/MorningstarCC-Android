@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Events")
 public class Event extends Bundlable {
-    @DatabaseField(id = true, columnName = "id")
+    @DatabaseField(columnName = "id")
     public String eventid;
 
     @DatabaseField

@@ -1,6 +1,7 @@
 package org.morningstarcc.app.data;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -14,7 +15,7 @@ public class Bundlable {
         Bundle bundle = new Bundle();
         for (Field f : getClass().getDeclaredFields()) {
             try {
-                bundle.putString(f.getName(), f.get(this).toString());
+                bundle.putString(f.getName(), String.valueOf(f.get(this)));
             } catch (IllegalAccessException ignored) {
             }
         }
@@ -38,7 +39,14 @@ public class Bundlable {
 
         for (String fieldName : bundle.keySet()) {
             try {
-                clazz.getDeclaredField(fieldName).set(object, bundle.getString(fieldName));
+                Field field = clazz.getDeclaredField(fieldName);
+                if (field.getType() == String.class) {
+                    field.set(object, bundle.getString(fieldName));
+                } else if (field.getType() == Boolean.class) {
+                    field.set(object, bundle.getBoolean(fieldName));
+                } else {
+                    Log.e("Bundlable", "Error inflating field of type " + field.getType());
+                }
             } catch (NoSuchFieldException e) {
             } catch (IllegalAccessException e) {
             }

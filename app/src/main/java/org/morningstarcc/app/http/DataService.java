@@ -67,6 +67,15 @@ public class DataService {
     public static void updateAll(Context context, final Listener<Void> finishedCallback) {
         final Database database = OpenHelperManager.getHelper(context, Database.class);
         final AtomicInteger numQueries = new AtomicInteger(4);
+        final Listener<Integer> decrementListener = new Listener<Integer>() {
+            @Override
+            public void onResponse(Integer response) {
+                if (response == 0) {
+                    OpenHelperManager.releaseHelper();
+                    finishedCallback.onResponse(null);
+                }
+            }
+        };
         final ErrorListener decrementErrorListener = new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -77,16 +86,7 @@ public class DataService {
                 } catch (NullPointerException e) {
                     Log.e("Volley", "Failed call");
                 }
-                if (numQueries.decrementAndGet() == 0) {
-                    OpenHelperManager.releaseHelper();
-                    finishedCallback.onResponse(null);
-                }
-            }
-        };
-        final Listener<Integer> decrementListener = new Listener<Integer>() {
-            @Override
-            public void onResponse(Integer response) {
-                if (response == 0) OpenHelperManager.releaseHelper();
+                decrementListener.onResponse(numQueries.decrementAndGet());
             }
         };
 
@@ -99,7 +99,7 @@ public class DataService {
                 Log.e("Volley", "Queuing " + categories.size() + " requests for series");
                 for (SeriesCategory category : categories) {
                     numQueries.incrementAndGet();
-                    get(Series.class, category.SeriesId, new UpdateDbListener<>(Series.class, database, new Listener<List<Series>>() {
+                    get(Series.class, category.SeriesType, new UpdateDbListener<>(Series.class, database, new Listener<List<Series>>() {
                         @Override
                         public void onResponse(List<Series> seriesList) {
                             Log.e("Volley", "Queuing " + seriesList.size() + " requests for studies");

@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Series")
 public class Series extends Bundlable {
-    @DatabaseField(id = true, columnName = "id")
+    @DatabaseField(columnName = "id")
 	public String SeriesId;
 
     @DatabaseField

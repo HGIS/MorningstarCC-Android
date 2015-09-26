@@ -2,6 +2,7 @@ package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.squareup.picasso.Picasso;
@@ -31,17 +32,33 @@ public class EventAdapter extends DatabaseItemAdapter<EventHolder> {
     protected void setupView(EventHolder holder, int position) {
         Bundle event = data[position];
 
-        Date startDate = getFullDate(event.getString("eventstarttime"));
-        Date endDate = getFullDate(event.getString("eventendtime"));
+        String startDateString = event.getString("eventstarttime");
+        String endDateString = event.getString("eventendtime");
+        String image = event.getString("imagepath");
 
-        Picasso
-                .with(mActivity)
-                .load(event.getString("imagepath"))
-                .placeholder(R.drawable.logo_event_default)
-                .into(holder.image);
+        Date startDate = TextUtils.isEmpty(startDateString) ? null : getFullDate(startDateString);
+        Date endDate = TextUtils.isEmpty(endDateString) ? null : getFullDate(endDateString);
 
-        holder.date.setText(getDateInterval(startDate, endDate));
-        holder.time.setText(getTimeInterval(startDate, endDate));
+        if (!TextUtils.isEmpty(image)) {
+            Picasso
+                    .with(mActivity)
+                    .load(image)
+                    .placeholder(R.drawable.logo_event_default)
+                    .into(holder.image);
+        } else {
+            Picasso
+                    .with(mActivity)
+                    .load(R.drawable.logo_event_default)
+                    .into(holder.image);
+        }
+
+        if (startDate != null && endDate != null) {
+            holder.date.setText(getDateInterval(startDate, endDate));
+            holder.time.setText(getTimeInterval(startDate, endDate));
+        } else {
+            holder.date.setVisibility(View.GONE);
+            holder.time.setVisibility(View.GONE);
+        }
     }
 
     // We only want Featured events to be listed here
