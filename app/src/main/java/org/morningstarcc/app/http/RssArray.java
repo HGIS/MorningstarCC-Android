@@ -34,7 +34,7 @@ public class RssArray {
 
                 for (Map.Entry<String, String> field : item.entrySet()) {
                     try {
-                        clazz.getDeclaredField(field.getKey()).set(object, field.getValue().replace(":", ""));
+                        clazz.getDeclaredField(field.getKey()).set(object, field.getValue());
                     } catch (NoSuchFieldException ignored) {
                         Log.e("Rss", "No such field " + field.getKey() + " for " + clazz);
                     } catch (IllegalAccessException ignored) {

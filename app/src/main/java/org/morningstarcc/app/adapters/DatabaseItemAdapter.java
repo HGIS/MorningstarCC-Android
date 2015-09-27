@@ -49,7 +49,7 @@ public abstract class DatabaseItemAdapter<T extends Parcelable, VH extends Recyc
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data == null ? 0 : data.length;
     }
 
     @Override

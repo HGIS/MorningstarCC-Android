@@ -71,10 +71,12 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, Expandabl
         } catch (RuntimeException e) {}
 
         holder.title.setText(title);
-        if (day != null) {
-            holder.time.setText(getTimeOfDay(day));
-        } else if (holder.time != null) {
-            holder.time.setVisibility(View.GONE);
+        if (holder.time != null) {
+            if (day != null) {
+                holder.time.setText(getTimeOfDay(day));
+            } else {
+                holder.time.setVisibility(View.GONE);
+            }
         }
     }
 
