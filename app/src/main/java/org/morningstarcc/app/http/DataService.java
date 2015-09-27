@@ -2,6 +2,7 @@ package org.morningstarcc.app.http;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -13,7 +14,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import org.morningstarcc.app.data.Bundlable;
 import org.morningstarcc.app.data.Connect;
 import org.morningstarcc.app.data.Devotion;
 import org.morningstarcc.app.data.Event;
@@ -36,7 +36,7 @@ import static com.android.volley.Request.Method.GET;
  */
 public class DataService {
     public static final String UrlPrefix = "http://www.morningstarcc.org/";
-    public static final String EventsUrl = "MCCConnectWithUsLinksRSS.xml";
+    public static final String EventsUrl = "MCCEventsRSS.aspx";
     public static final String DevotionsUrl = "MCCDailyDevoRSS.aspx";
     public static final String ConnectsUrl = "MCCConnectWithUsLinksRSS.xml";
     public static final String SeriesCategoriesUrl = "MCCCurrentStudySeriesTypesRSS.aspx";
@@ -45,7 +45,7 @@ public class DataService {
     public static final String BulletinUrl = "Uploads/BulletinMobile.pdf";
     public static final String LiveStreamUrl = "http://new.livestream.com/accounts/381375/events/3355193/player?autoPlay=true&amp;mute=false";
 
-    private static final Map<Class<? extends Bundlable>, String> urlMap;
+    private static final Map<Class<? extends Parcelable>, String> urlMap;
 
     static {
         urlMap = new HashMap<>(6);
@@ -96,13 +96,13 @@ public class DataService {
         get(SeriesCategory.class, new UpdateDbListener<>(SeriesCategory.class, database, new Listener<List<SeriesCategory>>() {
             @Override
             public void onResponse(List<SeriesCategory> categories) {
-                Log.e("Volley", "Queuing " + categories.size() + " requests for series");
+                Log.d("Volley", "Queuing " + categories.size() + " requests for series");
                 for (SeriesCategory category : categories) {
                     numQueries.incrementAndGet();
                     get(Series.class, category.SeriesType, new UpdateDbListener<>(Series.class, database, new Listener<List<Series>>() {
                         @Override
                         public void onResponse(List<Series> seriesList) {
-                            Log.e("Volley", "Queuing " + seriesList.size() + " requests for studies");
+                            Log.d("Volley", "Queuing " + seriesList.size() + " requests for studies");
                             for (Series series : seriesList) {
                                 numQueries.incrementAndGet();
                                 get(Study.class, series.SeriesId, new UpdateDbListener<>(Study.class, database, numQueries, decrementListener), decrementErrorListener);
@@ -117,11 +117,11 @@ public class DataService {
         }), decrementErrorListener);
     }
 
-    public static <T extends Bundlable> void get(Class<T> clazz, Listener<RssArray> listener, ErrorListener errorListener) {
+    public static <T extends Parcelable> void get(Class<T> clazz, Listener<RssArray> listener, ErrorListener errorListener) {
         queue.add(new RssRequest(UrlPrefix + urlMap.get(clazz), listener, errorListener));
     }
 
-    public static <T extends Bundlable> void get(Class<T> clazz, String parentId, Listener<RssArray> listener, ErrorListener errorListener) {
+    public static <T extends Parcelable> void get(Class<T> clazz, String parentId, Listener<RssArray> listener, ErrorListener errorListener) {
         queue.add(new RssRequest(UrlPrefix + urlMap.get(clazz) + parentId, listener, errorListener));
     }
 
@@ -129,7 +129,7 @@ public class DataService {
         queue.add(new StringRequest(GET, UrlPrefix + BulletinUrl, listener, errorListener));
     }
 
-    public static <T extends Bundlable> List<T> getFromCache(Context context, Class<T> clazz) {
+    public static <T extends Parcelable> List<T> getFromCache(Context context, Class<T> clazz) {
         try {
             List<T> items = OpenHelperManager.getHelper(context, Database.class).getDao(clazz).queryForAll();
             if (items.size() > 0) return items;

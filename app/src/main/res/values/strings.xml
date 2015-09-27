@@ -45,4 +45,6 @@
     <string name="empty_list">No items could be found</string>
 
     <string name="unknown_author">Unknown author</string>
+    <string name="share_event_format">Join me on %1$s for %2$s. See more at %3$s.</string>
+    <string name="share_study_format">Morningstar\'s %1$s taught about %2$s from %3$s on %4$s. Check it out at: %5$s, or listen to it at %6$s.</string>
 </resources>

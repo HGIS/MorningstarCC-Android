@@ -25,7 +25,7 @@ public class SeriesFragment extends RecyclerFragment<Series> {
     }
 
     @Override
-    protected DatabaseItemAdapter<SeriesHolder> getAdapter(Bundle[] data) {
+    protected DatabaseItemAdapter<Series, SeriesHolder> getAdapter(Series[] data) {
         return new SeriesAdapter(getActivity(), R.layout.series_list_row, data, SeriesActivity.class);
     }
 

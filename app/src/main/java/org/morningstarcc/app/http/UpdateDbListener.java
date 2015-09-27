@@ -1,12 +1,11 @@
 package org.morningstarcc.app.http;
 
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.android.volley.Response;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import org.morningstarcc.app.data.Bundlable;
 import org.morningstarcc.app.database.Database;
 
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Kyle on 9/25/2015.
  */
-public class UpdateDbListener<T extends Bundlable> implements Response.Listener<RssArray> {
+public class UpdateDbListener<T extends Parcelable> implements Response.Listener<RssArray> {
     private Class<T> clazz;
     private Database database;
     private AtomicInteger counter;
@@ -55,7 +54,7 @@ public class UpdateDbListener<T extends Bundlable> implements Response.Listener<
 
             for (T item : items) {
                 try {
-                    dao.create(item);
+                    dao.createOrUpdate(item);
                 } catch (SQLException e) {
                     Log.e("Database", "Failed to add row to " + clazz + "\n" + Log.getStackTraceString(e));
                 }

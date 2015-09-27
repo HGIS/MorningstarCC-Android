@@ -7,6 +7,8 @@ import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.morningstarcc.app.App;
+import org.morningstarcc.app.data.Event;
 import org.morningstarcc.app.libs.SectionableList;
 import org.morningstarcc.app.viewholders.ExpandableEventHolder;
 
@@ -21,22 +23,22 @@ import static org.morningstarcc.app.libs.DateUtils.getTimeOfDay;
 /**
  * Created by Kyle on 10/10/2014.
  */
-public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventHolder> {
+public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, ExpandableEventHolder> {
     public static final int HEADER = 0;
     public static final int BODY = 1;
 
-    private SectionableList<Bundle> data;
+    private SectionableList<Event> data;
     private int row_layout_header;
 
-    public ExpandableEventAdapter(Activity mActivity, int row_layout_header, int row_layout_list, Bundle[] data, Class<? extends Activity> nextActivity) {
+    public ExpandableEventAdapter(Activity mActivity, int row_layout_header, int row_layout_list, Event[] data, Class<? extends Activity> nextActivity) {
         super(mActivity, row_layout_list, data, nextActivity);
         this.row_layout_header = row_layout_header;
-        this.data = new SectionableList<Bundle>(data, new EventSorter()) {
+        this.data = new SectionableList<Event>(data, new EventSorter()) {
             @Override
-            public Bundle buildHeader(Bundle item) {
-                Bundle header = new Bundle();
+            public Event buildHeader(Event item) {
+                Event header = new Event();
 
-                header.putString("eventstarttime", String.valueOf(item.getString("eventstarttime")));
+                header.eventstarttime = item.eventstarttime;
 
                 return header;
             }
@@ -60,18 +62,18 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
 
     @Override
     protected void setupView(ExpandableEventHolder holder, int position) {
-        Bundle bundle = this.data.get(position);
-        Date day = getFullDate(bundle.getString("eventstarttime"));
-        String title = String.valueOf(bundle.getString("title"));
+        Event bundle = this.data.get(position);
+        Date day = getFullDate(bundle.eventstarttime);
+        String title = String.valueOf(bundle.title);
 
         try {
-            title = Html.fromHtml(bundle.getString("title")).toString();
+            title = Html.fromHtml(bundle.title).toString();
         } catch (RuntimeException e) {}
 
         holder.title.setText(title);
         if (day != null) {
             holder.time.setText(getTimeOfDay(day));
-        } else {
+        } else if (holder.time != null) {
             holder.time.setVisibility(View.GONE);
         }
     }
@@ -93,11 +95,11 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
         return null;
     }
 
-    private class EventSorter implements Comparator<Bundle> {
+    private class EventSorter implements Comparator<Event> {
         @Override
-        public int compare(Bundle lhs, Bundle rhs) {
-            Date start = getDate(lhs.getString("eventstarttime").split(" ")[0]);
-            Date end = getDate(rhs.getString("eventstarttime").split(" ")[0]);
+        public int compare(Event lhs, Event rhs) {
+            Date start = getDate(lhs.eventstarttime.split(" ")[0]);
+            Date end = getDate(rhs.eventstarttime.split(" ")[0]);
 
             return start.compareTo(end);
         }
@@ -107,8 +109,8 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<ExpandableEventH
         @Override
         public void onClick(View v) {
             int itemPosition = mRecyclerView.getChildPosition(v);
-            Bundle item = data.get(itemPosition);
-            mActivity.startActivity(new Intent(mActivity, nextActivity).putExtras(item));
+            Event item = data.get(itemPosition);
+            mActivity.startActivity(new Intent(mActivity, nextActivity).putExtra(App.PARCEL, item));
         }
     }
 }

@@ -1,8 +1,8 @@
 package org.morningstarcc.app.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +16,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import org.morningstarcc.app.R;
-import org.morningstarcc.app.data.Bundlable;
 import org.morningstarcc.app.database.Database;
 
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ import java.util.List;
 /**
  * Created by Kyle on 4/16/2015.
  */
-public abstract class RecyclerFragment<T extends Bundlable> extends Fragment {
+public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
     private Toolbar toolbar;
     private Class<T> clazz;
 
@@ -63,7 +62,7 @@ public abstract class RecyclerFragment<T extends Bundlable> extends Fragment {
             recyclerView.setAdapter(adapter);
 
         } catch (SQLException ignored) {
-            recyclerView.setAdapter(adapter = getAdapter(new Bundle[0]));
+            recyclerView.setAdapter(adapter = getAdapter(null));
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -78,11 +77,17 @@ public abstract class RecyclerFragment<T extends Bundlable> extends Fragment {
         return rootView;
     }
 
-    protected Bundle[] fetchData(Dao<T, Integer> dao) throws SQLException {
-        return Bundlable.bundle(id == null ? dao.queryForAll() : dao.queryForEq("id", id));
+    protected T[] fetchData(Dao<T, Integer> dao) throws SQLException {
+        List<T> data = id == null ? dao.queryForAll() : dao.queryForEq("id", id);
+
+        try {
+            return data.toArray(((Parcelable.Creator<T>) clazz.getDeclaredField("CREATOR").get(null)).newArray(data.size()));
+        } catch (Exception e) {}
+
+        return null;
     }
 
-    protected abstract RecyclerView.Adapter getAdapter(Bundle[] data);
+    protected abstract RecyclerView.Adapter getAdapter(T[] data);
 
     public class OnScrollToolbarHider extends RecyclerView.OnScrollListener {
         @Override

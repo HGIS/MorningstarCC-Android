@@ -7,6 +7,7 @@ import android.view.View;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Series;
 import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.fragments.StudyFragment;
@@ -19,7 +20,7 @@ import static org.morningstarcc.app.libs.ViewConstructorUtils.setText;
 /**
  * Created by Kyle on 10/25/2014.
  */
-public class SeriesActivity extends DetailsActivity {
+public class SeriesActivity extends DetailsActivity<Series> {
 
     private static final float ALPHA_CAP = 0.5f;
 
@@ -31,11 +32,11 @@ public class SeriesActivity extends DetailsActivity {
         super.onCreate(savedInstanceState);
         int count = getStudyCount();
 
-        setTitle(intent.getStringExtra("title"));
+        setTitle(item.title);
         setContentView(R.layout.activity_series);
 
-        setImageLink(this, R.id.image, intent.getStringExtra("Imagelink"));
-        setText(this, R.id.title, intent.getStringExtra("title"));
+        setImageLink(this, R.id.image, item.Imagelink);
+        setText(this, R.id.title, item.title);
         setText(this, R.id.count, getResources().getQuantityString(R.plurals.study_counter, count, count));
 
         shadow = findViewById(R.id.shadow);
@@ -43,7 +44,7 @@ public class SeriesActivity extends DetailsActivity {
 
         StudyFragment next = new StudyFragment();
 
-        next.setArguments(intent.getExtras());
+        next.setArguments(getIntent().getExtras());
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_frame, next)
@@ -57,7 +58,7 @@ public class SeriesActivity extends DetailsActivity {
     private int getStudyCount() {
         int count = 0;
         try {
-            count = OpenHelperManager.getHelper(this, Database.class).getDao(Study.class).queryForEq("id", intent.getStringExtra("SeriesId")).size();
+            count = OpenHelperManager.getHelper(this, Database.class).getDao(Study.class).queryForEq("id", item.SeriesId).size();
         } catch (SQLException e) {
         }
 

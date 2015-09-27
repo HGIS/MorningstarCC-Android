@@ -18,7 +18,7 @@ public class EventFragment extends RecyclerFragment<Event> {
     }
 
     @Override
-    protected DatabaseItemAdapter getAdapter(Bundle[] data) {
+    protected DatabaseItemAdapter getAdapter(Event[] data) {
         return new EventAdapter(getActivity(), R.layout.event_list_row, data, EventActivity.class);
     }
 }

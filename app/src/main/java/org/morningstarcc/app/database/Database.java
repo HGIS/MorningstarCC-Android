@@ -3,8 +3,8 @@ package org.morningstarcc.app.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -22,7 +22,7 @@ import java.sql.SQLException;
  * A wrapper class for the SQLiteDatabase. Assists with reading, writing, and modifying the database.
  */
 public class Database extends OrmLiteSqliteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "Morningstar.db";
     private static final Class[] DATABASE_CLASSES = new Class[]{
             Connect.class, Devotion.class, Event.class, SeriesCategory.class, Series.class, Study.class

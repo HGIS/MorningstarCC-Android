@@ -1,6 +1,5 @@
 package org.morningstarcc.app.fragments;
 
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import org.morningstarcc.app.R;
@@ -18,7 +17,7 @@ public class DevotionFragment extends RecyclerFragment<Devotion> {
     }
 
     @Override
-    protected RecyclerView.Adapter getAdapter(Bundle[] data) {
+    protected RecyclerView.Adapter getAdapter(Devotion[] data) {
         return new DevotionAdapter(getActivity(), R.layout.devotion_list_row, data, DevotionActivity.class);
     }
 

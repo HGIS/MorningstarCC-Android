@@ -10,6 +10,7 @@ import android.view.View;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.DevotionActivity;
+import org.morningstarcc.app.data.Devotion;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.viewholders.DevotionHolder;
 
@@ -22,12 +23,12 @@ import static org.morningstarcc.app.libs.DateUtils.getMonthString;
 /**
  * Created by Kyle on 10/10/2014.
  */
-public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
+public class DevotionAdapter extends DatabaseItemAdapter<Devotion, DevotionHolder> {
 
     Activity mActivity;
     Resources mResources;
 
-    public DevotionAdapter(Activity mActivity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+    public DevotionAdapter(Activity mActivity, int row_layout, Devotion[] data, Class<? extends Activity> nextActivity) {
         super(mActivity, row_layout, data, nextActivity);
         this.mActivity = mActivity;
         this.mResources = mActivity.getResources();
@@ -35,12 +36,9 @@ public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
 
     @Override
     protected void setupView(DevotionHolder viewHolder, int position) {
-        Bundle devotion = data[position];
-        String dateString = devotion.getString("pubDate");
-        String author = devotion.getString("dccreator");
-        String read = devotion.getString("read");
+        Devotion devotion = data[position];
 
-        Date date = TextUtils.isEmpty(dateString) ? null : getDate(dateString);
+        Date date = TextUtils.isEmpty(devotion.pubDate) ? null : getDate(devotion.pubDate);
 
         if (date != null) {
             viewHolder.month.setText(getMonthString(date));
@@ -49,12 +47,10 @@ public class DevotionAdapter extends DatabaseItemAdapter<DevotionHolder> {
             viewHolder.month.setVisibility(View.GONE);
             viewHolder.day.setVisibility(View.GONE);
         }
-        viewHolder.title.setText(String.valueOf(devotion.getString("title")));
-        viewHolder.author.setText(TextUtils.isEmpty(author) ? mActivity.getString(R.string.unknown_author) : author);
+        viewHolder.title.setText(String.valueOf(devotion.title));
+        viewHolder.author.setText(TextUtils.isEmpty(devotion.creator) ? mActivity.getString(R.string.unknown_author) : devotion.creator);
 
-        Typeface textStyle = !TextUtils.isEmpty(read) && Boolean.parseBoolean(read)
-                ? Typeface.DEFAULT
-                : Typeface.DEFAULT_BOLD;
+        Typeface textStyle = devotion.read ? Typeface.DEFAULT : Typeface.DEFAULT_BOLD;
 
         viewHolder.title.setTypeface(textStyle);
         viewHolder.author.setTypeface(textStyle);

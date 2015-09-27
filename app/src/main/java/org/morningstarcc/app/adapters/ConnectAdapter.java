@@ -2,11 +2,10 @@ package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.morningstarcc.app.App;
 import org.morningstarcc.app.data.Connect;
 import org.morningstarcc.app.libs.IntentUtils;
 import org.morningstarcc.app.viewholders.ConnectHolder;
@@ -14,9 +13,9 @@ import org.morningstarcc.app.viewholders.ConnectHolder;
 /**
  * Created by whykalo on 12/21/2014.
  */
-public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
+public class ConnectAdapter extends DatabaseItemAdapter<Connect, ConnectHolder> {
 
-    public ConnectAdapter(Activity mActivity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+    public ConnectAdapter(Activity mActivity, int row_layout, Connect[] data, Class<? extends Activity> nextActivity) {
         super(mActivity, row_layout, data, nextActivity);
     }
 
@@ -31,7 +30,7 @@ public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
 
     @Override
     protected void setupView(ConnectHolder viewHolder, int position) {
-        viewHolder.title.setText(String.valueOf(data[position].getString("title")));
+        viewHolder.title.setText(String.valueOf(data[position].title));
     }
 
     @Override
@@ -43,12 +42,12 @@ public class ConnectAdapter extends DatabaseItemAdapter<ConnectHolder> {
         @Override
         public void onClick(View v) {
             int itemPosition = mRecyclerView.getChildPosition(v);
-            Bundle item = data[itemPosition];
+            Connect item = data[itemPosition];
 
-            if (item.getString("title").contains("Email"))
-                mActivity.startActivity(IntentUtils.emailIntent(item.getString("weblink")));
+            if (item.title.contains("Email"))
+                mActivity.startActivity(IntentUtils.emailIntent(item.weblink));
             else
-                mActivity.startActivity(new Intent(mActivity, nextActivity).putExtras(item));
+                mActivity.startActivity(new Intent(mActivity, nextActivity).putExtra(App.PARCEL, item));
         }
     }
 }

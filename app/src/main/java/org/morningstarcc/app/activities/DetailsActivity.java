@@ -1,20 +1,22 @@
 package org.morningstarcc.app.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+
+import org.morningstarcc.app.App;
 
 /**
  * Created by Kyle on 10/25/2014.
  */
-public class DetailsActivity extends ActionBarActivity {
-    protected Intent intent;
+public class DetailsActivity<T extends Parcelable> extends ActionBarActivity {
+    protected T item;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.intent = getIntent();
+        item = getIntent().getParcelableExtra(App.PARCEL);
     }
 
     @Override

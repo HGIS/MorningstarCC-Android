@@ -8,23 +8,23 @@ import android.view.View;
 import com.squareup.picasso.Picasso;
 
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.SeriesCategory;
 import org.morningstarcc.app.viewholders.SeriesCategoryHolder;
 
 /**
  * Created by Kyle on 7/11/2015.
  */
-public class SeriesCategoryAdapter extends DatabaseItemAdapter<SeriesCategoryHolder> {
+public class SeriesCategoryAdapter extends DatabaseItemAdapter<SeriesCategory, SeriesCategoryHolder> {
 
-    public SeriesCategoryAdapter(Activity mActivity, int row_layout, Bundle[] data, Class<? extends Activity> nextActivity) {
+    public SeriesCategoryAdapter(Activity mActivity, int row_layout, SeriesCategory[] data, Class<? extends Activity> nextActivity) {
         super(mActivity, row_layout, data, nextActivity);
     }
 
     @Override
     protected void setupView(SeriesCategoryHolder viewHolder, int position) {
-        Bundle curData = data[position];
-        String image = curData.getString("Imagelink");
+        SeriesCategory curData = data[position];
 
-        if (TextUtils.isEmpty(image)) {
+        if (TextUtils.isEmpty(curData.Imagelink)) {
             Picasso
                     .with(mActivity)
                     .load(R.drawable.ic_splash)
@@ -32,7 +32,7 @@ public class SeriesCategoryAdapter extends DatabaseItemAdapter<SeriesCategoryHol
         } else {
             Picasso
                     .with(mActivity)
-                    .load(image)
+                    .load(curData.Imagelink)
                     .placeholder(R.drawable.ic_splash)
                     .into(viewHolder.image);
         }

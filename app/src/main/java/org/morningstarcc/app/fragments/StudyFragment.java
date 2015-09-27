@@ -33,7 +33,7 @@ public class StudyFragment extends RecyclerFragment<Study> {
     }
 
     @Override
-    protected DatabaseItemAdapter getAdapter(Bundle[] data) {
+    protected DatabaseItemAdapter getAdapter(Study[] data) {
         return new StudyAdapter(getActivity(), R.layout.study_list_row, data, StudyActivity.class);
     }
 

@@ -12,6 +12,7 @@ import android.view.View;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.adapters.EventAdapter;
+import org.morningstarcc.app.data.Event;
 import org.morningstarcc.app.libs.DateUtils;
 import org.morningstarcc.app.libs.IntentUtils;
 
@@ -26,7 +27,8 @@ import static org.morningstarcc.app.libs.ViewConstructorUtils.setText;
 /**
  * Created by Kyle on 10/21/2014.
  */
-public class EventActivity extends DetailsActivity {
+public class EventActivity extends DetailsActivity<Event> {
+    private static final String TAG = EventActivity.class.getSimpleName();
 
     public static final String IMAGE = "EVENT_IMAGE";
 
@@ -65,27 +67,26 @@ public class EventActivity extends DetailsActivity {
     }
 
     private void setup() {
-        startDate = getFullDate(intent.getStringExtra("eventstarttime"));
-        endDate = getFullDate(intent.getStringExtra("eventendtime"));
+        startDate = getFullDate(item.eventstarttime);
+        endDate = getFullDate(item.eventendtime);
 
-        setTitle(Html.fromHtml(intent.getStringExtra("title")).toString());
+        setTitle(Html.fromHtml(item.title).toString());
 
-        String imagePath = intent.getStringExtra("imagepath");
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (!imagePath.equals(EventAdapter.DEFAULT_IMAGE_PATH)) {
-            setImageLink(this, R.id.image, imagePath, R.drawable.logo_event_default, R.drawable.logo_event_default);
+        if (!item.imagepath.equals(EventAdapter.DEFAULT_IMAGE_PATH)) {
+            setImageLink(this, R.id.image, item.imagepath, R.drawable.logo_event_default, R.drawable.logo_event_default);
         }
 
         setText(this, R.id.date, getDateInterval(startDate, endDate));
         setText(this, R.id.time, getTimeInterval(startDate, endDate));
 
-        setText(this, R.id.description, intent.getStringExtra("description"));
+        setText(this, R.id.description, item.description);
 
-        if (intent.getStringExtra("hasregistration").equalsIgnoreCase("false")) {
+        if (!Boolean.parseBoolean(item.hasregistration)) {
             findViewById(R.id.register).setVisibility(View.GONE);
         }
 
@@ -94,15 +95,15 @@ public class EventActivity extends DetailsActivity {
 
     public void onRegister(View view) {
         try {
-            startActivity(IntentUtils.webIntent(intent.getStringExtra("registrationlink")));
+            startActivity(IntentUtils.webIntent(item.registrationlink));
         }
         catch (Exception e) {
-            Log.e("EventActivity", Log.getStackTraceString(e));
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
     public void onViewMoreDetails(View view) {
-        startActivity(IntentUtils.webIntent(intent.getStringExtra("weblink")));
+        startActivity(IntentUtils.webIntent(item.weblink));
     }
 
 
@@ -112,21 +113,18 @@ public class EventActivity extends DetailsActivity {
         }
     }
 
-    private void getDirections() {
-        Intent mapIntent = IntentUtils.googleMapsIntent(intent.getStringExtra("eventlocation"));
-        startActivity(mapIntent);
-    }
+//    private void getDirections() {
+//        Intent mapIntent = IntentUtils.googleMapsIntent(item.eventlocation);
+//        startActivity(mapIntent);
+//    }
 
     private void shareEvent() {
-        Intent shareIntent = IntentUtils.shareIntent("Join me on " + DateUtils.getFullDayString(startDate) +
-                " for " + intent.getStringExtra("title") +
-                ". See more at: " + intent.getStringExtra("weblink"));
-
+        Intent shareIntent = IntentUtils.shareIntent(getString(R.string.share_event_format, DateUtils.getFullDayString(startDate), item.title, item.weblink));
         startActivity(shareIntent);
     }
 
     public void addEventToCalendar(View view) {
-        Intent calendarIntent = IntentUtils.calendarIntent(startDate, endDate, intent.getStringExtra("title"), intent.getStringExtra("description"));
+        Intent calendarIntent = IntentUtils.calendarIntent(startDate, endDate, item.title, item.description);
         startActivity(calendarIntent);
     }
 }

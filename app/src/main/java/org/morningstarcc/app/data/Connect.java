@@ -1,6 +1,7 @@
 package org.morningstarcc.app.data;
 
-import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -9,30 +10,66 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Kyle on 9/25/2015.
  */
 @DatabaseTable(tableName = "Connects")
-public class Connect extends Bundlable {
-    @DatabaseField(columnName = "id")
-	String linkid;
+public class Connect implements Parcelable {
+    @DatabaseField(id = true, columnName = "id")
+	public String linkid;
 
     @DatabaseField
-	String haschild;
+	public String haschild;
 
     @DatabaseField
-	String parentId;
+	public String parentId;
 
     @DatabaseField
-	String title;
+	public String title;
 
     @DatabaseField(columnName = "content")
-	String contentencoded;
+	public String encoded;
 
     @DatabaseField
-	String weblink;
+	public String weblink;
 
     @DatabaseField
-	String modifieddate;
+    public String modifieddate;
 
     @DatabaseField
-	String isactive;
+	public String isactive;
 
     public Connect() {}
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(linkid);
+        out.writeString(haschild);
+        out.writeString(parentId);
+        out.writeString(title);
+        out.writeString(encoded);
+        out.writeString(weblink);
+        out.writeString(modifieddate);
+        out.writeString(isactive);
+    }
+
+    public static final Parcelable.Creator<Connect> CREATOR = new Parcelable.Creator<Connect>() {
+        public Connect createFromParcel(Parcel in) {
+            return new Connect(in);
+        }
+
+        public Connect[] newArray(int size) {
+            return new Connect[size];
+        }
+    };
+
+    private Connect(Parcel in) {
+        linkid = in.readString();
+        haschild = in.readString();
+        parentId = in.readString();
+        title = in.readString();
+        encoded = in.readString();
+        weblink = in.readString();
+        modifieddate = in.readString();
+        isactive = in.readString();
+    }
 }

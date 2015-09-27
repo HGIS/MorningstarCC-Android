@@ -1,5 +1,7 @@
 package org.morningstarcc.app.http;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +36,9 @@ public class RssArray {
                     try {
                         clazz.getDeclaredField(field.getKey()).set(object, field.getValue().replace(":", ""));
                     } catch (NoSuchFieldException ignored) {
+                        Log.e("Rss", "No such field " + field.getKey() + " for " + clazz);
                     } catch (IllegalAccessException ignored) {
+                        Log.e("Rss", "Cannot access field " + field.getKey());
                     }
                 }
 

@@ -8,11 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.morningstarcc.app.R;
+import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.libs.IntentUtils;
 
 import static org.morningstarcc.app.libs.ViewConstructorUtils.setText;
 
-public class StudyActivity extends DetailsActivity {
+public class StudyActivity extends DetailsActivity<Study> {
 
     private static String VIDEO_LINK = "vnd.youtube://";
 
@@ -21,12 +22,12 @@ public class StudyActivity extends DetailsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study);
 
-        getSupportActionBar().setTitle(intent.getStringExtra("title"));
+        getSupportActionBar().setTitle(item.title);
 
-        setText(this, R.id.speaker, intent.getStringExtra("Speaker"));
-        setText(this, R.id.date, intent.getStringExtra("StudyDate"));
-        setText(this, R.id.scripture, intent.getStringExtra("Scripture"));
-        setText(this, R.id.description, intent.getStringExtra("Description"));
+        setText(this, R.id.speaker, item.Speaker);
+        setText(this, R.id.date, item.StudyDate);
+        setText(this, R.id.scripture, item.Scripture);
+        setText(this, R.id.description, item.Description);
     }
 
     @Override
@@ -50,24 +51,22 @@ public class StudyActivity extends DetailsActivity {
     }
 
     public void onShare() {
-        Intent shareIntent = IntentUtils.shareIntent(String.format(
-                "Morningstar's %s taught about %s from %s on %s. Check it out at: %s, or listen to it at: %s",
-                intent.getStringExtra("Speaker"), intent.getStringExtra("title").toLowerCase(),
-                intent.getStringExtra("Scripture"), intent.getStringExtra("StudyDate"),
-                intent.getStringExtra("VideoLink"), intent.getStringExtra("AudioLink")));
+        Intent shareIntent = IntentUtils.shareIntent(getString(R.string.share_study_format,
+                item.Speaker, item.title.toLowerCase(), item.Scripture, item.StudyDate,
+                item.VideoLink, item.AudioLink));
 
         startActivity(shareIntent);
     }
 
     public void onListen() {
         Intent listenIntent = new Intent(Intent.ACTION_VIEW);
-        listenIntent.setDataAndType(Uri.parse(intent.getStringExtra("AudioLink")), "audio/*");
+        listenIntent.setDataAndType(Uri.parse(item.AudioLink), "audio/*");
 
         startActivity(listenIntent);
     }
 
     public void onPlay(View view) {
-        String videoId = getVideoId(intent.getStringExtra("VideoLink"));
+        String videoId = getVideoId(item.VideoLink);
         Intent toStart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
 
         startActivity(toStart);

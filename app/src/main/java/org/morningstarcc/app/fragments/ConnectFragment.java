@@ -10,18 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.ConnectActivity;
 import org.morningstarcc.app.adapters.ConnectAdapter;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
-import org.morningstarcc.app.data.Bundlable;
 import org.morningstarcc.app.data.Connect;
 import org.morningstarcc.app.database.Database;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,42 +69,44 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
         return rootView;
     }
 
-    public DatabaseItemAdapter getAdapter(Bundle[] data) {
+    public DatabaseItemAdapter getAdapter(Connect[] data) {
         return new ConnectAdapter(getActivity(), R.layout.connect_list_row, data, ConnectActivity.class);
     }
 
     // gets the default data for the connect rows
-    public Bundle[] getDefaultData() {
-        Bundle[] data;
+    public Connect[] getDefaultData() {
+        Connect[] data;
         try {
             HashMap<String, Object> values = new HashMap<>(2);
 
             values.put("parentId", "0");
             values.put("isactive", "True");
 
-            data = Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
+            List<Connect> dataList = OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values);
+            data = dataList.toArray(new Connect[dataList.size()]);
         } catch (SQLException ignored) {
-            data = new Bundle[0];
+            data = null;
         }
 
         OpenHelperManager.releaseHelper();
         return data;
     }
 
-    public Bundle[] getData(String parentId) {
+    public Connect[] getData(String parentId) {
         if (parentId == null || parentId.equals("0"))
             return getDefaultData();
 
-        Bundle[] data;
+        Connect[] data;
         try {
             HashMap<String, Object> values = new HashMap<>(2);
 
             values.put("parentId", parentId);
             values.put("isactive", "True");
 
-            data = Bundlable.bundle(OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values));
+            List<Connect> dataList = OpenHelperManager.getHelper(getActivity(), Database.class).getDao(Connect.class).queryForFieldValues(values);
+            data = dataList.toArray(new Connect[dataList.size()]);
         } catch (SQLException ignored) {
-            data = new Bundle[0];
+            data = null;
         }
 
         OpenHelperManager.releaseHelper();
