@@ -14,4 +14,12 @@
     <color name="theme_accent">#FFFFFF</color>
     <color name="splash_bg">#FFFFFF</color>
 
+    <!-- Home Colors -->
+    <color name="home_bulletin">#6ab630</color>
+    <color name="home_events">#3000f9</color>
+    <color name="home_devotions">#ef343d</color>
+    <color name="home_studies">#f17334</color>
+
+    <color name="event_end_time">#bcbcbc</color>
+
 </resources>

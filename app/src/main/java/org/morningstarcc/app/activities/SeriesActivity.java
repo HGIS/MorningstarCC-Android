@@ -37,7 +37,8 @@ public class SeriesActivity extends DetailsActivity<Series> {
 
         setImageLink(this, R.id.image, item.Imagelink);
         setText(this, R.id.title, item.title);
-        setText(this, R.id.count, getResources().getQuantityString(R.plurals.study_counter, count, count));
+        //setText(this, R.id.count, getResources().getQuantityString(R.plurals.study_counter, count, count));
+        setText(this, R.id.count, String.format("%s studies", item.StudyCount));
 
         shadow = findViewById(R.id.shadow);
         divider = findViewById(R.id.divider);

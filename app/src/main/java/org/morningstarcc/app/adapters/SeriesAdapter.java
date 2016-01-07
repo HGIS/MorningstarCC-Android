@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.URLUtil;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squareup.picasso.Picasso;
@@ -30,7 +31,7 @@ public class SeriesAdapter extends DatabaseItemAdapter<Series, SeriesHolder> {
         Series curData = data[position];
         int numStudies = Integer.valueOf(curData.StudyCount);
 
-        if (TextUtils.isEmpty(curData.Imagelink)) {
+        if (TextUtils.isEmpty(curData.Imagelink)  || !URLUtil.isValidUrl(curData.Imagelink)) {
             Picasso
                     .with(mActivity)
                     .load(R.drawable.ic_splash)

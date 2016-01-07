@@ -2,6 +2,7 @@ package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +13,7 @@ import org.morningstarcc.app.viewholders.ConnectHolder;
 
 /**
  * Created by whykalo on 12/21/2014.
+ * 11/11/2015 - Juan Manuel Gomez - Added functionality for web url
  */
 public class ConnectAdapter extends DatabaseItemAdapter<Connect, ConnectHolder> {
 
@@ -46,7 +48,11 @@ public class ConnectAdapter extends DatabaseItemAdapter<Connect, ConnectHolder> 
 
             if (item.title.contains("Email"))
                 mActivity.startActivity(IntentUtils.emailIntent(item.weblink));
-            else
+            else if (item.weblink.trim().length() > 0){
+                Uri uri = Uri.parse(item.weblink);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                mActivity.startActivity(intent);
+            }else
                 mActivity.startActivity(new Intent(mActivity, nextActivity).putExtra(App.PARCEL, item));
         }
     }

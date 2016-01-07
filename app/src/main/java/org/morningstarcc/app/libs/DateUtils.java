@@ -9,6 +9,7 @@ import java.util.Locale;
 
 /**
  * A collection of useful functions for parsing and creating date strings.
+ *  * 11/21/2015 - Juan Manuel Gomez - Added new method to format the date "getFullDayYearString"
  */
 public class DateUtils {
     private static final String TAG = "DateUtils";
@@ -26,6 +27,8 @@ public class DateUtils {
     public static final SimpleDateFormat HOUR_MINUTE = new SimpleDateFormat("h:mm", Locale.US);
     public static final SimpleDateFormat MARKER = new SimpleDateFormat("a", Locale.US);
     public static final SimpleDateFormat WEEKDAY_MONTH_DATE = new SimpleDateFormat("EEE MMM d", Locale.US);
+
+    public static final SimpleDateFormat WEEKDAY_MONTH_YEAR = new SimpleDateFormat("EEE MMM d, yyyy", Locale.US);
 
     public static Date getDate(String dateString) {
         try {
@@ -73,6 +76,10 @@ public class DateUtils {
 
     public static String getFullDayString(Date day) {
         return WEEKDAY_MONTH_DATE.format(day);
+    }
+
+    public static String getFullDayYearString(Date day) {
+        return WEEKDAY_MONTH_YEAR.format(day);
     }
 
     public static String getDateInterval(Date startDate, Date endDate) {

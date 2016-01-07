@@ -18,6 +18,8 @@ import org.morningstarcc.app.http.DataService;
 
 /**
  * Created by Kyle on 10/26/2014.
+ * History:
+ * 11/12/2015 - Juan Manuel Gomez - Added progress dialog
  */
 public class SplashActivity extends Activity {
     @Override

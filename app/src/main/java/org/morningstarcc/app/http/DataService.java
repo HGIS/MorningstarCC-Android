@@ -33,6 +33,7 @@ import static com.android.volley.Request.Method.GET;
 
 /**
  * Created by Kyle on 9/20/2015.
+ * 11/21/2015 - Juan Manuel Gomez - Use new constructor for Series to send the SeriesType
  */
 public class DataService {
     public static final String UrlPrefix = "http://www.morningstarcc.org/";
@@ -99,7 +100,7 @@ public class DataService {
                 Log.d("Volley", "Queuing " + categories.size() + " requests for series");
                 for (SeriesCategory category : categories) {
                     numQueries.incrementAndGet();
-                    get(Series.class, category.SeriesType, new UpdateDbListener<>(Series.class, database, new Listener<List<Series>>() {
+                    get(Series.class, category.SeriesType, new UpdateDbListener<>(Series.class, database, category.SeriesType, new Listener<List<Series>>() {
                         @Override
                         public void onResponse(List<Series> seriesList) {
                             Log.d("Volley", "Queuing " + seriesList.size() + " requests for studies");

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\answers\1.3.6\jars\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9af3b9b8114e685291aa00e6572b0a9131244956">
+        <dex dex="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\pre-dexed\release\classes-1993df746bdef05f084832fa5f48a39a3d8a55f8.jar" />
+    </item>
+    <item
+        jar="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\crashlytics\2.5.5\jars\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="611605b6b640c1558f9bdea41de8ff837ab68ca8">
+        <dex dex="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\pre-dexed\release\classes-1a1092a782d6edac87a74cefc8f666143b4d4dc8.jar" />
+    </item>
+    <item
+        jar="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\exploded-aar\io.fabric.sdk.android\fabric\1.3.10\jars\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a5db9a2dd46d84285ef737f65030b74b6e8ee2a4">
+        <dex dex="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\pre-dexed\release\classes-35aa338ad440acab309c3a24146a9742d109afcb.jar" />
+    </item>
+    <item
+        jar="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\beta\1.1.4\jars\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ad5bb101ced4d3939225c9b57e5a3d81547c1fbb">
+        <dex dex="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\pre-dexed\release\classes-2094f05eb6b9a9262500130dd94da354a1b56eec.jar" />
+    </item>
+    <item
+        jar="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\crashlytics-core\2.3.8\jars\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="c9ef45dcbd082cd63aac09a5e2cd443adb5df837">
+        <dex dex="C:\Users\jgome\Documents\zipDev\morningstar-cc-android-app\app\build\intermediates\pre-dexed\release\classes-d2a045e2392d818f76f1631d42897262a2d6f685.jar" />
+    </item>
+
+</items>

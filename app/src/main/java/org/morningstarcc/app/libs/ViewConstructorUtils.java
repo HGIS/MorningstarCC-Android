@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,9 @@ import static android.text.Html.fromHtml;
 /**
  * A utility class to clean up code for setting commonly handled fields from views found by their id's.
  * All public methods can be statically imported.
+ *
+ * History:
+ * 11/11/2015 - Juan Manuel Gomez - Added valiton for image url
  */
 public class ViewConstructorUtils {
 
@@ -84,11 +88,21 @@ public class ViewConstructorUtils {
     }
 
     public static void setImageLink(Context context, String link, int defaultResId, int errorResId, ImageView into) {
-        Picasso
-                .with(context)
-                .load(link)
-                .placeholder(defaultResId)
-                .error(errorResId)
-                .into(into);
+        if (URLUtil.isValidUrl(link)){
+            Picasso
+                    .with(context)
+                    .load(link)
+                    .placeholder(defaultResId)
+                    .error(errorResId)
+                    .into(into);
+        }else{
+            //Load default image
+            Picasso
+                    .with(context)
+                    .load(R.drawable.ic_splash)
+                    .into(into);
+
+        }
+
     }
 }

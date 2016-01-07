@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Kyle on 9/25/2015.
+ * 11/21/2015 - Juan Manuel Gomez - Added new variable SeriesType to the DAO and the Parcelable
  */
 @DatabaseTable(tableName = "Series")
 public class Series implements Parcelable {
@@ -29,6 +30,9 @@ public class Series implements Parcelable {
     @DatabaseField
     public String StudyCount;
 
+    @DatabaseField
+    public String SeriesType;
+
     public Series() {}
 
     public int describeContents() {
@@ -42,6 +46,7 @@ public class Series implements Parcelable {
         out.writeString(Imagelink);
         out.writeString(LastStudyDate);
         out.writeString(StudyCount);
+        out.writeString(SeriesType);
     }
 
     public static final Parcelable.Creator<Series> CREATOR = new Parcelable.Creator<Series>() {
@@ -61,5 +66,6 @@ public class Series implements Parcelable {
         Imagelink = in.readString();
         LastStudyDate = in.readString();
         StudyCount = in.readString();
+        SeriesType = in.readString();
     }
 }

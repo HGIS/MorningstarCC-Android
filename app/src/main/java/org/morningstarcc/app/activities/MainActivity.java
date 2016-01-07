@@ -2,12 +2,12 @@ package org.morningstarcc.app.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +20,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.transition.ChangeBounds;
 import android.transition.Explode;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,8 +35,10 @@ import org.morningstarcc.app.fragments.ConnectFragment;
 import org.morningstarcc.app.fragments.DevotionFragment;
 import org.morningstarcc.app.fragments.EventFragment;
 import org.morningstarcc.app.fragments.ExpandableEventFragment;
+import org.morningstarcc.app.fragments.HomeFragment;
 import org.morningstarcc.app.fragments.SeriesCategoryFragment;
 import org.morningstarcc.app.http.DataService;
+import org.morningstarcc.app.http.DownloadTask;
 import org.morningstarcc.app.libs.IntentUtils;
 
 import java.io.File;
@@ -62,6 +63,11 @@ import java.io.File;
  *  - palettes?
  *  - update nav drawer
  *  - push notifications?
+ *
+ * History:
+ * 11/11/2015 - Juan Manuel Gomez - Added Home option to the drawer
+ * 11/12/2015 - Juan Manuel Gomez - Added pdf functionality, back press button improved,
+ *                                  splash progress, youtube crash fixed
  */
 public class MainActivity extends ActionBarActivity {
 
@@ -76,12 +82,14 @@ public class MainActivity extends ActionBarActivity {
     private int mPosition;
 
     // the indices for the drawer items
-    private static final int CONNECT = 0,
-            SERIES = 1,
-            EVENTS = 2,
-            DEVOTIONS = 3,
-            BULLETIN = 4,
-            LIVE_STREAM = 5;
+    public static final int
+            HOME = 0,
+            CONNECT = 1,
+            SERIES = 2,
+            EVENTS = 3,
+            DEVOTIONS = 4,
+            BULLETIN = 5,
+            LIVE_STREAM = 6;
 
     // a variable to hold state of events drop-down
     private int mEventPosition;
@@ -123,19 +131,19 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_frame, new SeriesCategoryFragment())
+                .replace(R.id.content_frame, new HomeFragment())
                 .commit();
 
         mPosition = 1;
         mDrawerList.setItemChecked(mPosition, true);
-        setTitle(mDrawerTitles[mPosition]);
+        setTitle(getString(R.string.app_name));
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerLayout.openDrawer(Gravity.START);
+        //mDrawerLayout.openDrawer(Gravity.START);
         mDrawerToggle.syncState();
     }
 
@@ -165,11 +173,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /** Swaps fragments in the main content view */
-    private void selectItem(int position) {
+    public void selectItem(int position) {
         final Fragment fragment;
         String title;
 
         switch (position) {
+            case HOME:
+                title = getString(R.string.app_name);
+                fragment = new HomeFragment();
+                break;
             case CONNECT:
                 title = mDrawerTitles[position];
                 fragment = new ConnectFragment();
@@ -179,14 +191,14 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new SeriesCategoryFragment();
                 break;
             case EVENTS:
-                title = "";
+                title = mDrawerTitles[position];
                 fragment = pickEventFragment(mEventPosition);
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 break;
             case DEVOTIONS:
                 title = mDrawerTitles[position];
                 fragment = new DevotionFragment();
-                break;
+            break;
             case BULLETIN:
                 launchBulletin();
                 return;
@@ -221,20 +233,20 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         if (cur instanceof ConnectFragment) {
-            mPosition = 0;
+            mPosition = CONNECT;
             setTitle(mDrawerTitles[mPosition]);
         }
         else if (cur instanceof SeriesCategoryFragment) {
-            mPosition = 1;
+            mPosition = SERIES;
             setTitle(mDrawerTitles[mPosition]);
         }
         else if (cur instanceof EventFragment || cur instanceof ExpandableEventFragment) {
-            mPosition = 2;
+            mPosition = EVENTS;
             setTitle("");
             getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         }
         else if (cur instanceof DevotionFragment) {
-            mPosition = 3;
+            mPosition = DEVOTIONS;
             setTitle(mDrawerTitles[mPosition]);
         }
     }
@@ -246,35 +258,38 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        // TODO
-        /*if (DownloadUrlContentTask.hasInternetAccess(this)) {
-            final ProgressDialog dialog = new ProgressDialog(this);
-            final FileDownloader downloader = new BulletinDownloader("bulletin.pdf", this, dialog);
-
-            dialog.setMessage("Downloading most recent version");
-            dialog.setIndeterminate(true);
-            dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            dialog.setCancelable(true);
-            dialog.setOnCancelListener(new AsyncTaskCancelListener(downloader));
-
-            dialog.show();
-            downloader.execute(getString(R.string.bulletin_url));
+        if(!isNetworkAvailable()){
+            if(!new File("/sdcard/bulletin.pdf").exists()){
+                return;
+            }
+            Intent i = new Intent(this, PDFActivity.class);
+            startActivity(i);
+            return;
         }
-        else {
-            try {
-                openBulletin();
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Downloading bulletin...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(true);
+
+        final DownloadTask downloadTask = new DownloadTask(this, progressDialog);
+        downloadTask.execute(getString(R.string.bulletin_url));
+
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                downloadTask.cancel(true);
             }
-            catch (ActivityNotFoundException e) {
-                Toast.makeText(this, "Cannot retrieve bulletin", Toast.LENGTH_SHORT).show();
-            }
-        }*/
+        });
+
     }
 
-    private void openBulletin() {
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(Uri.fromFile(new File(getFilesDir(), "bulletin.pdf")), "application/pdf");
-
-        startActivity(pdfIntent);
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void launchLiveStream() {

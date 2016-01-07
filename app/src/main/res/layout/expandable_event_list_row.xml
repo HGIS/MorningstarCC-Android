@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="center"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/small_indent"
+    android:layout_gravity="center"
+    android:minHeight="@dimen/min_clickable_height"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/small_indent"
-    android:minHeight="@dimen/min_clickable_height">
+    android:paddingTop="@dimen/small_indent">
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_weight="2.75"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2.75">
 
         <TextView
             android:id="@+id/time"
-            android:textSize="@dimen/text_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/small_indent"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            tools:text="12:00 AM"/>
+            android:textSize="@dimen/text_small"
+            tools:text="12:00 AM"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:paddingRight="@dimen/small_indent"
+            android:textColor="@color/event_end_time"
+            android:textSize="@dimen/text_small"
+            tools:text="12:00 AM"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
-    <View
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <View xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:background="@color/grey" />
 
     <TextView
         android:id="@+id/title"
-        android:textSize="@dimen/text_medium"
         android:layout_width="0dp"
-        android:layout_weight="7"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/indent"
-        android:ellipsize="marquee"
-        android:singleLine="true"
         android:layout_gravity="center_vertical"
-        tools:text="Sample event title"/>
+        android:layout_weight="7"
+        android:ellipsize="marquee"
+        android:paddingLeft="@dimen/indent"
+        android:singleLine="true"
+        android:textSize="@dimen/text_medium"
+        tools:text="Sample event title" />
 
 </LinearLayout>

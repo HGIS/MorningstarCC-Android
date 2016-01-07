@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import org.morningstarcc.app.App;
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.ConnectActivity;
 import org.morningstarcc.app.adapters.ConnectAdapter;
@@ -24,6 +25,9 @@ import java.util.List;
 
 /**
  * Created by whykalo on 12/21/2014.
+ *
+ * History:
+ * 11/11/2015 - Juan Manuel Gomez - Added validation for extras in the intent for parcel
  */
 public class ConnectFragment extends RecyclerFragment<Connect> {
 
@@ -41,30 +45,30 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
         Bundle args = getArguments();
         View rootView = null;
 
-        // if no parent data was provided, load listview with the default data
-        if (args == null) {
+        //Read parcelable data
+        if (args != null && args.containsKey(App.PARCEL)){
+            Connect data = (Connect)args.get(App.PARCEL);
+
+            if (data.haschild != null && data.haschild.equalsIgnoreCase("true")) {
+                //Sub Options
+                rootView = super.onCreateView(inflater, container, savedInstanceState);
+                adapter = getAdapter(getData(data.linkid));
+                ((RecyclerView) rootView.findViewById(R.id.recycler)).setAdapter(adapter);
+            }else if (data.encoded != null && data.encoded.length() > 0) {
+                //HTML
+                rootView = inflater.inflate(R.layout.fragment_connect_content, container, false);
+                ((TextView) rootView.findViewById(R.id.content)).setText(Html.fromHtml(data.encoded));
+
+            }else{
+                //Error
+            }
+
+        }else{
+            //Default
             rootView = super.onCreateView(inflater, container, savedInstanceState);
             adapter = getAdapter(getDefaultData());
-
             ((RecyclerView) rootView.findViewById(R.id.recycler)).setAdapter(adapter);
         }
-
-        // if parent data was provided and there are more children, load listview with data
-        else if (args.getString("haschild").equalsIgnoreCase("true")) {
-            rootView = super.onCreateView(inflater, container, savedInstanceState);
-            adapter = getAdapter(getData(args.getString("linkid")));
-
-            ((RecyclerView) rootView.findViewById(R.id.recycler)).setAdapter(adapter);
-        }
-
-        // if we have content, display it in a webview
-        else if (args.getString("content:encoded") != null && args.getString("content:encoded").length() > 0) {
-            rootView = inflater.inflate(R.layout.fragment_connect_content, container, false);
-
-            ((TextView) rootView.findViewById(R.id.content)).setText(Html.fromHtml(args.getString("content:encoded")));
-        }
-
-        // if we have no content, activity should have launched a browser with the web link. Otherwise, return null
 
         return rootView;
     }

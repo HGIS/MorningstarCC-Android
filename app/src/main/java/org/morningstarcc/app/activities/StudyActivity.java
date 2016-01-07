@@ -13,9 +13,14 @@ import org.morningstarcc.app.libs.IntentUtils;
 
 import static org.morningstarcc.app.libs.ViewConstructorUtils.setText;
 
+/**
+ * History:
+ * 11/12/2015 - Juan Manuel Gomez - Added youtube crash
+ */
 public class StudyActivity extends DetailsActivity<Study> {
 
     private static String VIDEO_LINK = "vnd.youtube://";
+    private static String HTTP_LINK = "http://youtu.be/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,12 @@ public class StudyActivity extends DetailsActivity<Study> {
         String videoId = getVideoId(item.VideoLink);
         Intent toStart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
 
-        startActivity(toStart);
+        try{
+            startActivity(toStart);
+        }catch(Exception e){
+            e.printStackTrace();
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(HTTP_LINK + videoId)));
+        }
     }
 
     private String getVideoId(String videoLink) {

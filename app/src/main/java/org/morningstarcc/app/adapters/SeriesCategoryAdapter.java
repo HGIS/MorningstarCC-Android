@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,7 +26,7 @@ public class SeriesCategoryAdapter extends DatabaseItemAdapter<SeriesCategory, S
     protected void setupView(SeriesCategoryHolder viewHolder, int position) {
         SeriesCategory curData = data[position];
 
-        if (TextUtils.isEmpty(curData.Imagelink)) {
+        if (TextUtils.isEmpty(curData.Imagelink) || !URLUtil.isValidUrl(curData.Imagelink)) {
             Picasso
                     .with(mActivity)
                     .load(R.drawable.ic_splash)

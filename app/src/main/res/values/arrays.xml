@@ -3,6 +3,7 @@
 
     <string-array name="drawer_items">
 
+        <item>Home</item>
         <item>Connect</item>
         <item>Series</item>
         <item>Events</item>

@@ -9,6 +9,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import org.morningstarcc.app.R;
 import org.morningstarcc.app.data.Connect;
 import org.morningstarcc.app.data.Devotion;
 import org.morningstarcc.app.data.Event;
@@ -22,14 +23,14 @@ import java.sql.SQLException;
  * A wrapper class for the SQLiteDatabase. Assists with reading, writing, and modifying the database.
  */
 public class Database extends OrmLiteSqliteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "Morningstar.db";
     private static final Class[] DATABASE_CLASSES = new Class[]{
             Connect.class, Devotion.class, Event.class, SeriesCategory.class, Series.class, Study.class
     };
 
     public Database(Context mContext) {
-        super(mContext, DATABASE_NAME, null, DATABASE_VERSION);
+        super(mContext, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
     }
 
     @Override
@@ -43,11 +44,22 @@ public class Database extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        if (oldVersion == 1) dropTables(database);
+        if (newVersion > oldVersion) dropTables(database);
     }
 
     private void dropTables(SQLiteDatabase database) {
-        Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+
+
+        for (Class clazz : DATABASE_CLASSES) {
+            try {
+                TableUtils.dropTable(connectionSource, clazz, true);
+            } catch (SQLException ignored) {}
+        }
+
+        onCreate(database, connectionSource);
+
+        /*Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
@@ -55,6 +67,6 @@ public class Database extends OrmLiteSqliteOpenHelper {
             }
         }
 
-        cursor.close();
+        cursor.close();*/
     }
 }

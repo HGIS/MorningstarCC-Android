@@ -3,17 +3,25 @@ package org.morningstarcc.app.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.morningstarcc.app.App;
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.SeriesActivity;
 import org.morningstarcc.app.activities.StudyActivity;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
 import org.morningstarcc.app.adapters.StudyAdapter;
+import org.morningstarcc.app.data.Event;
+import org.morningstarcc.app.data.Series;
+import org.morningstarcc.app.data.SeriesCategory;
 import org.morningstarcc.app.data.Study;
 import org.morningstarcc.app.database.Database;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kyle on 10/30/2014.
@@ -22,6 +30,8 @@ public class StudyFragment extends RecyclerFragment<Study> {
 
     private int scroll = 0;
 
+    private String seriesId;
+
     public StudyFragment() {
         super(Study.class);
     }
@@ -29,12 +39,27 @@ public class StudyFragment extends RecyclerFragment<Study> {
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
+        //TODO: get the real id
         this.id = args.getString("SeriesId");
+
+        if (args != null) {
+            if (args != null && args.containsKey(App.PARCEL)) {
+                Series temp = (Series) args.get(App.PARCEL);
+                seriesId = temp.SeriesId;
+            }
+        }
     }
 
     @Override
     protected DatabaseItemAdapter getAdapter(Study[] data) {
-        return new StudyAdapter(getActivity(), R.layout.study_list_row, data, StudyActivity.class);
+        //Filter the data
+        List<Study> realData = new ArrayList<>();
+        for(Study study : data){
+            if (study.SeriesId.equals(seriesId)){
+                realData.add(study);
+            }
+        }
+        return new StudyAdapter(getActivity(), R.layout.study_list_row, realData.toArray(new Study[realData.size()]), StudyActivity.class);
     }
 
     @Override

@@ -1,0 +1,220 @@
+#
+# generated on 2015/12/02 02:53:01
+#
+# --table-start--
+dataClass=org.morningstarcc.app.data.Connect
+tableName=Connects
+# --table-fields-start--
+# --field-start--
+fieldName=linkid
+columnName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=haschild
+# --field-end--
+# --field-start--
+fieldName=parentId
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=encoded
+columnName=content
+# --field-end--
+# --field-start--
+fieldName=weblink
+# --field-end--
+# --field-start--
+fieldName=modifieddate
+# --field-end--
+# --field-start--
+fieldName=isactive
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=org.morningstarcc.app.data.Devotion
+tableName=Devotions
+# --table-fields-start--
+# --field-start--
+fieldName=devoId
+columnName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=creator
+columnName=author
+# --field-end--
+# --field-start--
+fieldName=encoded
+columnName=content
+# --field-end--
+# --field-start--
+fieldName=link
+# --field-end--
+# --field-start--
+fieldName=pubDate
+# --field-end--
+# --field-start--
+fieldName=read
+defaultValue=false
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=org.morningstarcc.app.data.Event
+tableName=Events
+# --table-fields-start--
+# --field-start--
+fieldName=eventid
+columnName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=eventstarttime
+# --field-end--
+# --field-start--
+fieldName=eventendtime
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=description
+# --field-end--
+# --field-start--
+fieldName=hasregistration
+# --field-end--
+# --field-start--
+fieldName=registrationlink
+# --field-end--
+# --field-start--
+fieldName=weblink
+# --field-end--
+# --field-start--
+fieldName=imagepath
+# --field-end--
+# --field-start--
+fieldName=pubDate
+# --field-end--
+# --field-start--
+fieldName=calendarOnly
+# --field-end--
+# --field-start--
+fieldName=ModifiedDate
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=org.morningstarcc.app.data.Series
+tableName=Series
+# --table-fields-start--
+# --field-start--
+fieldName=SeriesId
+columnName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=Book
+# --field-end--
+# --field-start--
+fieldName=Imagelink
+# --field-end--
+# --field-start--
+fieldName=LastStudyDate
+# --field-end--
+# --field-start--
+fieldName=StudyCount
+# --field-end--
+# --field-start--
+fieldName=SeriesType
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=org.morningstarcc.app.data.SeriesCategory
+tableName=SeriesCategories
+# --table-fields-start--
+# --field-start--
+fieldName=SeriesId
+# --field-end--
+# --field-start--
+fieldName=LastStudyDate
+# --field-end--
+# --field-start--
+fieldName=StudyCount
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=Book
+# --field-end--
+# --field-start--
+fieldName=Imagelink
+# --field-end--
+# --field-start--
+fieldName=SeriesType
+columnName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=SeriesTypeSortOrder
+# --field-end--
+# --field-start--
+fieldName=SeriesTypeDesc
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=org.morningstarcc.app.data.Study
+tableName=Studies
+# --table-fields-start--
+# --field-start--
+fieldName=StudyId
+columnName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=SeriesId
+# --field-end--
+# --field-start--
+fieldName=Speaker
+# --field-end--
+# --field-start--
+fieldName=StudyDate
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=Scripture
+# --field-end--
+# --field-start--
+fieldName=Description
+# --field-end--
+# --field-start--
+fieldName=AudioLink
+# --field-end--
+# --field-start--
+fieldName=VideoLink
+# --field-end--
+# --field-start--
+fieldName=ModifiedDate
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

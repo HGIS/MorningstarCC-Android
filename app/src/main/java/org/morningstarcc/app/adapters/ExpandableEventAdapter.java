@@ -2,7 +2,6 @@ package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,16 @@ import java.util.Date;
 
 import static org.morningstarcc.app.libs.DateUtils.getDate;
 import static org.morningstarcc.app.libs.DateUtils.getFullDate;
-import static org.morningstarcc.app.libs.DateUtils.getFullDayString;
+import static org.morningstarcc.app.libs.DateUtils.getFullDayYearString;
 import static org.morningstarcc.app.libs.DateUtils.getTimeOfDay;
 
 /**
  * Created by Kyle on 10/10/2014.
+ *
+ * History:
+ * 11/11/2015 - Juan Manuel Gomez - Added title in the constructor
+ * 11/21/2015 - Juan Manuel Gomez - Change title from title to event time
+ * 11/21/2015 - Juan Manuel Gomez - Added event end time
  */
 public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, ExpandableEventHolder> {
     public static final int HEADER = 0;
@@ -39,6 +43,8 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, Expandabl
                 Event header = new Event();
 
                 header.eventstarttime = item.eventstarttime;
+                header.eventendtime = item.eventendtime;
+                header.eventendtime = item.eventendtime;
 
                 return header;
             }
@@ -64,6 +70,14 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, Expandabl
     protected void setupView(ExpandableEventHolder holder, int position) {
         Event bundle = this.data.get(position);
         Date day = getFullDate(bundle.eventstarttime);
+        Date endTime = getFullDate(bundle.eventendtime);
+
+        //Set title with date
+        if (bundle.title == null ){
+            //Format the date
+            Date eventDate = getFullDate(bundle.eventstarttime);
+            bundle.title = getFullDayYearString(eventDate);
+        }
         String title = String.valueOf(bundle.title);
 
         try {
@@ -71,9 +85,11 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, Expandabl
         } catch (RuntimeException e) {}
 
         holder.title.setText(title);
+
         if (holder.time != null) {
             if (day != null) {
                 holder.time.setText(getTimeOfDay(day));
+                holder.endTime.setText(getTimeOfDay(endTime));
             } else {
                 holder.time.setVisibility(View.GONE);
             }

@@ -6,15 +6,16 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MCCTheme"
-        android:name=".App">
+        android:theme="@style/Theme.MCCTheme" >
         <activity
-            android:name="org.morningstarcc.app.activities.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
@@ -24,55 +25,66 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.morningstarcc.app.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" />
         <activity
-            android:name="org.morningstarcc.app.activities.ConnectActivity"
-            android:parentActivityName="org.morningstarcc.app.activities.MainActivity" >
+            android:name=".activities.ConnectActivity"
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.app.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.morningstarcc.app.activities.SeriesActivity"
-            android:parentActivityName="org.morningstarcc.app.activities.MainActivity" >
+            android:name=".activities.SeriesActivity"
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.app.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.morningstarcc.app.activities.EventActivity"
-            android:parentActivityName="org.morningstarcc.app.activities.MainActivity"
+            android:name=".activities.EventActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/Theme.MCCTheme.Toolbar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.app.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.morningstarcc.app.activities.DevotionActivity"
-            android:theme="@style/Theme.MCCTheme.Toolbar"
-            android:parentActivityName="org.morningstarcc.app.activities.MainActivity" >
+            android:name=".activities.DevotionActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MCCTheme.Toolbar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.app.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.morningstarcc.app.activities.StudyActivity"
+            android:name=".activities.StudyActivity"
             android:label="@string/title_activity_study"
-            android:parentActivityName="org.morningstarcc.app.activities.SeriesActivity" >
+            android:parentActivityName=".activities.SeriesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.app.activities.SeriesActivity" />
         </activity>
         <activity
-            android:name="org.morningstarcc.app.activities.SeriesCategoryActivity"
+            android:name=".activities.SeriesCategoryActivity"
             android:label="@string/title_activity_series_category"
-            android:parentActivityName="org.morningstarcc.app.activities.MainActivity" >
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.morningstarcc.app.activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".activities.PDFActivity"
+            android:label="@string/title_activity_pdf"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.morningstarcc.app.activities.MainActivity" />
+        </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="6b7c0114836e04ed4e38d1dc8ae41c9ef7db94e3" />
     </application>
 
 </manifest>

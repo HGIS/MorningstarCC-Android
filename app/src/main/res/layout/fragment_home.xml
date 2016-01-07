@@ -1,0 +1,75 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout  android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.morningstarcc.app.fragments.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="top"
+        android:id="@+id/layout_menu01"
+        android:layout_marginTop="20dp"
+        style="@style/test">
+        <Button
+            android:id="@+id/home_bulletin"
+            android:text="@string/home_bulletin"
+            style="@style/HomeButton"
+            android:layout_marginRight="5dp"
+            android:background="@color/home_bulletin"/>
+        <Button
+            android:id="@+id/home_events"
+            android:text="@string/home_events"
+            style="@style/HomeButton"
+            android:layout_marginLeft="5dp"
+            android:background="@color/home_events"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/layout_menu01"
+        android:layout_marginTop="10dp"
+        android:id="@+id/layout_menu02"
+        style="@style/test">
+        <Button
+            android:id="@+id/home_devotions"
+            android:text="@string/home_devotions"
+            style="@style/HomeButton"
+            android:layout_marginRight="5dp"
+            android:background="@color/home_devotions"/>
+        <Button
+            android:id="@+id/home_studies"
+            android:text="@string/home_studies"
+            style="@style/HomeButton"
+            android:layout_marginLeft="5dp"
+            android:background="@color/home_studies"/>
+    </LinearLayout>
+
+<TextView
+    android:id="@+id/home_label"
+    style="@style/HomeLabel"
+    android:text="@string/home_label"
+    android:layout_below="@+id/layout_menu02"
+    android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/home_image"
+        android:layout_below="@id/home_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"/>
+
+</RelativeLayout>
+
+</ScrollView>
