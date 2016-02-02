@@ -1,5 +1,6 @@
 package org.morningstarcc.app.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -35,7 +36,9 @@ public class PDFActivity extends ActionBarActivity {
 
             settings.setBuiltInZoomControls(true);
             webView.setWebChromeClient(new WebChromeClient());
-            webView.loadUrl("file:///android_asset/pdfviewer/index.html");
+            //webView.loadUrl("file:///android_asset/pdfviewer/index.html");
+            webView.loadUrl("file:///android_asset/pdfviewer/web/viewer.html");
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -45,12 +48,10 @@ public class PDFActivity extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        webView.clearCache(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        webView.loadUrl("javascript:window.location.reload( true )");
     }
 }

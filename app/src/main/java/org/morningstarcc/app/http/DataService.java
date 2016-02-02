@@ -34,6 +34,7 @@ import static com.android.volley.Request.Method.GET;
 /**
  * Created by Kyle on 9/20/2015.
  * 11/21/2015 - Juan Manuel Gomez - Use new constructor for Series to send the SeriesType
+ * 12/01/2015 - Juan Manuel Gomez - Added refresh functionality for Events
  */
 public class DataService {
     public static final String UrlPrefix = "http://www.morningstarcc.org/";
@@ -116,6 +117,60 @@ public class DataService {
                 decrementListener.onResponse(numQueries.decrementAndGet());
             }
         }), decrementErrorListener);
+    }
+
+    public static void updateEvents(Context context, final Listener<Void> finishedCallback) {
+        final Database database = OpenHelperManager.getHelper(context, Database.class);
+        final AtomicInteger numQueries = new AtomicInteger(4);
+        final Listener<Integer> decrementListener = new Listener<Integer>() {
+            @Override
+            public void onResponse(Integer response) {
+                OpenHelperManager.releaseHelper();
+                finishedCallback.onResponse(null);
+            }
+        };
+        final ErrorListener decrementErrorListener = new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    Log.e("Volley", "Failed call " + new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers)));
+                } catch (UnsupportedEncodingException e) {
+                    Log.e("Volley", "Failed call " + error);
+                } catch (NullPointerException e) {
+                    Log.e("Volley", "Failed call");
+                }
+                decrementListener.onResponse(numQueries.decrementAndGet());
+            }
+        };
+
+        get(Event.class, new UpdateDbListener<>(Event.class, database, numQueries, decrementListener), decrementErrorListener);
+    }
+
+    public static void updateDevotion(Context context, final Listener<Void> finishedCallback) {
+        final Database database = OpenHelperManager.getHelper(context, Database.class);
+        final AtomicInteger numQueries = new AtomicInteger(4);
+        final Listener<Integer> decrementListener = new Listener<Integer>() {
+            @Override
+            public void onResponse(Integer response) {
+                OpenHelperManager.releaseHelper();
+                finishedCallback.onResponse(null);
+            }
+        };
+        final ErrorListener decrementErrorListener = new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    Log.e("Volley", "Failed call " + new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers)));
+                } catch (UnsupportedEncodingException e) {
+                    Log.e("Volley", "Failed call " + error);
+                } catch (NullPointerException e) {
+                    Log.e("Volley", "Failed call");
+                }
+                decrementListener.onResponse(numQueries.decrementAndGet());
+            }
+        };
+
+        get(Devotion.class, new UpdateDbListener<>(Devotion.class, database, numQueries, decrementListener), decrementErrorListener);
     }
 
     public static <T extends Parcelable> void get(Class<T> clazz, Listener<RssArray> listener, ErrorListener errorListener) {

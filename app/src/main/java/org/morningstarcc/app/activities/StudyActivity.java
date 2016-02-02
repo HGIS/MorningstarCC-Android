@@ -1,11 +1,14 @@
 package org.morningstarcc.app.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.data.Study;
@@ -33,6 +36,7 @@ public class StudyActivity extends DetailsActivity<Study> {
         setText(this, R.id.date, item.StudyDate);
         setText(this, R.id.scripture, item.Scripture);
         setText(this, R.id.description, item.Description);
+
     }
 
     @Override
@@ -74,12 +78,38 @@ public class StudyActivity extends DetailsActivity<Study> {
         String videoId = getVideoId(item.VideoLink);
         Intent toStart = new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_LINK + videoId));
 
-        try{
-            startActivity(toStart);
-        }catch(Exception e){
-            e.printStackTrace();
-            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(HTTP_LINK + videoId)));
+        if (item.VideoLink.toLowerCase().contains("livestream")){
+            //Livestream
+            if (URLUtil.isValidUrl(item.VideoLink)){
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(item.VideoLink)));
+            }else{
+                //Try to fix the url
+                String urlFixed = String.format("%s%s", "http://", item.VideoLink);
+                if (URLUtil.isValidUrl(urlFixed)){
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlFixed)));
+                }else{
+                    new AlertDialog.Builder(StudyActivity.this)
+                            .setTitle("")
+                            .setMessage("Invalid URL")
+                            .setCancelable(false)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).create().show();
+                }
+            }
+
+        }else{
+            try{
+                startActivity(toStart);
+            }catch(Exception e){
+                e.printStackTrace();
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(HTTP_LINK + videoId)));
+            }
         }
+
     }
 
     private String getVideoId(String videoLink) {

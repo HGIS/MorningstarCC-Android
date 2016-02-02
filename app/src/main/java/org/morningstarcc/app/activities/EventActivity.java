@@ -119,7 +119,6 @@ public class EventActivity extends DetailsActivity<Event> {
 //    }
 
     private void shareEvent() {
-        Log.e("erorr", "" + getString(R.string.share_event_format, DateUtils.getFullDayString(startDate), item.title, item.weblink));
         Intent shareIntent = IntentUtils.shareIntent(getString(R.string.share_event_format, DateUtils.getFullDayString(startDate), item.title, item.weblink));
         startActivity(shareIntent);
     }

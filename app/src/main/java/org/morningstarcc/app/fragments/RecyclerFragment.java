@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by Kyle on 4/16/2015.
+ * 12/01/2015 - Juan Manuel Gomez - Added refresh functionality
  */
 public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
     private Toolbar toolbar;
@@ -40,6 +42,10 @@ public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
         this.clazz = clazz;
     }
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    public RecyclerView recyclerView;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -54,7 +60,7 @@ public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.generic_recycler, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         try {
             Dao<T, Integer> dao = OpenHelperManager.getHelper(getActivity(), Database.class).getDao(clazz);
 
@@ -73,6 +79,14 @@ public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
 
         if (adapter.getItemCount() == 0)
             rootView.findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
+
+        //Get reference of SwipeRefreshLayout control
+        swipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.swipe);
+
+        //Set default value false
+        swipeRefreshLayout.setEnabled(false);
+
+        customInit();
 
         return rootView;
     }
@@ -94,5 +108,19 @@ public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             ViewCompat.setTranslationY(toolbar, dy);
         }
+    }
+
+    public void customInit(){
+
+    }
+
+    public void enableSwipe(SwipeRefreshLayout.OnRefreshListener listener){
+        swipeRefreshLayout.setEnabled(true);
+        swipeRefreshLayout.setOnRefreshListener(listener);
+
+    }
+
+    public void endRefresh(){
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
