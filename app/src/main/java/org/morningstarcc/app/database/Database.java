@@ -48,9 +48,6 @@ public class Database extends OrmLiteSqliteOpenHelper {
     }
 
     private void dropTables(SQLiteDatabase database) {
-
-
-
         for (Class clazz : DATABASE_CLASSES) {
             try {
                 TableUtils.dropTable(connectionSource, clazz, true);
@@ -58,15 +55,5 @@ public class Database extends OrmLiteSqliteOpenHelper {
         }
 
         onCreate(database, connectionSource);
-
-        /*Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                database.execSQL("DROP TABLE " + cursor.getString(0));
-            }
-        }
-
-        cursor.close();*/
     }
 }

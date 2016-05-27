@@ -5,13 +5,14 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.support.DatabaseConnection;
 
+import org.morningstarcc.app.data.Event;
 import org.morningstarcc.app.data.Series;
 import org.morningstarcc.app.database.Database;
+import org.morningstarcc.app.libs.DateUtils;
 
 import java.sql.SQLException;
-import java.sql.Savepoint;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 11/21/2015 - Juan Manuel Gomez - Added validatio of Series to add SeriesType Manually
  */
 public class UpdateDbListener<T extends Parcelable> implements Response.Listener<RssArray> {
+    private static final int MAX_OLD_DATA_SIZE = 50;
+
     private Class<T> clazz;
     private Database database;
     private AtomicInteger counter;
@@ -77,9 +80,29 @@ public class UpdateDbListener<T extends Parcelable> implements Response.Listener
             dao.callBatchTasks(new Callable<Void>() {
                 public Void call() throws Exception {
                     final Dao<T, Integer> dao = database.getDao(clazz);
+
+                    if (Event.class.equals(clazz)) {
+                        // remove old events
+                        List<T> events = dao.queryForAll();
+                        for (T event : events) {
+                            if (event instanceof Event) {
+                                Date date = DateUtils.getFullDate(((Event) event).eventendtime);
+                                if (date != null && new Date().after(date)) {
+                                    dao.delete(event);
+                                }
+                            }
+                        }
+                    } else {
+                        // limit data set
+                        List<T> curItems = dao.queryForAll();
+                        if (curItems.size() > MAX_OLD_DATA_SIZE) dao.delete(curItems.subList(MAX_OLD_DATA_SIZE, curItems.size()));
+                    }
+
                     for (T item : items){
                         dao.createOrUpdate(item);
                     }
+
+
                     return null;
                 }
             });
