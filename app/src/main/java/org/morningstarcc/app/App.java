@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import io.fabric.sdk.android.Fabric;
 import org.morningstarcc.app.http.DataService;
 
@@ -21,6 +19,5 @@ public class App extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         DataService.init(this);
-        JodaTimeAndroid.init(this);
     }
 }

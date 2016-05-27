@@ -7,16 +7,12 @@ import com.android.volley.Response;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.activities.DevotionActivity;
 import org.morningstarcc.app.adapters.DevotionAdapter;
 import org.morningstarcc.app.data.Devotion;
-import org.morningstarcc.app.data.Event;
 import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.http.DataService;
-import org.morningstarcc.app.libs.DateUtils;
 
 import java.sql.SQLException;
 
