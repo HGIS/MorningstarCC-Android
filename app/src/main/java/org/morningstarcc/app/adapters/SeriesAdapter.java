@@ -1,21 +1,15 @@
 package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.URLUtil;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squareup.picasso.Picasso;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.data.Series;
-import org.morningstarcc.app.data.Study;
-import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.viewholders.SeriesHolder;
-
-import java.sql.SQLException;
 
 /**
  * Created by Kyle on 8/2/2014.
@@ -31,7 +25,7 @@ public class SeriesAdapter extends DatabaseItemAdapter<Series, SeriesHolder> {
         Series curData = data[position];
         int numStudies = Integer.valueOf(curData.StudyCount);
 
-        if (TextUtils.isEmpty(curData.Imagelink)  || !URLUtil.isValidUrl(curData.Imagelink)) {
+        if (TextUtils.isEmpty(curData.Imagelink) || !URLUtil.isValidUrl(curData.Imagelink)) {
             Picasso
                     .with(mActivity)
                     .load(R.drawable.ic_splash)

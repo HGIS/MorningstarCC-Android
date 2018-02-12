@@ -1,6 +1,5 @@
 package org.morningstarcc.app.activities;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,8 +15,6 @@ import org.morningstarcc.app.R;
  */
 public class PDFActivity extends ActionBarActivity {
 
-    private WebView webView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +22,12 @@ public class PDFActivity extends ActionBarActivity {
 
         setTitle(getString(R.string.home_bulletin));
 
-        webView = (WebView) findViewById(R.id.pdfview);
+        WebView webView = (WebView) findViewById(R.id.pdf_view);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
 
-        try{
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 settings.setAllowUniversalAccessFromFileURLs(true);
             }
 
@@ -39,19 +36,9 @@ public class PDFActivity extends ActionBarActivity {
             //webView.loadUrl("file:///android_asset/pdfviewer/index.html");
             webView.loadUrl("file:///android_asset/pdfviewer/web/viewer.html");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

@@ -35,14 +35,15 @@
 
     <string-array name="connect_subtitles">
 
-        <item></item>
+        <!-- intentionally empty -->
+        <item/>
         <item>www.morningstarcc.org</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
 
     </string-array>
 

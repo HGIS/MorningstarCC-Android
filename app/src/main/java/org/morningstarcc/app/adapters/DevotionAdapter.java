@@ -2,16 +2,12 @@ package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import org.morningstarcc.app.R;
-import org.morningstarcc.app.activities.DevotionActivity;
 import org.morningstarcc.app.data.Devotion;
-import org.morningstarcc.app.database.Database;
 import org.morningstarcc.app.viewholders.DevotionHolder;
 
 import java.util.Date;

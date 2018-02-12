@@ -1,7 +1,6 @@
 package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -27,6 +26,19 @@ public class EventAdapter extends DatabaseItemAdapter<Event, EventHolder> {
 
     public EventAdapter(Activity mActivity, int layout, Event[] events, Class<? extends Activity> nextActivity) {
         super(mActivity, layout, trim(events), nextActivity);
+    }
+
+    // We only want Featured events to be listed here
+    private static Event[] trim(Event[] toTrim) {
+        ArrayList<Event> trimmed = new ArrayList<>();
+
+        for (Event event : toTrim) {
+            String imagePath = event.imagepath;
+            if (imagePath != null && !imagePath.equals(DEFAULT_IMAGE_PATH))
+                trimmed.add(event);
+        }
+
+        return trimmed.toArray(new Event[trimmed.size()]);
     }
 
     @Override
@@ -56,19 +68,6 @@ public class EventAdapter extends DatabaseItemAdapter<Event, EventHolder> {
             holder.date.setVisibility(View.GONE);
             holder.time.setVisibility(View.GONE);
         }
-    }
-
-    // We only want Featured events to be listed here
-    private static Event[] trim(Event[] toTrim) {
-        ArrayList<Event> trimmed = new ArrayList<>();
-
-        for (Event event : toTrim) {
-            String imagePath = event.imagepath;
-            if (imagePath != null && !imagePath.equals(DEFAULT_IMAGE_PATH))
-                trimmed.add(event);
-        }
-
-        return trimmed.toArray(new Event[trimmed.size()]);
     }
 
     @Override

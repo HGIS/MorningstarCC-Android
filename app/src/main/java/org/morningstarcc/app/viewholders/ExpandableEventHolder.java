@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.adapters.ExpandableEventAdapter;
-import org.w3c.dom.Text;
 
 /**
  * Created by Kyle on 4/25/2015.

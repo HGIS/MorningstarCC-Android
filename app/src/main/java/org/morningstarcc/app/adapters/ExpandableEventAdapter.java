@@ -161,6 +161,6 @@ public class ExpandableEventAdapter extends DatabaseItemAdapter<Event, Expandabl
     }
 
     private static class StringCache {
-        public String title, startDate, endDate;
+        String title, startDate, endDate;
     }
 }

@@ -46,11 +46,6 @@ public abstract class RecyclerFragment<T extends Parcelable> extends Fragment {
 
     public RecyclerView recyclerView;
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
     // @return this to allow for setting up toolbar during initialization
     public RecyclerFragment setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;

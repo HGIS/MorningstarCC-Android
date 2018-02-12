@@ -1,9 +1,7 @@
 package org.morningstarcc.app.database;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -38,7 +36,8 @@ public class Database extends OrmLiteSqliteOpenHelper {
         for (Class clazz : DATABASE_CLASSES) {
             try {
                 TableUtils.createTable(connectionSource, clazz);
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {
+            }
         }
     }
 
@@ -51,7 +50,8 @@ public class Database extends OrmLiteSqliteOpenHelper {
         for (Class clazz : DATABASE_CLASSES) {
             try {
                 TableUtils.dropTable(connectionSource, clazz, true);
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {
+            }
         }
 
         onCreate(database, connectionSource);

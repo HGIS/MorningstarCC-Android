@@ -63,7 +63,7 @@ public abstract class DatabaseItemAdapter<T extends Parcelable, VH extends Recyc
     private class ItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            int itemPosition = mRecyclerView.getChildPosition(v);
+            int itemPosition = mRecyclerView.getChildAdapterPosition(v);
             T item = data[itemPosition];
 
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, v, mActivity.getString(R.string.transition_item));

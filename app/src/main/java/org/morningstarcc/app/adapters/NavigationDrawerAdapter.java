@@ -1,6 +1,7 @@
 package org.morningstarcc.app.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -38,7 +39,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public @NonNull View getView(int position, View convertView, @NonNull ViewGroup parent) {
         setDropDownViewResource(isEnabled(position) ? android.R.layout.simple_list_item_1 : R.layout.horizontal_list_item_break);
         View rootView = super.getDropDownView(position, convertView, parent);
 

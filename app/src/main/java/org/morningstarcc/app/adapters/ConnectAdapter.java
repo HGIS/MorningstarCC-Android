@@ -43,7 +43,7 @@ public class ConnectAdapter extends DatabaseItemAdapter<Connect, ConnectHolder> 
     private class ItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            int itemPosition = mRecyclerView.getChildPosition(v);
+            int itemPosition = mRecyclerView.getChildAdapterPosition(v);
             Connect item = data[itemPosition];
 
             if (item.title.contains("Email"))

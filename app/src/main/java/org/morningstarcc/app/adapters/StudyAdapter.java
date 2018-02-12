@@ -1,7 +1,6 @@
 package org.morningstarcc.app.adapters;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.view.View;
 
 import org.morningstarcc.app.data.Study;

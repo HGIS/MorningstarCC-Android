@@ -3,7 +3,6 @@ package org.morningstarcc.app.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,8 @@ import org.morningstarcc.app.activities.SeriesActivity;
 import org.morningstarcc.app.activities.StudyActivity;
 import org.morningstarcc.app.adapters.DatabaseItemAdapter;
 import org.morningstarcc.app.adapters.StudyAdapter;
-import org.morningstarcc.app.data.Event;
 import org.morningstarcc.app.data.Series;
-import org.morningstarcc.app.data.SeriesCategory;
 import org.morningstarcc.app.data.Study;
-import org.morningstarcc.app.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +38,9 @@ public class StudyFragment extends RecyclerFragment<Study> {
         //TODO: get the real id
         this.id = args.getString("SeriesId");
 
-        if (args != null) {
-            if (args != null && args.containsKey(App.PARCEL)) {
-                Series temp = (Series) args.get(App.PARCEL);
-                seriesId = temp.SeriesId;
-            }
+        if (args.containsKey(App.PARCEL)) {
+            Series temp = (Series) args.get(App.PARCEL);
+            seriesId = temp.SeriesId;
         }
     }
 
@@ -54,8 +48,8 @@ public class StudyFragment extends RecyclerFragment<Study> {
     protected DatabaseItemAdapter getAdapter(Study[] data) {
         //Filter the data
         List<Study> realData = new ArrayList<>();
-        for(Study study : data){
-            if (study.SeriesId.equals(seriesId)){
+        for (Study study : data) {
+            if (study.SeriesId.equals(seriesId)) {
                 realData.add(study);
             }
         }

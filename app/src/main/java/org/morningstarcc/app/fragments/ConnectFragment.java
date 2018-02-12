@@ -49,7 +49,7 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
         if (args != null && args.containsKey(App.PARCEL)){
             Connect data = (Connect)args.get(App.PARCEL);
 
-            if (data.haschild != null && data.haschild.equalsIgnoreCase("true")) {
+            if (data != null && data.haschild != null && data.haschild.equalsIgnoreCase("true")) {
                 //Sub Options
                 rootView = super.onCreateView(inflater, container, savedInstanceState);
                 adapter = getAdapter(getData(data.linkid));
@@ -59,9 +59,9 @@ public class ConnectFragment extends RecyclerFragment<Connect> {
                 rootView = inflater.inflate(R.layout.fragment_connect_content, container, false);
                 ((TextView) rootView.findViewById(R.id.content)).setText(Html.fromHtml(data.encoded));
 
-            }else{
+            }/*else{
                 //Error
-            }
+            }*/
 
         }else{
             //Default

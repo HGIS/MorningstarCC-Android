@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.morningstarcc.app" >
 
+    <!-- suppress HardcodedDebugMode in debug flavor only -->
     <application
         tools:replace="android:name"
         android:allowBackup="true"
         android:debuggable="true"
-        android:name=".DebugApp" />
+        android:name=".DebugApp"
+        tools:ignore="HardcodedDebugMode" />
 
 </manifest>

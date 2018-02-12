@@ -1,7 +1,6 @@
 package org.morningstarcc.app.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import org.morningstarcc.app.App;
 import org.morningstarcc.app.R;
@@ -31,31 +30,27 @@ public class SeriesFragment extends RecyclerFragment<Series> {
     public void setArguments(Bundle args) {
         super.setArguments(args);
 
-        if (args != null) {
-            if (args != null && args.containsKey(App.PARCEL)) {
-                SeriesCategory temp = (SeriesCategory) args.get(App.PARCEL);
-                seriesType = temp.SeriesType;
-            }
+        if (args != null && args.containsKey(App.PARCEL)) {
+            SeriesCategory temp = (SeriesCategory) args.get(App.PARCEL);
+            seriesType = temp.SeriesType;
         }
-
-
     }
 
     @Override
     protected DatabaseItemAdapter<Series, SeriesHolder> getAdapter(Series[] data) {
 
         //Clean the order
-        if (seriesType != null && seriesType.length() > 0 && data != null && data.length > 0){
+        if (seriesType != null && seriesType.length() > 0 && data != null && data.length > 0) {
             List<Series> realData = new ArrayList<>();
 
             //Search
-            for (Series item : data){
-                if (item.SeriesType.equals(seriesType)){
+            for (Series item : data) {
+                if (item.SeriesType.equals(seriesType)) {
                     realData.add(item);
                 }
             }
 
-            if (realData != null && realData.size() > 1){
+            if (realData.size() > 1) {
                 data = realData.toArray(new Series[realData.size()]);
             }
         }

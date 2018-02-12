@@ -22,8 +22,8 @@ import static org.morningstarcc.app.libs.ViewConstructorUtils.setText;
  */
 public class StudyActivity extends DetailsActivity<Study> {
 
-    private static String VIDEO_LINK = "vnd.youtube://";
-    private static String HTTP_LINK = "http://youtu.be/";
+    private static final String VIDEO_LINK = "vnd.youtube://";
+    private static final String HTTP_LINK = "http://youtu.be/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
