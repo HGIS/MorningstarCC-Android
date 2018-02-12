@@ -33,7 +33,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "org.morningstarcc.app"
-        minSdkVersion 8
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 10
         versionName "2.2"
