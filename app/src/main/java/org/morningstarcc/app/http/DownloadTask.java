@@ -23,10 +23,9 @@ import java.net.URL;
 public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     private Context context;
-    private PowerManager.WakeLock mWakeLock;
     private ProgressDialog mProgressDialog;
 
-    public DownloadTask(Context context, ProgressDialog mProgressDialog){
+    public DownloadTask(Context context, ProgressDialog mProgressDialog) {
         this.context = context;
         this.mProgressDialog = mProgressDialog;
     }
@@ -36,12 +35,12 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
         InputStream input = null;
         OutputStream output = null;
         HttpURLConnection connection = null;
-        try{
+        try {
             URL url = new URL(sUrl[0]);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
-            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK){
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return "Server returned HTTP " + connection.getResponseCode()
                         + " " + connection.getResponseMessage();
             }
@@ -54,32 +53,32 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
             byte data[] = new byte[4096];
             long total = 0;
             int count;
-            while((count = input.read(data)) != -1){
-                if(isCancelled()){
+            while ((count = input.read(data)) != -1) {
+                if (isCancelled()) {
                     input.close();
                     return null;
                 }
                 total += count;
-                if(fileLength > 0)
-                    publishProgress((int)(total * 100 / fileLength));
+                if (fileLength > 0)
+                    publishProgress((int) (total * 100 / fileLength));
                 output.write(data, 0, count);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return e.toString();
-        }finally{
-            try{
-                if(output != null){
+        } finally {
+            try {
+                if (output != null) {
                     output.close();
                 }
-                if(input != null){
+                if (input != null) {
                     input.close();
                 }
-            }catch (IOException ignored){
+            } catch (IOException ignored) {
 
             }
 
-            if(connection != null){
+            if (connection != null) {
                 connection.disconnect();
             }
         }
@@ -89,10 +88,6 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
-        mWakeLock.acquire();
-        mProgressDialog.show();
     }
 
     @Override
@@ -106,11 +101,10 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        mWakeLock.release();
         mProgressDialog.dismiss();
-        if(result != null){
+        if (result != null) {
             Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             Intent i = new Intent(context, PDFActivity.class);
             context.startActivity(i);
         }

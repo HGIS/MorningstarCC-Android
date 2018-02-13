@@ -58,5 +58,10 @@
     <string name="home_label">Current Study</string>
 
     <string name="bulletin_url">http://www.morningstarcc.org/uploads/BulletinMobile.pdf</string>
+    <string name="bulletin_permission_request">Access to file storage is required to display the bulletin</string>
+    <string name="bulletin_permission_denied">Cannot open bulletin without permissions</string>
+
+    <string name="ok">ok</string>
+    <string name="not_now">Not now</string>
 
 </resources>

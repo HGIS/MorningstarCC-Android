@@ -1,32 +1,37 @@
 package org.morningstarcc.app.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.transition.ChangeBounds;
 import android.transition.Explode;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import org.morningstarcc.app.R;
 import org.morningstarcc.app.adapters.EventDropdownAdapter;
@@ -45,41 +50,32 @@ import java.io.File;
 
 /**
  * TODO list:
- *  bug:
- *      popping fragments off back stack does not change action bar state
- *
+ * bug:
+ * popping fragments off back stack does not change action bar state
+ * <p>
  * Version Alpha/Beta 0
- *  - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
- *      + update picasso to use file backing cache
- *      + remove feature that lets you add event to calendar when you have already done so
- *      + do some stuff with downloading audio
- *      + Consolidate update and old
- *  - Allow for Vimeo
- *  - see Pastor Rod's scrum updates
- *
+ * - Store updates that keep wifi requests to minimum -- try testing DatabaseStorage.update(...);
+ * + update picasso to use file backing cache
+ * + remove feature that lets you add event to calendar when you have already done so
+ * + do some stuff with downloading audio
+ * + Consolidate update and old
+ * - Allow for Vimeo
+ * - see Pastor Rod's scrum updates
+ * <p>
  * Version Beta 1
- *  - Style everything better
- *  - animations!
- *  - palettes?
- *  - update nav drawer
- *  - push notifications?
- *
+ * - Style everything better
+ * - animations!
+ * - palettes?
+ * - update nav drawer
+ * - push notifications?
+ * <p>
  * History:
  * 11/11/2015 - Juan Manuel Gomez - Added Home option to the drawer
  * 11/12/2015 - Juan Manuel Gomez - Added pdf functionality, back press button improved,
- *                                  splash progress, youtube crash fixed
+ * splash progress, youtube crash fixed
  */
 public class MainActivity extends ActionBarActivity {
-
-    private CharSequence mTitle;
-
-    // Navigation Drawer support variables
-    private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mDrawerTitle;
-    private String[] mDrawerTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private int mPosition;
+    private static final int PERMISSION_REQUEST = 0x1234;
 
     // the indices for the drawer items
     public static final int
@@ -90,7 +86,14 @@ public class MainActivity extends ActionBarActivity {
             DEVOTIONS = 4,
             BULLETIN = 5,
             LIVE_STREAM = 6;
-
+    private CharSequence mTitle;
+    // Navigation Drawer support variables
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle;
+    private String[] mDrawerTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private int mPosition;
     // a variable to hold state of events drop-down
     private int mEventPosition;
 
@@ -163,7 +166,9 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setTitle(mTitle = title);
     }
 
-    /** Swaps fragments in the main content view */
+    /**
+     * Swaps fragments in the main content view
+     */
     public void selectItem(int position) {
         final Fragment fragment;
         String title;
@@ -189,7 +194,7 @@ public class MainActivity extends ActionBarActivity {
             case DEVOTIONS:
                 title = mDrawerTitles[position];
                 fragment = new DevotionFragment();
-            break;
+                break;
             case BULLETIN:
                 launchBulletin();
                 return;
@@ -226,20 +231,29 @@ public class MainActivity extends ActionBarActivity {
         if (cur instanceof ConnectFragment) {
             mPosition = CONNECT;
             setTitle(mDrawerTitles[mPosition]);
-        }
-        else if (cur instanceof SeriesCategoryFragment) {
+        } else if (cur instanceof SeriesCategoryFragment) {
             mPosition = SERIES;
             setTitle(mDrawerTitles[mPosition]);
-        }
-        else if (cur instanceof EventFragment || cur instanceof ExpandableEventFragment) {
+        } else if (cur instanceof EventFragment || cur instanceof ExpandableEventFragment) {
             mPosition = EVENTS;
             setTitle("");
             getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        }
-        else if (cur instanceof DevotionFragment) {
+        } else if (cur instanceof DevotionFragment) {
             mPosition = DEVOTIONS;
             setTitle(mDrawerTitles[mPosition]);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchBulletin();
+            } else {
+                Toast.makeText(this, getString(R.string.bulletin_permission_denied), Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private Fragment pickEventFragment(int position) {
@@ -249,8 +263,29 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchBulletin() {
-        if(!isNetworkAvailable()){
-            if(!new File("/sdcard/bulletin.pdf").exists()){
+        // ensure we have file write (and subsequently read) permissions before downloading
+        final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.bulletin_permission_request)
+                        .setPositiveButton(getString(R.string.ok).toUpperCase(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, PERMISSION_REQUEST);
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.not_now).toUpperCase(), null)
+                        .create()
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[] {permission}, PERMISSION_REQUEST);
+            }
+            return;
+        }
+
+        if (!isNetworkAvailable()) {
+            if (!new File("/sdcard/bulletin.pdf").exists()) {
                 return;
             }
             Intent i = new Intent(this, PDFActivity.class);
@@ -276,7 +311,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private boolean isNetworkAvailable(){
+    private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -302,7 +337,9 @@ public class MainActivity extends ActionBarActivity {
                     R.string.drawer_close);
         }
 
-        /** Called when a drawer has settled in a completely closed state. */
+        /**
+         * Called when a drawer has settled in a completely closed state.
+         */
         public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
             if (mPosition == EVENTS)
@@ -311,7 +348,9 @@ public class MainActivity extends ActionBarActivity {
             invalidateOptionsMenu();
         }
 
-        /** Called when a drawer has settled in a completely open state. */
+        /**
+         * Called when a drawer has settled in a completely open state.
+         */
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
             getSupportActionBar().setTitle(mDrawerTitle);
