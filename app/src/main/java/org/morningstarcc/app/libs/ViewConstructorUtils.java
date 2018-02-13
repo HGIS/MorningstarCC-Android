@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
@@ -61,8 +61,8 @@ public class ViewConstructorUtils {
      * Sets the title in the action bar (using android support libraries)
      */
 
-    public static void setTitle(ActionBarActivity actionBarActivity, String title) {
-        ActionBar titleBar = actionBarActivity.getSupportActionBar();
+    public static void setTitle(AppCompatActivity AppCompatActivity, String title) {
+        ActionBar titleBar = AppCompatActivity.getSupportActionBar();
         if (titleBar != null)
             titleBar.setTitle(fromHtml(title));
     }

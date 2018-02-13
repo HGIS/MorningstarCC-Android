@@ -2,7 +2,7 @@ package org.morningstarcc.app.activities;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import org.morningstarcc.app.App;
@@ -10,7 +10,7 @@ import org.morningstarcc.app.App;
 /**
  * Created by Kyle on 10/25/2014.
  */
-public class DetailsActivity<T extends Parcelable> extends ActionBarActivity {
+public class DetailsActivity<T extends Parcelable> extends AppCompatActivity {
     protected T item;
 
     @Override

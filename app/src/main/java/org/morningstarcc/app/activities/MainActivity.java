@@ -19,7 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.transition.ChangeBounds;
@@ -75,7 +75,7 @@ import java.io.File;
  * 11/12/2015 - Juan Manuel Gomez - Added pdf functionality, back press button improved,
  * splash progress, youtube crash fixed
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST = 0x1234;
 
     // the indices for the drawer items
