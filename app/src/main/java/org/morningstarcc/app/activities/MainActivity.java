@@ -51,6 +51,7 @@ import java.io.File;
 /**
  * TODO list:
  * bug:
+ * /sdcard/ is hardcoded. Android has a dynamic file system that may not be loaded or in /sdcard/
  * popping fragments off back stack does not change action bar state
  * <p>
  * Version Alpha/Beta 0
